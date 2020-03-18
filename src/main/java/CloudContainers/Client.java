@@ -1,7 +1,7 @@
 package CloudContainers;
 
 public class Client {
-	private String name1;
+	private String name;
 	private String clientID;
 	private String email;
 	private String age;
@@ -10,10 +10,10 @@ public class Client {
 	
 	
 	public String getName() {
-		return name1;
+		return name;
 	}
 	public void setName(String name) {
-		this.name1 = name;
+		this.name = name;
 	}
 	public String getClientID() {
 		return clientID;
@@ -34,7 +34,7 @@ public class Client {
 	}
 	public Client(String name, String clientID, String email, String age, String gender, String number) {
 		super();
-		this.name1 = name;
+		this.name = name;
 		this.clientID = clientID;
 		this.email = email;
 		this.age = age;
