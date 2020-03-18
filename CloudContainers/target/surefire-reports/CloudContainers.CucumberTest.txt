@@ -1,4 +1,15 @@
 -------------------------------------------------------------------------------
 Test set: CloudContainers.CucumberTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 2, Time elapsed: 0.535 sec
+Tests run: 2, Failures: 0, Errors: 1, Skipped: 1, Time elapsed: 0.543 sec <<< FAILURE!
+New client succesfully added(Adding a client to register)  Time elapsed: 0.013 sec  <<< ERROR!
+java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.set(ArrayList.java:472)
+	at CloudContainers.Database.addClient(Database.java:15)
+	at CloudContainers.StepDefinition.informations_is_entered(StepDefinition.java:27)
+	at ?.Informations is entered(file:src/main/resources/AddClient.feature:25)
+

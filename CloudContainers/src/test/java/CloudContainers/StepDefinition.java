@@ -10,57 +10,32 @@ import io.cucumber.java.en.When;
 public class StepDefinition{
 	
 
-//	Client c1 = new Client("Bob1","001","bigman1@dtu.dk","22","male","10101010");
+ 	Client client;
 //	Client c2 = new Client("Bob2","002","bigman2@dtu.dk","22","male","10101011");
 //	Client c3 = new Client("Bob3","003","bigman3@dtu.dk","22","male","10101012");
 	Database database = new Database();
-	Client client = new Client();
 	
 	@Given("A none existing client")
 	public void a_none_existing_client() {
 	    assertTrue(!(database.exist(client)));
 	}
 	
-	@Given("client with a name {string}")
-	public void client_with_a_name(String string) {
-//		database.addClient(c1);database.addClient(c2);database.addClient(c3);
-		client.setName(string);
-	}
-	
-	@Given("client with a mail {string}")
-	public void client_with_a_mail(String string) {
-		client.setEmail(string);
-	}
-	
-	
-	@Given("client with a phone number {string}")
-	public void client_with_a_phone_number(String string) {
-		client.setNumber(string);
-	}
-	
-	@Given("client with an age {string}")
-	public void client_with_an_age(String string) {
-		client.setAge(string);
-	}
-	
-	
-	@Given("client with a gender {string}")
-	public void client_with_a_gender(String string) {
-		client.setGender(string);
-	}
 	
 	@When("Informations is entered")
 	public void informations_is_entered() {
+		client = new Client("Bob1","001","bigman1@dtu.dk","22","male","10101010");
 		database.addClient(client);
-	    throw new cucumber.api.PendingException();
 	}
 	
 	@Then("display success message")
 	public void display_success_message() {
 		assertTrue((database.exist(client)));
 	    System.out.println("works");
-	    throw new cucumber.api.PendingException();
 	}
+	
+	
+	
+	// SCENARIO 2
 	
 	@Given("existing client")
 	public void existing_client() {

@@ -22,11 +22,6 @@ Feature: Adding a client to register
   @tag1
   Scenario: New client succesfully added
     Given A none existing client 
-    And client with a name "Chris"
-    And client with a mail "yeet@dtu.dk"
-    And client with a phone number "12345678"
-    And client with an age "21"
-    And client with a gender "male"
     When Informations is entered
     Then display success message
  
@@ -34,11 +29,6 @@ Feature: Adding a client to register
   @tag2
   Scenario: Client already exists
     Given existing client
-    And client with a name "Chris"
-    And client with a mail "yeet@dtu.dk"
-    And client with a phone number "12345678"
-    And client with an age "21"
-    And client with a gender "male"
     When Informations is entered
     Then error message is thrown
  

@@ -1,6 +1,5 @@
 package CloudContainers;
 
-
 import org.junit.runner.RunWith;
 import io.cucumber.junit.CucumberOptions;
 import io.cucumber.junit.Cucumber;
@@ -10,5 +9,4 @@ import io.cucumber.junit.Cucumber;
 		features = "src/main/resources")
 
 public class CucumberTest {
-
 }
