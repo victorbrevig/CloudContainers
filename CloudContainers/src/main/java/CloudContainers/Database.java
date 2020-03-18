@@ -1,15 +1,18 @@
 package CloudContainers;
+
+import java.util.ArrayList;
+
 public class Database {
-		Client[] arr = new Client[10];
+		ArrayList<Client> arr = new ArrayList<Client>();
 		int count = 0;
 		
 		
-		public Client[] getArr() {
+		public ArrayList<Client> getArr() {
 			return arr;
 		}
 		
 		public void addClient(Client c) {
-			arr[count] = c;
+			arr.set(count, c);
 			count++;
 		}
 		
@@ -17,7 +20,7 @@ public class Database {
 			boolean b;
 			b = false;
 			for (int i = 0; i< 10; i++) {
-				b = (arr[i]).getEmail() == c.getEmail() || b;
+				b = (arr.get(i)).getEmail() == c.getEmail() || b;
 			}
 			return b;
 		}
