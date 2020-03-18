@@ -87,6 +87,46 @@ public class StepDefinition{
 	 
 	}
 	
+	// _________________________________________Update Info________________________________________________
+	@Given("A client with email {string}")
+	public void a_client_with_email(String string) {
+		client = new Client("Karsten","001",string,"22","male","10101010");
+		database.addClient(client);
+	}
+
+	@When("New email entered as {string}")
+	public void new_email_entered_as(String string) {
+	    int i = database.searchEmail("smallmoney@gmail.com");
+	    client = database.arr.get(i);
+	    client.setEmail(string);
+	    database.arr.set(i, client);
+	}
+	
+	@Then("Display success message for {string}")
+	public void display_success_message_for(String string) {
+		int i = database.searchEmail(string);
+		client = database.arr.get(i);
+	    assertEquals(client.getEmail(), string);
+	    System.out.println();
+	}
+
+	@Given("A client with phone number {string}")
+	public void a_client_with_phone_number(String string) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("New phone number entered as {string}")
+	public void new_phone_number_entered_as(String string) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("Change phone number - display success message")
+	public void change_phone_number_display_success_message() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
 	
 
 }

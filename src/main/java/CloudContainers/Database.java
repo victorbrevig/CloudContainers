@@ -36,16 +36,16 @@ public class Database {
 			}
 			return b;
 		}
-// public static void main(String[] args) {
-//	Client client;
-//	client = new Client("Bob1","001","bigman1@dtu.dk","22","male","10101010");
-//	Database database = new Database();
-//	database.addClient(client);
-//	database.getArr().get(0);
-//	
-//	for(Client c  : database.arr) {
-//		System.out.println(c.getEmail());
-//	}
-//	
-//}
+		
+		public int searchEmail(String email) {
+			// Returns -1 if client with email does not exist
+			int i = -1;
+			for (Client c : this.arr) {
+				if (c.getEmail() == email) {
+					i = arr.indexOf(c);
+				}
+			}
+			return i;
+		}
+
 }
