@@ -29,18 +29,14 @@ Feature: Adding a client to register
   @tag2
   Scenario: Client already exists
     Given existing client
-    When Informations is entered
+    When repeated information is entered
     Then error message is thrown
  
-  #@tag2
-  #Scenario: Client already exists
-    #Given 
-    #And some other precondition
-    #When I complete action
-    #And some other action
-    #And yet another action
-    #Then I validate the outcomes
-    #And check more outcomes
+  @tag3
+   Scenario: Missing parameter
+    Given A none existing client
+    When information with missing parameters
+    Then missing parameter error message is thrown
     #
  #	@tag3
   #Scenario: Missing parameter

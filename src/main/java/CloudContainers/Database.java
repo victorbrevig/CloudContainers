@@ -3,17 +3,29 @@ package CloudContainers;
 import java.util.ArrayList;
 
 public class Database {
+	
 		ArrayList<Client> arr = new ArrayList<Client>();
-		int count = 0;
+		private int count = 0;
 		
 		
+		public int getCount() {
+			return count;
+		}
+
+		public void setCount(int count) {
+			this.count = count;
+		}
+
 		public ArrayList<Client> getArr() {
 			return arr;
 		}
 		
 		public void addClient(Client c) {
-			arr.add(count, c);
-			count++;
+			if(!this.exist(c)) {
+				arr.add(count, c);
+				count++;
+				
+			}
 		}
 		
 		public boolean exist(Client c) {
