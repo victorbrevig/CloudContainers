@@ -12,6 +12,28 @@ public class LogisticCompany {
 		super();
 		this.name = name;
 		this.companyID = companyID;
+		db = new Database();
 	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getCompanyID() {
+		return companyID;
+	}
+
+	public Client findClient(int id) {
+		
+	}
+	
+	
+	
+	
+	
 	
 }

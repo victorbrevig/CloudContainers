@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Database {
 	
-		private ArrayList<Client> arr = new ArrayList<Client>();
+		protected ArrayList<Client> arr = new ArrayList<Client>();
 		private int count = 0;
 		
 		
@@ -37,7 +37,7 @@ public class Database {
 			return b;
 		}
 		
-		public int searchEmail(String email) {
+		public int searchEmailIndex(String email) {
 			// Returns -1 if client with email does not exist
 			int i = -1;
 			for (Client c : this.arr) {
@@ -47,7 +47,7 @@ public class Database {
 			}
 			return i;
 		}
-		public int searchPhoneNumber(String number) {
+		public int searchPhoneNumberIndex(String number) {
 			// Returns -1 if client with phone number does not exist
 			int i = -1;
 			for (Client c : this.arr) {
@@ -57,5 +57,21 @@ public class Database {
 			}
 			return i;
 		}
+		
+		public Client searchClientID(int id) {
+			Client client;
+			try {
+				for (Client c : this.arr) {
+					if (c.getClientID() == id) {
+						client = c;
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("Client with this ID does not exist");
+			}
+			return client;
+			
+		}
+		
 
 }

@@ -2,14 +2,14 @@ package CloudContainers;
 // New version
 public class Client {
 	private String name1;
-	private String clientID;
+	private int clientID;
 	private String email;
 	// Change to birthday
 	private String age;
 	private String gender;
 	private String number;
 	
-	public Client(String name, String clientID, String email, String age, String gender, String number) {
+	public Client(String name, int clientID, String email, String age, String gender, String number) {
 		super();
 		this.name1 = name;
 		this.clientID = clientID;
@@ -26,7 +26,7 @@ public class Client {
 	public void setName(String name) {
 		this.name1 = name;
 	}
-	public String getClientID() {
+	public int getClientID() {
 		return clientID;
 	}
 	//Add a random generator for clienID
