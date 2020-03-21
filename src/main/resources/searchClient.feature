@@ -17,16 +17,25 @@
 ## (Comments)
 #Sample Feature Definition Template
 @tag
-Feature: Update client information
+Feature: Logistic company search for client
 
   @tag1
-  Scenario: Client wants to update email
-    Given A client with email "smallmoney123@gmail.com"
-    When New email entered as "bigmoney123@gmail.com" instead of "smallmoney123@gmail.com"
-    Then Display success message for "bigmoney123@gmail.com" (email)
+  Scenario: Title of your scenario
+    Given I want to write a step with precondition
+    And some other precondition
+    When I complete action
+    And some other action
+    And yet another action
+    Then I validate the outcomes
+    And check more outcomes
 
   @tag2
-  Scenario: Client wants to update phone number
-    Given A client with phone number "87654321"
-    When New phone number entered as "12345678" instead of "87654321"
-    Then Display success message for "12345678" (number)
+  Scenario Outline: Title of your scenario outline
+    Given I want to write a step with <name>
+    When I check for the <value> in step
+    Then I verify the <status> in step
+
+    Examples: 
+      | name  | value | status  |
+      | name1 |     5 | success |
+      | name2 |     7 | Fail    |

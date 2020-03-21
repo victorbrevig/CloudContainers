@@ -91,41 +91,46 @@ public class StepDefinition{
 	@Given("A client with email {string}")
 	public void a_client_with_email(String string) {
 		client = new Client("Karsten","001",string,"22","male","10101010");
-		database.addClient(client);
+		database.addClient(client);	
+		
 	}
-
-	@When("New email entered as {string}")
-	public void new_email_entered_as(String string) {
-	    int i = database.searchEmail("smallmoney@gmail.com");
+	
+	@When("New email entered as {string} instead of {string}")
+	public void new_email_entered_as_instead_of(String string, String string2) {
+		int i = database.searchEmail(string2);
 	    client = database.arr.get(i);
 	    client.setEmail(string);
 	    database.arr.set(i, client);
 	}
 	
-	@Then("Display success message for {string}")
+	@Then("Display success message for {string} \\(email)")
 	public void display_success_message_for(String string) {
 		int i = database.searchEmail(string);
 		client = database.arr.get(i);
 	    assertEquals(client.getEmail(), string);
-	    System.out.println();
+	    System.out.println("Email succesfully updated");
 	}
 
 	@Given("A client with phone number {string}")
 	public void a_client_with_phone_number(String string) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+		client = new Client("Jenny","001","bigstonks123@gmail.com","26","female",string);
+		database.addClient(client);	
 	}
 
-	@When("New phone number entered as {string}")
-	public void new_phone_number_entered_as(String string) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	@When("New phone number entered as {string} instead of {string}")
+	public void new_phone_number_entered_as_instead_of(String string, String string2) {
+		int i = database.searchPhoneNumber(string2);
+	    client = database.arr.get(i);
+	    client.setNumber(string);
+	    database.arr.set(i, client);
 	}
 
-	@Then("Change phone number - display success message")
-	public void change_phone_number_display_success_message() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	@Then("Display success message for {string} \\(number)")
+	public void change_phone_number_display_success_message(String string) {
+		int i = database.searchPhoneNumber(string);
+		client = database.arr.get(i);
+	    assertEquals(client.getNumber(), string);
+	    System.out.println("Phone number succesfully updated");
 	}
 	
 
