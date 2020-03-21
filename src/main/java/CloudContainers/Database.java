@@ -59,7 +59,7 @@ public class Database {
 		}
 		
 		public Client searchClientID(int id) {
-			Client client;
+			Client client = null;
 			try {
 				for (Client c : this.arr) {
 					if (c.getClientID() == id) {
