@@ -6,6 +6,15 @@ public class Database {
 	
 		protected ArrayList<Client> arr = new ArrayList<Client>();
 		private int count = 0;
+//		private String errorMessage;
+//
+//		public String getErrorMessage() {
+//			return errorMessage;
+//		}
+//
+//		public void setErrorMessage(String errorMessage) {
+//			this.errorMessage = errorMessage;
+//		}
 		
 		
 		public int getCount() {
@@ -57,21 +66,33 @@ public class Database {
 			}
 			return i;
 		}
+
+		 
 		
+		// The method used for the search here is not tested finished, might use client = null instead
 		public Client searchClientID(int id) {
-			Client client = null;
-			try {
-				for (Client c : this.arr) {
+			
+			Client client = new Client("",0,"","","","");
+			for (Client c : this.arr) {
 					if (c.getClientID() == id) {
 						client = c;
+						return client;
 					}
-				}
-			} catch (Exception e) {
-				System.out.println("Client with this ID does not exist");
-			}
+				}System.out.println("Client with this client ID does not exist");
 			return client;
 			
+			
+		}
+		public Client searchEmail(String email) {
+			Client client = new Client("",0,"","","","");
+				for (Client c : this.arr) {
+					if (c.getEmail().equals(email)) {
+						client = c;
+						return client;
+					}
+			}System.out.println("Client with this email does not exist");
+		return client;
 		}
 		
-
+		
 }

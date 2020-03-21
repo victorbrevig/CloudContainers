@@ -61,8 +61,6 @@ public class StepDefinition{
 		int count1 = repeated_information_is_entered();
 		int count2 = database.getCount();
 		assertEquals(count1,count2);
-		
-		
 	    System.out.println("Does not work: existing client");
 	}
 	@When("information with missing parameters")
@@ -76,7 +74,7 @@ public class StepDefinition{
 	@Then("missing parameter error message is thrown")
 	public void missing_parameter_error_message_is_thrown() {
 		boolean b = (client3.getName()=="") 
-				|| (client3.getAge()=="") 
+				|| (client3.getBirthdate()=="") 
 				|| (client3.getEmail() == "")			
 				|| (client3.getGender()=="") 
 				|| (client3.getNumber()=="");
@@ -132,5 +130,88 @@ public class StepDefinition{
 	    System.out.println("Phone number succesfully updated");
 	}
 	
+	// _________________________________________Search Client________________________________________________
 
+	Client client4 = new Client("Jenny",2,"","26","female","10101010");
+	LogisticCompany lc = new LogisticCompany("maersk","No.1");
+	Database db2 = new Database();
+	
+	
+	@Given("A client with the email {string}")
+	public void a_client_with_the_email(String string) {
+		client4.setEmail(string);
+		db2.addClient(client4);
+		lc.setDb(db2);
+	}
+
+	@When("The logistic company searches for {string}")
+	public Client the_logistic_company_searches_for(String string) {
+	    return lc.findClient(string);
+	}
+
+	@Then("The client is returned for {string} and a succes message is displayed")
+	public void the_client_is_returned_for_and_a_succes_message_is_displayed(String string) {
+		Client c = the_logistic_company_searches_for(string);
+		assertTrue(c.equals(client4));
+		System.out.println("Here is the client you searched for: ");
+		c.print();
+	}
+
+	
+	Client client5 = new Client("Jenny",2,"email123@mail.dk","26","female","10101010");
+	@Given("A client with the clientID {int}")
+	public void a_client_with_the_clientID(Integer int1) {
+		database.addClient(client5);
+		lc.setDb(database);
+	}
+
+	@When("The logistic company searches for {int}")
+	public Client the_logistic_company_searches_for(Integer int1) {
+		return lc.findClient(int1);
+	}
+
+	@Then("The client is returned for {int} and a succes message is displayed")
+	public void the_client_is_returned_for_and_a_succes_message_is_displayed(Integer int1) {
+		Client c = the_logistic_company_searches_for(int1);
+		assertTrue(c.equals(client5));
+		System.out.println("Here is the client you searched for: ");
+		c.print();
+	}
+	
+	@Given("A none existing client for email search")
+	public void a_none_existing_client_for_email_search() {
+		db2.addClient(client4);
+		lc.setDb(db2);
+	}
+
+	@Given("A none existing client for ID search")
+	public void a_none_existing_client_for_ID_search() {
+	    db2.addClient(client4);
+	    lc.setDb(db2);
+	}
+	@When("The logistic company searches {string}")
+	public void the_logistic_company_searches(String string) {
+	    
+	}
+
+	@When("The logistic company searches {int}")
+	public void the_logistic_company_searches(Integer int1) {
+	    
+	}
+	
+	@Then("A failure message is returned for {int}")
+	public void a_failure_message_is_returned_for(Integer int1) {
+		assertTrue(lc.findClient(int1).getClientID() == 0);
+	}
+//	Missing some way of displaying the correct error message and not getting a NullPointerException
+	@Then("A failure message is returned for {string}")
+	public void a_failure_message_is_returned_for(String string) {
+		assertTrue(lc.findClient(string).getClientID() == 0);
+		
+	}
+
+	
+	
+	
+	
 }

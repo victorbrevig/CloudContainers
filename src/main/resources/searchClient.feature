@@ -20,22 +20,26 @@
 Feature: Logistic company search for client
 
   @tag1
-  Scenario: Title of your scenario
-    Given I want to write a step with precondition
-    And some other precondition
-    When I complete action
-    And some other action
-    And yet another action
-    Then I validate the outcomes
-    And check more outcomes
+  Scenario: Searching for an existing client
+    Given A client with the email "email123@mail.dk"
+    When The logistic company searches for "email123@mail.dk"
+    Then The client is returned for "email123@mail.dk" and a succes message is displayed
+    
 
   @tag2
-  Scenario Outline: Title of your scenario outline
-    Given I want to write a step with <name>
-    When I check for the <value> in step
-    Then I verify the <status> in step
+  Scenario: Searching for an existing client
+    Given A client with the clientID 2
+    When The logistic company searches for 2
+    Then The client is returned for 2 and a succes message is displayed
 
-    Examples: 
-      | name  | value | status  |
-      | name1 |     5 | success |
-      | name2 |     7 | Fail    |
+	@tag3
+  Scenario: Searching for a non existing client
+    Given A none existing client for email search
+    When The logistic company searches "e"
+    Then A failure message is returned for "e"
+ 
+  @tag4
+  Scenario: Searching for a non existing client
+    Given A none existing client for ID search
+    When The logistic company searches 10
+    Then A failure message is returned for 10

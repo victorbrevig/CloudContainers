@@ -5,16 +5,16 @@ public class Client {
 	private int clientID;
 	private String email;
 	// Change to birthday
-	private String age;
+	private String birthdate;
 	private String gender;
 	private String number;
 	
-	public Client(String name, int clientID, String email, String age, String gender, String number) {
+	public Client(String name, int clientID, String email, String birthdate, String gender, String number) {
 		super();
 		this.name1 = name;
 		this.clientID = clientID;
 		this.email = email;
-		this.age = age;
+		this.birthdate = birthdate;
 		this.gender = gender;
 		this.number = number;
 	}
@@ -37,11 +37,11 @@ public class Client {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getAge() {
-		return age;
+	public String getBirthdate() {
+		return birthdate;
 	}
-	public void setAge(String age) {
-		this.age = age;
+	public void setBirthdate(String birthdate) {
+		this.birthdate = birthdate;
 	}
 
 	
@@ -56,6 +56,16 @@ public class Client {
 	}
 	public void setNumber(String number) {
 		this.number = number;
+	}
+	
+	public void print() {
+		System.out.println("Name:" + this.getName());
+		System.out.println("Client ID:" + this.getClientID());
+		System.out.println("Email:" + this.getEmail());
+		System.out.println("Birthdate:" + this.getBirthdate());
+		System.out.println("Gender:" + this.getGender());
+		System.out.println("Phone number:" + this.getNumber());
+		
 	}
 
 	
