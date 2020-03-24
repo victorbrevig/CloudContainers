@@ -8,15 +8,19 @@ public class LogisticCompany {
 	private Database db;
 	private ArrayList<Container> containers;
 	
+	
 	public LogisticCompany(String name, String companyID) {
 		super();
 		this.name = name;
 		this.companyID = companyID;
-		Database db = new Database();
+		this.db = new Database();
 	}
 	
 	public Database getDb() {
 		return db;
+	}
+	public void addClient(Client client) {
+		db.addClient(client);
 	}
 
 	public void setDb(Database db) {
@@ -42,7 +46,14 @@ public class LogisticCompany {
 	public Client findClient(String email) {
 		return db.searchEmail(email);
 	}
+	
+	public void removeClient(int clientID) {
+		int id = this.db.searchClientIDIndex(clientID);
+		this.db.removeClient(id);
+	}
+	
+	public boolean exist(Client client) {
+		return this.db.exist(client);
+	}
 
-	
-	
 }

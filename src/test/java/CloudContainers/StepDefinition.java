@@ -203,15 +203,38 @@ public class StepDefinition{
 	public void a_failure_message_is_returned_for(Integer int1) {
 		assertTrue(lc.findClient(int1).getClientID() == 0);
 	}
-//	Missing some way of displaying the correct error message and not getting a NullPointerException
 	@Then("A failure message is returned for {string}")
 	public void a_failure_message_is_returned_for(String string) {
 		assertTrue(lc.findClient(string).getClientID() == 0);
 		
 	}
 
+// _________________________________________Remove Client________________________________________________
 	
+	LogisticCompany lc2 = new LogisticCompany("maersk","No.1");
+	Client c5 = new Client("Jenny",4,"j1@gmail.com","11-10-1998","female","12345678");
+	Client c6 = new Client("Jenny",5,"j2@gmail.com","18-09-1997","female","12345677");
 	
+	@Given("A logistic company that has a client with clientID {int}")
+	public void a_logistic_company_with_a_client_with_clientID(Integer int1) {
+		assertTrue(c5.getClientID()==int1);
+//		Problem with add client
+		lc2.addClient(c5);
+		
+	}
+
+	@When("the logistic company removes a client with the clientID {int}")
+	public void the_logistic_company_removes_a_client_with_the_clientID(Integer id) {
+	    lc2.removeClient(id);
+	}
+
+	@Then("the client is deleted and succes message is displayed")
+	public void the_client_is_deleted_and_succes_message_is_displayed() {
+		assertTrue(!(lc2.exist(client)));
+		System.out.println("Client has succesfully been removed");
+	}
+
+
 	
 	
 }

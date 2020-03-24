@@ -6,16 +6,6 @@ public class Database {
 	
 		protected ArrayList<Client> arr = new ArrayList<Client>();
 		private int count = 0;
-//		private String errorMessage;
-//
-//		public String getErrorMessage() {
-//			return errorMessage;
-//		}
-//
-//		public void setErrorMessage(String errorMessage) {
-//			this.errorMessage = errorMessage;
-//		}
-		
 		
 		public int getCount() {
 			return count;
@@ -33,17 +23,30 @@ public class Database {
 			if(!this.exist(c)) {
 				arr.add(count, c);
 				count++;
-				
 			}
 		}
 		
 		public boolean exist(Client c) {
-			boolean b;
-			b = false;
+			boolean b = false;
+			if (count == 0) {
+				return b;
+			}
+			else {
 			for (Client cl : arr) {
-				b = (c.getEmail() == cl.getEmail()) || b;
+				b = (c.getEmail() == cl.getEmail()) || b;}
 			}
 			return b;
+		}
+		
+		public int searchClientIDIndex(int clientID) {
+			// Returns -1 if client with email does not exist
+			int i = -1;
+			for (Client c : this.arr) {
+				if (c.getClientID()==clientID) {
+					i = arr.indexOf(c);
+				}
+			}
+			return i;
 		}
 		
 		public int searchEmailIndex(String email) {
@@ -68,8 +71,6 @@ public class Database {
 		}
 
 		 
-		
-		// The method used for the search here is not tested finished, might use client = null instead
 		public Client searchClientID(int id) {
 			
 			Client client = new Client("",0,"","","","");
@@ -94,5 +95,9 @@ public class Database {
 		return client;
 		}
 		
+		public void removeClient(int index) {
+			arr.remove(index);
+		}
+	
 		
 }
