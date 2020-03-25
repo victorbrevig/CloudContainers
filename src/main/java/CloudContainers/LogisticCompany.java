@@ -88,70 +88,89 @@ public class LogisticCompany {
 		}
 	}
 	
-	public void validParameters(String name, int clientID, String email, String birthdate, String gender, String number) 
+	public void validParameters(String name, int clientID, String email, String birthdate, String gender, int number) 
 			throws invalidParameterException{
 		if (    (name=="") 
 				|| (birthdate=="") 
 				|| (email == "")			
 				|| (gender=="") 
-				|| (number=="")) {
+				|| (number==0)) {
 			throw new invalidParameterException("There is a missing parameter");
 		}
 	}
 	
-	public void validInput(String name, int clientID, String email, String birthdate, String gender, String number) 
+	public void validInput(String name, int clientID, String email, String birthdate, String gender, int number) 
 			throws invalidEmailException, invalidParameterException, invalidBirthdateException {
 		validParameters(name,clientID,email,birthdate,gender,number);
 		validEmail(email);
 		validBirthdate(birthdate);
 	}
 	
-	public boolean newClient(String name, int clientID, String email, String birthdate, String gender, String number) {
-		boolean b = false;
+	public ResponseObject newClient(String name, int clientID, String email, String birthdate, String gender, int number) {
+		ResponseObject response;
 		try {
 //			Make a random generator for clientID
 			validInput(name,clientID,email,birthdate,gender,number);
 			Client client = new Client(name,clientID,email,birthdate,gender,number);
 			if (!this.exist(clientID)) {
-				b = this.db.add(client);
-				System.out.println("Client was succesfully added");
+				this.db.add(client);
+				response = new ResponseObject("Client was successfully added");
 			}else {
-				System.out.println("Client already exists");
+				response = new ResponseObject("Client already exists");
 			}
 			
 		}catch(invalidEmailException err){
-			System.out.println(err);
+			response = new ResponseObject(err.getMessage());
 			
 		}catch(invalidBirthdateException err){
-			System.out.println(err);
+			response = new ResponseObject(err.getMessage());
 			
 		}catch(invalidParameterException err){
-			System.out.println(err);
+			response = new ResponseObject(err.getMessage());
 		}
-		return b;
+		return response;
 	}
 	
-	public boolean updateClient(Client c1,Client c2) {
-		this.removeClient(c1.getClientID());
-		System.out.println("Client has been updated");
-		return this.newClient(c2.getName(), c2.getClientID(), c2.getEmail(), 
-							  c2.getBirthdate(), c2.getGender(), c2.getNumber());
+	public ResponseObject updateClient(Client client,String email) {
+		ResponseObject response;
+		Client tempClient = client;
+		tempClient.setEmail(email);
+		this.removeClient(client.getClientID());
+		response = this.newClient(client.getName(), client.getClientID(), email, 
+				client.getBirthdate(), client.getGender(), client.getNumber());
+		if (response.getErrorMessage().equals("Client was successfully added")) {
+			response.setErrorMessage("Email has been updated");
+		}
+		return response;	 
 	}
-	public static void main(String[] args) {
-		LogisticCompany lc = new LogisticCompany("Maersk",1);
-		lc.newClient("Bob1",1,"bigman1@dtu.dk","11-02-2021","male","10101010");
-		Client client1 = new Client("Bob1",1,"bigman1@dtu.dk","11-02-2021","male","10101010");
-		Client tC = lc.findClient("bigman1@dtu.dk");
-		tC.setEmail("smallman@dtu.dk");
-		System.out.println(lc.updateClient(client1, tC));
-		
+	public ResponseObject updateClient(Client client,int number) {
+		ResponseObject response;
+		Client tempClient = client;
+		tempClient.setNumber(number);
+		this.removeClient(client.getClientID());
+		response = this.newClient(client.getName(), client.getClientID(), client.getEmail(), 
+				client.getBirthdate(), client.getGender(), number);
+		if (response.getErrorMessage().equals("Client was successfully added")) {
+			response.setErrorMessage("Phone number has been updated");
+		}
+		return response;	 
 	}
+//	public static void main(String[] args) {
+//		LogisticCompany lc = new LogisticCompany("Maersk",1);
+//		lc.newClient("Bob1",1,"bigman1@dtu.dk","11-02-2021","male","10101010");
+//		Client client1 = new Client("Bob1",1,"bigman1@dtu.dk","11-02-2021","male","10101010");
+//		Client tC = lc.findClient("bigman1@dtu.dk");
+//		tC.setEmail("smallman@dtu.dk");
+//		System.out.println(lc.updateClient(client1, tC));
+//		
+//	}
 }
 
 class invalidEmailException extends Exception { 
     public invalidEmailException(String errorMessage) {
         super(errorMessage);
     }
+    
 }
 
 class invalidBirthdateException extends Exception { 

@@ -4,17 +4,16 @@ package CloudContainers;
 // New version
 public class Client {
 	
-//	Birthdate and email add prober syntax e.g. 11-05-1997. And add test case in step definition
 	private String name1;
 	private int clientID;
 	private String email;
 	private String birthdate;
 	private String gender;
-	private String number;
+	private int number;
 	
 	
 	
-	public Client(String name, int clientID, String email, String birthdate, String gender, String number) {
+	public Client(String name, int clientID, String email, String birthdate, String gender, int number) {
 		super();
 		this.name1 = name;
 		this.clientID = clientID;
@@ -58,10 +57,10 @@ public class Client {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public String getNumber() {
+	public int getNumber() {
 		return number;
 	}
-	public void setNumber(String number) {
+	public void setNumber(int number) {
 		this.number = number;
 	}
 	

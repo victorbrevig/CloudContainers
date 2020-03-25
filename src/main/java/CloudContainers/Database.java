@@ -6,21 +6,22 @@ import java.util.Iterator;
 
 public class Database extends HashSet<Client> {
 		
-		
+		Client emptyClient = new Client("",0,"","","",0);
 		public Client getClient(int clientID) {
 			for (Client c :this) {
 				if (c.getClientID() == clientID) {
 					return c;
 				}
-			} return null;
+			} return emptyClient;
 		}
 		
 		public Client getClient(String email) {
+			
 			for (Client c :this) {
 				if ((c.getEmail()).equals(email)) {
 					return c;
 				}
-			} return null;
+			} return emptyClient;
 		}	
 	
 		

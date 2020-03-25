@@ -22,11 +22,11 @@ Feature: Update client information
   @tag1
   Scenario: Client wants to update email
     Given A client with email "smallmoney123@gmail.com"
-    When New email entered as "bigmoney123@gmail.com" instead of "smallmoney123@gmail.com"
-    Then Display success message for "bigmoney123@gmail.com" (email)
+    When New email entered as "bigmoney123@gmail.com"
+    Then Display email update success message
 
   @tag2
   Scenario: Client wants to update phone number
-    Given A client with phone number "87654321"
-    When New phone number entered as "12345678" instead of "87654321"
-    Then Display success message for "12345678" (number)
+    Given A client with phone number 87654321
+    When A client with email "bigstonks123@gmail.com" New phone number entered as 12345678
+    Then Display phonenumber update success message
