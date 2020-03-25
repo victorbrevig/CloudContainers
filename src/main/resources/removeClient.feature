@@ -24,6 +24,17 @@ Feature: Remove client
     Given A logistic company that has a client with clientID 4
     When the logistic company removes a client with the clientID 4
     Then the client is deleted and succes message is displayed
+  
+  @tag2
+  Scenario: A logistic company wants to remove a client
+    Given A logistic company that has a client with an email "j1@gmail.com"
+    When the logistic company removes a client with an email "j1@gmail.com"
+    Then the client is deleted and succes message is displayed 
     
-    
+ #@tag3
+  #Scenario: A logistic company tries to remove a non existing client
+    #Given A none existing client for remove
+#		When the logistic company removes a client with an email "e"
+    #Then A failure message is returned for "e"
+  
     

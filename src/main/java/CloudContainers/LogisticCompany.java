@@ -49,8 +49,19 @@ public class LogisticCompany {
 	
 	public void removeClient(int clientID) {
 		int id = this.db.searchClientIDIndex(clientID);
+		if (id == -1) {
+			System.out.println("Not an existing client");
+		}
 		this.db.removeClient(id);
 	}
+	public void removeClient(String email) {
+		int id = this.db.searchEmailIndex(email);
+		if (id == -1) {
+			System.out.println("Not an existing client");
+		}else {
+		this.db.removeClient(id);}
+	}
+	
 	
 	public boolean exist(Client client) {
 		return this.db.exist(client);

@@ -26,7 +26,7 @@ public class StepDefinition{
 	
 	@When("Informations is entered")
 	public void informations_is_entered() {
-	    client = new Client("Bob1",1,"bigman1@dtu.dk","22","male","10101010");
+	    client = new Client("Bob1",1,"bigman1@dtu.dk","11-02-1994","male","10101010");
 		database.addClient(client);
 
 	}
@@ -39,7 +39,7 @@ public class StepDefinition{
 	
 	@Given("existing client")
 	public void existing_client() {
-		client = new Client("Bob1",1,"bigman1@dtu.dk","22","male","10101010");
+		client = new Client("Bob1",1,"bigman1@dtu.dk","11-04-1995","male","10101010");
 		database.addClient(client);
 		
 		assertTrue((database.exist(client)));
@@ -47,7 +47,7 @@ public class StepDefinition{
 	
 	@When("repeated information is entered")
 	public int repeated_information_is_entered() {
-		client2 = new Client("Bob1",1,"bigman1@dtu.dk","22","male","10101010");
+		client2 = new Client("Bob1",1,"bigman1@dtu.dk","11-01-2002","male","10101010");
 		int count1 = database.getCount();
 		database.addClient(client2);
 		return count1;
@@ -87,7 +87,7 @@ public class StepDefinition{
 	// _________________________________________Update Info________________________________________________
 	@Given("A client with email {string}")
 	public void a_client_with_email(String string) {
-		client = new Client("Karsten",1,string,"22","male","10101010");
+		client = new Client("Karsten",1,string,"24-05-1998","male","10101010");
 		database.addClient(client);	
 		
 	}
@@ -110,7 +110,7 @@ public class StepDefinition{
 
 	@Given("A client with phone number {string}")
 	public void a_client_with_phone_number(String string) {
-		client = new Client("Jenny",2,"bigstonks123@gmail.com","26","female",string);
+		client = new Client("Jenny",2,"bigstonks123@gmail.com","27-10-1987","female",string);
 		database.addClient(client);	
 	}
 
@@ -132,7 +132,7 @@ public class StepDefinition{
 	
 	// _________________________________________Search Client________________________________________________
 
-	Client client4 = new Client("Jenny",2,"","26","female","10101010");
+	Client client4 = new Client("Jenny",2,"","02-02-1998","female","10101010");
 	LogisticCompany lc = new LogisticCompany("maersk","No.1");
 	Database db2 = new Database();
 	
@@ -158,7 +158,7 @@ public class StepDefinition{
 	}
 
 	
-	Client client5 = new Client("Jenny",2,"email123@mail.dk","26","female","10101010");
+	Client client5 = new Client("Jenny",2,"email123@mail.dk","11-10-1992","female","10101010");
 	@Given("A client with the clientID {int}")
 	public void a_client_with_the_clientID(Integer int1) {
 		database.addClient(client5);
@@ -213,12 +213,10 @@ public class StepDefinition{
 	
 	LogisticCompany lc2 = new LogisticCompany("maersk","No.1");
 	Client c5 = new Client("Jenny",4,"j1@gmail.com","11-10-1998","female","12345678");
-	Client c6 = new Client("Jenny",5,"j2@gmail.com","18-09-1997","female","12345677");
 	
 	@Given("A logistic company that has a client with clientID {int}")
 	public void a_logistic_company_with_a_client_with_clientID(Integer int1) {
 		assertTrue(c5.getClientID()==int1);
-//		Problem with add client
 		lc2.addClient(c5);
 		
 	}
@@ -227,10 +225,21 @@ public class StepDefinition{
 	public void the_logistic_company_removes_a_client_with_the_clientID(Integer id) {
 	    lc2.removeClient(id);
 	}
+	
+	@Given("A logistic company that has a client with an email {string}")
+	public void a_logistic_company_that_has_a_client_with_an_email(String string) {
+		assertTrue(c5.getEmail().equals(string));
+		lc2.addClient(c5);
+	}
+
+	@When("the logistic company removes a client with an email {string}")
+	public void the_logistic_company_removes_a_client_with_an_email(String string) {
+	    lc2.removeClient(string);
+	}
 
 	@Then("the client is deleted and succes message is displayed")
 	public void the_client_is_deleted_and_succes_message_is_displayed() {
-		assertTrue(!(lc2.exist(client)));
+		assertTrue(!(lc2.exist(c5)));
 		System.out.println("Client has succesfully been removed");
 	}
 
