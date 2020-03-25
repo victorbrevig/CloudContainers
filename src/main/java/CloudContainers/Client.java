@@ -1,13 +1,18 @@
 package CloudContainers;
+
+
 // New version
 public class Client {
+	
+//	Birthdate and email add prober syntax e.g. 11-05-1997. And add test case in step definition
 	private String name1;
 	private int clientID;
 	private String email;
-	// Change to birthday
 	private String birthdate;
 	private String gender;
 	private String number;
+	
+	
 	
 	public Client(String name, int clientID, String email, String birthdate, String gender, String number) {
 		super();
@@ -19,6 +24,9 @@ public class Client {
 		this.number = number;
 	}
 	
+	public boolean cEquals(Client client) {
+		return (this.getEmail()).equals(client.getEmail());
+	}
 	
 	public String getName() {
 		return name1;
@@ -29,7 +37,7 @@ public class Client {
 	public int getClientID() {
 		return clientID;
 	}
-	//Add a random generator for clienID
+	//Add a random generator for clientID
 	
 	public String getEmail() {
 		return email;
@@ -43,7 +51,6 @@ public class Client {
 	public void setBirthdate(String birthdate) {
 		this.birthdate = birthdate;
 	}
-
 	
 	public String getGender() {
 		return gender;
@@ -68,7 +75,10 @@ public class Client {
 		
 	}
 
-	
+	public static void main(String[] args) {
+		
+		
+	}
 
 }
 

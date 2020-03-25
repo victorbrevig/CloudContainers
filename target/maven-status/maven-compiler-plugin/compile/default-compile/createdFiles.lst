@@ -1,4 +1,7 @@
+CloudContainers\invalidBirthdateException.class
 CloudContainers\Container.class
+CloudContainers\invalidEmailException.class
 CloudContainers\LogisticCompany.class
+CloudContainers\invalidParameterException.class
 CloudContainers\Database.class
 CloudContainers\Client.class
