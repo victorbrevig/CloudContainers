@@ -11,8 +11,6 @@ public class Client {
 	private String birthdate;
 	private String gender;
 	private int number;
-	private HashSet<Container> containers;
-	
 	
 	public Client(String name, int clientID, String email, String birthdate, String gender, int number) {
 		super();
@@ -22,7 +20,6 @@ public class Client {
 		this.birthdate = birthdate;
 		this.gender = gender;
 		this.number = number;
-		this.containers = new HashSet<Container>();
 	}
 	
 	public boolean cEquals(Client client) {
@@ -78,41 +75,26 @@ public class Client {
 		
 	}
 	
-	public boolean exist(Container container) {
-		return containers.contains(container);
-	}
 	
-	public void addContainer(Container container) {
-		this.containers.add(container);
-	}
+//	public ResponseObject registerContainerToJourney(Container container, Journey journey) {
+//		
+//		// journey.getCompany().exist(journey);
+//		// containers.exist(container) ...
+//		ResponseObject response = new ResponseObject();
+//		if (this.exist(container) && journey.getCompany().exist(journey)) {
+//			journey.addContainer(container);
+//			response.setErrorMessage("Container successfully added to journey");
+//		}
+//		else if (this.exist(container)) {
+//			response.setErrorMessage("This is not a valid journey");
+//		}else if (journey.getCompany().exist(journey)) {
+//			response.setErrorMessage("This is not your container");
+//		}else {
+//			response.setErrorMessage("Please try another container and journey");
+//		}return response;
+//		
+//	}
 	
-	public ResponseObject registerContainerToJourney(Container container, Journey journey) {
-		
-		// journey.getCompany().exist(journey);
-		// containers.exist(container) ...
-		ResponseObject response = new ResponseObject();
-		if (this.exist(container) && journey.getCompany().exist(journey)) {
-			journey.addContainer(container);
-			response.setErrorMessage("Container successfully added to journey");
-		}
-		else if (this.exist(container)) {
-			response.setErrorMessage("This is not a valid journey");
-		}else if (journey.getCompany().exist(journey)) {
-			response.setErrorMessage("This is not your container");
-		}else {
-			response.setErrorMessage("Please try another container and journey");
-		}return response;
-		
-	}
-	
-	public Container findContainer(int id) {
-		Container container = new Container(0);
-		for (Container c: containers) {
-			if(c.getId() == id) {
-				container = c;
-			}
-		}return container;
-	}
 	
 
 

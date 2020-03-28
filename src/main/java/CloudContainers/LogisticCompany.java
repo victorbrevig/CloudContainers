@@ -1,7 +1,9 @@
 package CloudContainers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -13,7 +15,9 @@ public class LogisticCompany {
 	private Database db;
 	private int clientIDgen = 1;
 	private int amountOfContainers;
-	private HashSet<Container> containers;
+	
+	private Map<Container,Client> containerMap;
+	
 	private HashSet<Journey> journeys;
 	private int journeyIDgen = 1;
 	
@@ -23,12 +27,14 @@ public class LogisticCompany {
 		this.name = name;
 		this.companyID = companyID;
 		this.db = new Database();
-		this.containers = new HashSet<Container>();
 		this.journeys = new HashSet<Journey>();
 		this.amountOfContainers = amountOfContainers;
 		
+		this.containerMap = new HashMap<Container,Client>();
+		
 		for (int i=0; i<amountOfContainers;i++) {
-			containers.add(new Container(i));
+			containerMap.put(new Container(i), new Client("",0,"","","",0));
+			//containers.add(new Container(i));
 		}
 		
 	}
@@ -46,7 +52,7 @@ public class LogisticCompany {
 	
 	public void addContainer() {
 		this.amountOfContainers++;
-		containers.add(new Container(amountOfContainers));
+		containerMap.put(new Container(amountOfContainers), new Client("",0,"","","",0));
 	}
 	
 	public int getClientIDgen() {
@@ -97,7 +103,7 @@ public class LogisticCompany {
 		return db.contains(db.getClient(number));
 	}
 	public boolean exist(Container container) {
-		return containers.contains(container);
+		return containerMap.containsKey(container);
 	}
 	
 
@@ -196,25 +202,18 @@ public class LogisticCompany {
 //		Container 0, is returned if no vacant containers are available
 		Container container = new Container(0);
 		
-		for (Container c: containers) {
+		for (Container c: containerMap.keySet()) {
 			if (!c.isOwned()) {
 				return c;
 			}
 		}return container;
 	}
-	public Container findContainer(int id) {
-		Container container = new Container(0);
-		for (Container c: containers) {
-			if(c.getId() == id) {
-				container = c;
-			}
-		}return container;
-	}
+
 	
 	public ResponseObject allocateContainer(String email,Container container) {
 		ResponseObject response = new ResponseObject("Container succesfully allocated");
 		boolean existClient = this.exist(email);
-		boolean existContainer = this.exist(container);
+		boolean existContainer = this.containerMap.containsKey(container);
 		boolean owned = container.isOwned();
 		
 		if(!existClient) {
@@ -228,29 +227,28 @@ public class LogisticCompany {
 		}
 		else {
 			container.setOwned(true);
-			this.findClient(email).addContainer(container);
-			this.findContainer(container.getId()).setOwned(true);
+			containerMap.replace(container,this.findClient(email));
+			
+			//this.findClient(email).addContainer(container);
+			//this.findContainer(container.getId()).setOwned(true);
 		}
 		return response;
-	} 
-}
-//	public void printEmails() {
-//		for (Client c:this.db) {
-//			System.out.println(c.getEmail());
-//		}
-//	}
+	}
+	
 //	public static void main(String[] args) {
-//		LogisticCompany lc = new LogisticCompany("Maersk",1);
-//		lc.newClient("Bob1","bigman1@dtu.dk","11-02-2021","male",10101010);
-//		lc.newClient("Bob2","bigman2@dtu.dk","11-02-2021","male",10101010);
-//		System.out.println(lc.findClient("bigman1@dtu.dk").getClientID());
-//		System.out.println(lc.findClient("bigman2@dtu.dk").getClientID());
-//		lc.updateClient(lc.findClient("bigman1@dtu.dk"), "bigman3@dtu.dk");
-//		System.out.println(lc.findClient("bigman3@dtu.dk").getClientID());
-//		lc.printEmails();
-//		System.out.println(lc.getClientIDgen());
+//
+//		ResponseObject response;
+//		LogisticCompany lc = new LogisticCompany("Maersk",1,100);
+//		lc.newClient("Jenny","email@dtu.dk","11-10-1998","female",12345678);
+//		Container container = lc.findFreeContainer();
+//		System.out.println(container.isOwned());
+//		lc.allocateContainer("email@dtu.dk",container);
+//		System.out.println(lc.containerMap.get(container).getEmail());
+//		System.out.println(container.isOwned());
 //	}
-//}
+}
+
+
 
 class invalidEmailException extends Exception { 
     public invalidEmailException(String errorMessage) {
