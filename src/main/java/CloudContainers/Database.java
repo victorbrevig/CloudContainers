@@ -23,6 +23,14 @@ public class Database extends HashSet<Client> {
 				}
 			} return emptyClient;
 		}	
+		public Client getClientN(int number) {
+			
+			for (Client c :this) {
+				if (c.getNumber()==number) {
+					return c;
+				}
+			} return emptyClient;
+		}
 	
 		
 }

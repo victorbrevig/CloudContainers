@@ -7,6 +7,9 @@ public class ResponseObject {
 		super();
 		this.errorMessage = errorMessage;
 	}
+	public ResponseObject() {
+		
+	}
 
 	public String getErrorMessage() {
 		return errorMessage;

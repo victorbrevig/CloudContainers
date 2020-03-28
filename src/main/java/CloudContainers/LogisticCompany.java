@@ -11,7 +11,8 @@ public class LogisticCompany {
 	private String name;
 	private int companyID;
 	private Database db;
-	private ArrayList<Container> containers;
+	private int clientIDgen = 1;
+	private HashSet<Container> containers;
 	
 	
 	public LogisticCompany(String name, int companyID) {
@@ -20,6 +21,10 @@ public class LogisticCompany {
 		this.companyID = companyID;
 		this.db = new Database();
 		
+	}
+	
+	public int getClientIDgen() {
+		return clientIDgen;
 	}
 	
 	public Database getDb() {
@@ -63,6 +68,9 @@ public class LogisticCompany {
 	public boolean exist(String email) {
 		return db.contains(db.getClient(email));
 	}
+	public boolean existN(int number) {
+		return db.contains(db.getClient(number));
+	}
 	
 	
 	public void validBirthdate(String birthdate) throws invalidBirthdateException {
@@ -88,7 +96,7 @@ public class LogisticCompany {
 		}
 	}
 	
-	public void validParameters(String name, int clientID, String email, String birthdate, String gender, int number) 
+	public void validParameters(String name, String email, String birthdate, String gender, int number) 
 			throws invalidParameterException{
 		if (    (name=="") 
 				|| (birthdate=="") 
@@ -99,29 +107,20 @@ public class LogisticCompany {
 		}
 	}
 	
-	public void validInput(String name, int clientID, String email, String birthdate, String gender, int number) 
-			throws invalidEmailException, invalidParameterException, invalidBirthdateException {
-		validParameters(name,clientID,email,birthdate,gender,number);
-		validEmail(email);
-		validBirthdate(birthdate);
-	}
-	
-	public ResponseObject newClient(String name, int clientID, String email, String birthdate, String gender, int number) {
+	public ResponseObject validInput(String name, String email, String birthdate, String gender, int number) {
 		ResponseObject response;
 		try {
-//			Make a random generator for clientID
-			validInput(name,clientID,email,birthdate,gender,number);
-			Client client = new Client(name,clientID,email,birthdate,gender,number);
-			if (!this.exist(clientID)) {
-				this.db.add(client);
-				response = new ResponseObject("Client was successfully added");
+			validParameters(name,email,birthdate,gender,number);
+			validEmail(email);
+			validBirthdate(birthdate);
+			if (!this.exist(email)) {
+				response = new ResponseObject("Non-existing client");
 			}else {
-				response = new ResponseObject("Client already exists");
+				response = new ResponseObject("existing client");
 			}
-			
 		}catch(invalidEmailException err){
 			response = new ResponseObject(err.getMessage());
-			
+		
 		}catch(invalidBirthdateException err){
 			response = new ResponseObject(err.getMessage());
 			
@@ -129,42 +128,58 @@ public class LogisticCompany {
 			response = new ResponseObject(err.getMessage());
 		}
 		return response;
+		
+	}
+
+
+	
+	public ResponseObject newClient(String name, String email, String birthdate, String gender, int number) {
+			ResponseObject response;
+			response = validInput(name,email,birthdate,gender,number);
+			if (response.getErrorMessage().equals("Non-existing client")) {
+				int clientID = this.clientIDgen++;
+				Client client = new Client(name,clientID,email,birthdate,gender,number);
+				this.db.add(client);
+				response.setErrorMessage("Client was successfully added");
+			}return response;
 	}
 	
-	public ResponseObject updateClient(Client client,String email) {
-		ResponseObject response;
-		Client tempClient = client;
-		tempClient.setEmail(email);
-		this.removeClient(client.getClientID());
-		response = this.newClient(client.getName(), client.getClientID(), email, 
-				client.getBirthdate(), client.getGender(), client.getNumber());
-		if (response.getErrorMessage().equals("Client was successfully added")) {
-			response.setErrorMessage("Email has been updated");
-		}
-		return response;	 
-	}
-	public ResponseObject updateClient(Client client,int number) {
-		ResponseObject response;
-		Client tempClient = client;
-		tempClient.setNumber(number);
-		this.removeClient(client.getClientID());
-		response = this.newClient(client.getName(), client.getClientID(), client.getEmail(), 
-				client.getBirthdate(), client.getGender(), number);
-		if (response.getErrorMessage().equals("Client was successfully added")) {
+	public ResponseObject updateClient(String oldEmail,String email) {
+		ResponseObject response = new ResponseObject();
+		Client c = this.findClient(oldEmail);
+		response = validInput(c.getName(),email,c.getBirthdate(),c.getGender(),c.getNumber());
+		if (response.getErrorMessage().equals("Non-existing client")) {
+			this.findClient(oldEmail).setEmail(email);
+			response.setErrorMessage("Email has been updated");}
+		return response;}
+	
+	public ResponseObject updateClient(String oldEmail,int number) {
+		ResponseObject response = new ResponseObject();
+		if (!this.existN(number)) {
+			this.findClient(oldEmail).setNumber(number);
 			response.setErrorMessage("Phone number has been updated");
+		}else {
+			response.setErrorMessage("existing client");
 		}
-		return response;	 
+		return response;} 
 	}
+//	public void printEmails() {
+//		for (Client c:this.db) {
+//			System.out.println(c.getEmail());
+//		}
+//	}
 //	public static void main(String[] args) {
 //		LogisticCompany lc = new LogisticCompany("Maersk",1);
-//		lc.newClient("Bob1",1,"bigman1@dtu.dk","11-02-2021","male","10101010");
-//		Client client1 = new Client("Bob1",1,"bigman1@dtu.dk","11-02-2021","male","10101010");
-//		Client tC = lc.findClient("bigman1@dtu.dk");
-//		tC.setEmail("smallman@dtu.dk");
-//		System.out.println(lc.updateClient(client1, tC));
-//		
+//		lc.newClient("Bob1","bigman1@dtu.dk","11-02-2021","male",10101010);
+//		lc.newClient("Bob2","bigman2@dtu.dk","11-02-2021","male",10101010);
+//		System.out.println(lc.findClient("bigman1@dtu.dk").getClientID());
+//		System.out.println(lc.findClient("bigman2@dtu.dk").getClientID());
+//		lc.updateClient(lc.findClient("bigman1@dtu.dk"), "bigman3@dtu.dk");
+//		System.out.println(lc.findClient("bigman3@dtu.dk").getClientID());
+//		lc.printEmails();
+//		System.out.println(lc.getClientIDgen());
 //	}
-}
+//}
 
 class invalidEmailException extends Exception { 
     public invalidEmailException(String errorMessage) {

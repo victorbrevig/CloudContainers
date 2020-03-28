@@ -12,7 +12,6 @@ import io.cucumber.java.en.When;
 public class StepDefinition{
 	
 
-	Client client1;
 	Client client2;
 	Client client3;
 	ResponseObject response;
@@ -21,45 +20,41 @@ public class StepDefinition{
 	
 	@Given("A none existing client")
 	public void a_none_existing_client(){
-		client1 = new Client("Bob1",1,"bigman1@dtu.dk","11-02-1994","male",10101010);
 	    assertFalse(lc.exist(1));
 	}
 	
 	
 	@When("Informations is entered")
 	public void informations_is_entered() {
-		client1 = new Client("Bob1",1,"bigman1@dtu.dk","11-02-1994","male",10101010);
 	}
 	
 	@Then("display success message")
 	public void display_success_message() {
-		response = lc.newClient("Bob1",1,"bigman1@dtu.dk","11-02-1994","male",10101010);
+		response = lc.newClient("Bob1","bigman1@dtu.dk","11-02-1994","male",10101010);
 		assertTrue(lc.exist(1));
 		assertEquals(response.getErrorMessage(),"Client was successfully added");
 	}
 	
 	@Given("existing client")
 	public void existing_client() {
-		client1 = new Client("Bob1",1,"bigman1@dtu.dk","11-04-1995","male",10101010);
-		lc.newClient("Bob1",1,"bigman1@dtu.dk","11-04-1995","male",10101010);
+		lc.newClient("Bob1","bigman1@dtu.dk","11-04-1995","male",10101010);
 		assertTrue(lc.exist(1));
 	}
 	
 	@When("repeated information is entered")
 	public void repeated_information_is_entered() {
-		client1 = new Client("Bob1",1,"bigman1@dtu.dk","11-04-1995","male",10101010);
-		response = lc.newClient("Bob1",1,"bigman1@dtu.dk","11-04-1995","male",10101010);
+		response = lc.newClient("Bob2","bigman1@dtu.dk","11-04-1995","male",10101010);
 	}
 
 	@Then("error message is thrown")
 	public void error_message_is_thrown() {
-		assertEquals(response.getErrorMessage(),"Client already exists");
+		assertEquals(response.getErrorMessage(),"existing client");
+		
 	}
 	
 	@When("information with missing parameters")
 	public void information_with_missing_parameters() {
-		client3 = new Client("Bob",2,"bigman1@dtu.dk","","male",10101010);
-		response = lc.newClient("Bob1",1,"bigman1@dtu.dk","","male",10101010);
+		response = lc.newClient("Bob3","bigman3@dtu.dk","","male",10101010);
 	}
 
 	@Then("missing parameter error message is thrown")
@@ -75,8 +70,7 @@ public class StepDefinition{
 
 	@When("invalid email {string} is entered")
 	public void invalid_email_is_entered(String string) {
-		client1 = new Client("Bob1",1,string,"11-04-1995","male",10101010);
-		response = lc.newClient("Bob1",1,string,"11-04-1995","male",10101010);
+		response = lc.newClient("Bob4",string,"11-04-1995","male",10101010);
 	}
 
 	@Then("invalid email error is displayed for {string}")
@@ -86,8 +80,7 @@ public class StepDefinition{
 
 	@When("invalid birthdate {string} is entered")
 	public void invalid_birthdate_is_entered(String string) {
-		client1 = new Client("Bob1",1,"bigman1@dtu.dk",string,"male",10101010);
-		response = lc.newClient("Bob1",1,"bigman1@dtu.dk",string,"male",10101010);
+		response = lc.newClient("Bob5","bigman5@dtu.dk",string,"male",10101010);
 	}
 
 	@Then("invalid birtdate error is displayed for {string}")
@@ -97,17 +90,17 @@ public class StepDefinition{
 
 	
 	// _________________________________________Update Info________________________________________________
+	
+	Client client1 = new Client("Karsten",1,"smallmoney123@gmail.com","24-05-1998","male",10101010);
 	@Given("A client with email {string}")
 	public void a_client_with_email(String string) {
-		client1 = new Client("Karsten",1,string,"24-05-1998","male",10101010);
-		lc.newClient("Karsten",1,string,"24-05-1998","male",10101010);
+		lc.newClient("Karsten",string,"24-05-1998","male",10101010);
 		
 	}
 	
-	
 	@When("New email entered as {string}")
 	public void new_email_entered_as(String string) {
-		response = lc.updateClient(client1,string);
+		response = lc.updateClient(client1.getEmail(),string);
 	}
 	
 	@Then("Display email update success message")
@@ -117,18 +110,19 @@ public class StepDefinition{
 
 	@Given("A client with phone number {int}")
 	public void a_client_with_phone_number(Integer int1) {
-		client1 = new Client("Jenny",2,"bigstonks123@gmail.com","27-10-1987","female",int1);
-		lc.newClient("Jenny",2,"bigstonks123@gmail.com","27-10-1987","female",int1);
+		lc.newClient("Jenny","bigstonks123@gmail.com","27-10-1987","female",int1);
 	}
 
 	@When("A client with email {string} New phone number entered as {int}")
 	public void a_client_with_email_new_phone_number_entered_as(String email,Integer int1) {
-		response = lc.updateClient(client1, int1);
+		response = lc.updateClient(email, int1);
 	}
 
 	@Then("Display phonenumber update success message")
 	public void display_phonenumber_update_success_message() {
+		System.out.println(response.getErrorMessage());
 		assertEquals(response.getErrorMessage(),"Phone number has been updated");
+		
 	}
 	
 	// _________________________________________Search Client________________________________________________
@@ -138,8 +132,8 @@ public class StepDefinition{
 	
 	@Given("A client with the email {string}")
 	public void a_client_with_the_email(String string) {
-		client4 = new Client("Jenny",2,string,"02-02-1998","female",10101010);
-		lc.newClient("Jenny",2,string,"02-02-1998","female",10101010);
+		client4 = new Client("Jenny",1,string,"02-02-1998","female",10101010);
+		lc.newClient("Jenny",string,"02-02-1998","female",10101010);
 	}
 
 	@When("The logistic company searches for {string}")
@@ -158,8 +152,8 @@ public class StepDefinition{
 	
 	@Given("A client with the clientID {int}")
 	public void a_client_with_the_clientID(Integer int1) {
-		client4 = new Client("Jenny",2,"email123@mail.dk","11-10-1992","female",10101010);
-		lc.newClient("Jenny",2,"email123@mail.dk","11-10-1992","female",10101010);
+		client4 = new Client("Jenny",1,"email123@mail.dk","11-10-1992","female",10101010);
+		lc.newClient("Jenny","email123@mail.dk","11-10-1992","female",10101010);
 	}
 
 	@When("The logistic company searches for {int}")
@@ -208,8 +202,7 @@ public class StepDefinition{
 	
 	@Given("A logistic company that has a client with clientID {int}")
 	public void a_logistic_company_with_a_client_with_clientID(Integer int1) {
-		client4 = new Client("Jenny",4,"j1@gmail.com","11-10-1998","female","12345678");
-		lc.newClient("Jenny",int1,"j1@gmail.com","11-10-1998","female","12345678");
+		lc.newClient("Jenny","j1@gmail.com","11-10-1998","female",12345678);
 		assertTrue(lc.exist(int1));
 	}
 
@@ -220,8 +213,7 @@ public class StepDefinition{
 	
 	@Given("A logistic company that has a client with an email {string}")
 	public void a_logistic_company_that_has_a_client_with_an_email(String string) {
-		client4 = new Client("Jenny",4,string,"11-10-1998","female","12345678");
-		lc.newClient("Jenny",4,string,"11-10-1998","female","12345678");
+		lc.newClient("Jenny",string,"11-10-1998","female",12345678);
 		assertTrue(lc.exist(string));
 	}
 

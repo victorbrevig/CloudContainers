@@ -21,9 +21,9 @@ Feature: Remove client
 
   @tag1
   Scenario: A logistic company wants to remove a client
-    Given A logistic company that has a client with clientID 4
-    When the logistic company removes a client with the clientID 4
-    Then the client is deleted and succes message is displayed clientID 4
+    Given A logistic company that has a client with clientID 1
+    When the logistic company removes a client with the clientID 1
+    Then the client is deleted and succes message is displayed clientID 1
   
   @tag2
   Scenario: A logistic company wants to remove a client

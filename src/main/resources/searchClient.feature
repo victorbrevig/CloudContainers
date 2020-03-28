@@ -28,9 +28,9 @@ Feature: Logistic company search for client
 
   @tag2
   Scenario: Searching for an existing client
-    Given A client with the clientID 2
-    When The logistic company searches for 2
-    Then The client is returned for 2 and a succes message is displayed
+    Given A client with the clientID 1
+    When The logistic company searches for 1
+    Then The client is returned for 1 and a succes message is displayed
 
 	@tag3
   Scenario: Searching for a non existing client
