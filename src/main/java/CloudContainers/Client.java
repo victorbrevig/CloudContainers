@@ -22,6 +22,7 @@ public class Client {
 		this.birthdate = birthdate;
 		this.gender = gender;
 		this.number = number;
+		this.containers = new HashSet<Container>();
 	}
 	
 	public boolean cEquals(Client client) {
@@ -81,21 +82,38 @@ public class Client {
 		return containers.contains(container);
 	}
 	
-	public ResponseObject registerContainer(Container container, Journey journey) {
+	public void addContainer(Container container) {
+		this.containers.add(container);
+	}
+	
+	public ResponseObject registerContainerToJourney(Container container, Journey journey) {
 		
 		// journey.getCompany().exist(journey);
 		// containers.exist(container) ...
 		ResponseObject response = new ResponseObject();
 		if (this.exist(container) && journey.getCompany().exist(journey)) {
 			journey.addContainer(container);
-			response.setErrorMessage("Container usccessfully added to journey");
+			response.setErrorMessage("Container successfully added to journey");
 		}
 		else if (this.exist(container)) {
 			response.setErrorMessage("This is not a valid journey");
-		}
-		return response;
+		}else if (journey.getCompany().exist(journey)) {
+			response.setErrorMessage("This is not your container");
+		}else {
+			response.setErrorMessage("Please try another container and journey");
+		}return response;
 		
 	}
+	
+	public Container findContainer(int id) {
+		Container container = new Container(0);
+		for (Container c: containers) {
+			if(c.getId() == id) {
+				container = c;
+			}
+		}return container;
+	}
+	
 
 
 }

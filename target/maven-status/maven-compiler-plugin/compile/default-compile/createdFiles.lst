@@ -1,7 +1,9 @@
-CloudContainers\invalidBirthdateException.class
-CloudContainers\Container.class
+CloudContainers\Journey.class
+CloudContainers\ResponseObject.class
 CloudContainers\invalidEmailException.class
 CloudContainers\LogisticCompany.class
-CloudContainers\invalidParameterException.class
 CloudContainers\Database.class
 CloudContainers\Client.class
+CloudContainers\invalidBirthdateException.class
+CloudContainers\Container.class
+CloudContainers\invalidParameterException.class

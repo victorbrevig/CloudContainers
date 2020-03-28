@@ -33,7 +33,6 @@ public class LogisticCompany {
 		
 	}
 	
-	
 	public void createJourney(String portOfOrigin, String destination, HashSet<Container> containers) {
 		Journey journey = new Journey(journeyIDgen, portOfOrigin, destination, this, containers);
 		journeyIDgen++;
@@ -60,7 +59,6 @@ public class LogisticCompany {
 	public void setDb(Database db) {
 		this.db = db;
 	}
-
 	
 	public String getName() {
 		return name;
@@ -98,7 +96,11 @@ public class LogisticCompany {
 	public boolean existN(int number) {
 		return db.contains(db.getClient(number));
 	}
+	public boolean exist(Container container) {
+		return containers.contains(container);
+	}
 	
+
 	
 	public void validBirthdate(String birthdate) throws invalidBirthdateException {
 		if (!GenericValidator.isDate(birthdate, "dd-MM-yyyy", true)) {
@@ -188,8 +190,50 @@ public class LogisticCompany {
 		}else {
 			response.setErrorMessage("existing client");
 		}
-		return response;} 
+		return response;}
+
+	public Container findFreeContainer() {
+//		Container 0, is returned if no vacant containers are available
+		Container container = new Container(0);
+		
+		for (Container c: containers) {
+			if (!c.isOwned()) {
+				return c;
+			}
+		}return container;
 	}
+	public Container findContainer(int id) {
+		Container container = new Container(0);
+		for (Container c: containers) {
+			if(c.getId() == id) {
+				container = c;
+			}
+		}return container;
+	}
+	
+	public ResponseObject allocateContainer(String email,Container container) {
+		ResponseObject response = new ResponseObject("Container succesfully allocated");
+		boolean existClient = this.exist(email);
+		boolean existContainer = this.exist(container);
+		boolean owned = container.isOwned();
+		
+		if(!existClient) {
+			response.setErrorMessage("Client does not exist");
+		}
+		else if (!existContainer) {
+			response.setErrorMessage("Container does not exist");
+		}
+		else if (owned) {
+			response.setErrorMessage("This container is already owned by a client");
+		}
+		else {
+			container.setOwned(true);
+			this.findClient(email).addContainer(container);
+			this.findContainer(container.getId()).setOwned(true);
+		}
+		return response;
+	} 
+}
 //	public void printEmails() {
 //		for (Client c:this.db) {
 //			System.out.println(c.getEmail());

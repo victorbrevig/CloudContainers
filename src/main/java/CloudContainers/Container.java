@@ -10,7 +10,21 @@ public class Container {
 	private double airHumidity = 0.5;
 	// Default is false
 	private boolean onJourney = false;
+	private boolean owned = false;
 	
+	public boolean isOnJourney() {
+		return onJourney;
+	}
+	public void setOnJourney(boolean onJourney) {
+		this.onJourney = onJourney;
+	}
+	public boolean isOwned() {
+		return owned;
+	}
+	public void setOwned(boolean owned) {
+		this.owned = owned;
+	}
+
 	private String content = "";
 	
 	public String getContent() {
@@ -50,6 +64,14 @@ public class Container {
 	
 	public boolean equals(Container c) {
 		return this.getId() == c.getId();
+	}
+	public void print() {
+		System.out.println(this.getId());
+		System.out.println(this.getTemperature());
+		System.out.println(this.getPressure());
+		System.out.println(this.getAirHumidity());
+		System.out.println(this.isOwned());
+		System.out.println(this.isOnJourney());
 	}
 	
 	

@@ -225,7 +225,6 @@ public class StepDefinition{
 	@Then("the client is deleted and succes message is displayed clientID {int}")
 	public void the_client_is_deleted_and_succes_message_is_displayed_clientID(Integer int1) {
 	    assertFalse(lc.exist(int1));
-//	    Add response object message
 	}
 
 	@Then("the client is deleted and succes message is displayed email {string}")
@@ -253,6 +252,58 @@ public class StepDefinition{
 	public void a_remove_failure_message_is_returned_for(Integer int1) {
 		assertFalse(lc.removeClient(int1));
 	}
+	// _________________________________________Add container to journey________________________________________________
 	
+	Client client;
+	Container container;
+	@Given("a logistic company with a client")
+	public void a_logistic_company_with_a_client() {
+		client = new Client("Jenny",1,"email@dtu.dk","11-10-1998","female",12345678);
+		lc.newClient("Jenny","email@dtu.dk","11-10-1998","female",12345678);
+	    assertTrue(lc.exist("email@dtu.dk"));
+	}
+	
+	@Given("an unowned container")
+	public void an_unowned_container() {
+		container = lc.findFreeContainer();
+		assertTrue(!container.isOwned() && container.getId() != 0);
+		
+	}
+	
+	@When("a container is allocated")
+	public void a_container_is_allocated() {
+		response = lc.allocateContainer("email@dtu.dk",container);
+		
+	    
+	}
+
+	@Then("an allocation succes message is displayed")
+	public void an_allocation_succes_message_is_displayed() {
+		container.print();
+		int id = container.getId();
+		client.findContainer(id).print();
+	    assertTrue(lc.findContainer(id).isOwned());
+	    assertTrue(client.findContainer(id).isOwned());
+	    assertTrue(client.exist(container));
+	    assertEquals(response.getErrorMessage(),"Container succesfully allocated");
+	}
+
+//	@Given("an owned container")
+//	public void an_owned_container() {
+//	    // Write code here that turns the phrase above into concrete actions
+//	    throw new cucumber.api.PendingException();
+//	}
+//
+//	@When("a container is not allocated")
+//	public void a_container_is_not_allocated() {
+//	    // Write code here that turns the phrase above into concrete actions
+//	    throw new cucumber.api.PendingException();
+//	}
+//
+//	@Then("an allocation failure message is displayed")
+//	public void an_allocation_failure_message_is_displayed() {
+//	    // Write code here that turns the phrase above into concrete actions
+//	    throw new cucumber.api.PendingException();
+//	}
 	
 }
