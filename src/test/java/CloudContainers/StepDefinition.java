@@ -15,7 +15,7 @@ public class StepDefinition{
 	Client client2;
 	Client client3;
 	ResponseObject response;
-	LogisticCompany lc = new LogisticCompany("Maersk",1);
+	LogisticCompany lc = new LogisticCompany("Maersk",1,100);
 	
 	
 	@Given("A none existing client")

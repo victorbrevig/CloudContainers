@@ -2,21 +2,29 @@ package CloudContainers;
 
 public class Container {
 	private int id;
-	private double temperature;
-	private double pressure;
-	private double airHumidity;
-	private boolean onJourney;
+	// Default is 20.0C (not on journey)
+	private double temperature = 20.0;
+	// Default is 1 atm (not on journey)
+	private double pressure = 1.0;
+	// Default is 0.5 - 50% (not on journey)
+	private double airHumidity = 0.5;
+	// Default is false
+	private boolean onJourney = false;
 	
+	private String content = "";
+	
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
 	public int getId() {
 		return id;
 	}
-	public Container(int id, double temperature, double pressure, double airHumidity, boolean onJourney) {
+	public Container(int id) {
 		super();
 		this.id = id;
-		this.temperature = temperature;
-		this.pressure = pressure;
-		this.airHumidity = airHumidity;
-		this.onJourney = onJourney;
 	}
 	public void setId(int id) {
 		this.id = id;
@@ -40,6 +48,9 @@ public class Container {
 		this.airHumidity = airHumidity;
 	}
 	
+	public boolean equals(Container c) {
+		return this.getId() == c.getId();
+	}
 	
 	
 }

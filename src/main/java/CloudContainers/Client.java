@@ -1,5 +1,6 @@
 package CloudContainers;
 
+import java.util.HashSet;
 
 // New version
 public class Client {
@@ -10,7 +11,7 @@ public class Client {
 	private String birthdate;
 	private String gender;
 	private int number;
-	
+	private HashSet<Container> containers;
 	
 	
 	public Client(String name, int clientID, String email, String birthdate, String gender, int number) {
@@ -75,7 +76,26 @@ public class Client {
 		System.out.println("Phone number:" + this.getNumber());
 		
 	}
-
+	
+	public boolean exist(Container container) {
+		return containers.contains(container);
+	}
+	
+	public ResponseObject registerContainer(Container container, Journey journey) {
+		
+		// journey.getCompany().exist(journey);
+		// containers.exist(container) ...
+		ResponseObject response = new ResponseObject();
+		if (this.exist(container) && journey.getCompany().exist(journey)) {
+			journey.addContainer(container);
+			response.setErrorMessage("Container usccessfully added to journey");
+		}
+		else if (this.exist(container)) {
+			response.setErrorMessage("This is not a valid journey");
+		}
+		return response;
+		
+	}
 
 
 }

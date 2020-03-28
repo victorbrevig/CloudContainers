@@ -12,15 +12,42 @@ public class LogisticCompany {
 	private int companyID;
 	private Database db;
 	private int clientIDgen = 1;
+	private int amountOfContainers;
 	private HashSet<Container> containers;
+	private HashSet<Journey> journeys;
+	private int journeyIDgen = 1;
 	
 	
-	public LogisticCompany(String name, int companyID) {
+	public LogisticCompany(String name, int companyID, int amountOfContainers) {
 		super();
 		this.name = name;
 		this.companyID = companyID;
 		this.db = new Database();
+		this.containers = new HashSet<Container>();
+		this.journeys = new HashSet<Journey>();
+		this.amountOfContainers = amountOfContainers;
 		
+		for (int i=0; i<amountOfContainers;i++) {
+			containers.add(new Container(i));
+		}
+		
+	}
+	
+	
+	public void createJourney(String portOfOrigin, String destination, HashSet<Container> containers) {
+		Journey journey = new Journey(journeyIDgen, portOfOrigin, destination, this, containers);
+		journeyIDgen++;
+		journeys.add(journey);
+		
+	}
+	
+	public boolean exist(Journey journey) {
+		return journeys.contains(journey);
+	}
+	
+	public void addContainer() {
+		this.amountOfContainers++;
+		containers.add(new Container(amountOfContainers));
 	}
 	
 	public int getClientIDgen() {
@@ -199,4 +226,5 @@ class invalidParameterException extends Exception {
         super(errorMessage);
     }
 }
+
 
