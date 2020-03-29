@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: CloudContainers.CucumberTest
 -------------------------------------------------------------------------------
-Tests run: 23, Failures: 0, Errors: 0, Skipped: 8, Time elapsed: 0.955 sec
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 2, Time elapsed: 0.612 sec

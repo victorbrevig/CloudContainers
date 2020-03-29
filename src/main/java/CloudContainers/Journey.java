@@ -1,27 +1,36 @@
 package CloudContainers;
-import java.util.HashSet;
+
 
 public class Journey {
 	private int journeyID;
 	private String portOfOrigin;
 	private String destination;
-	private LogisticCompany company;
-	private HashSet<Container> containers;
+	private String company;
+	
+	
+	
+	public String getCompany() {
+		return company;
+	}
+	public int getJourneyID() {
+		return journeyID;
+	}
 	public String getPortOfOrigin() {
 		return portOfOrigin;
 	}
 	
-	
-	public Journey(int journeyID, String portOfOrigin, String destination, LogisticCompany company,
-			HashSet<Container> containers) {
+	public Journey(int journeyID, String portOfOrigin, String destination, String company) {
 		super();
 		this.journeyID = journeyID;
 		this.portOfOrigin = portOfOrigin;
 		this.destination = destination;
-		this.containers = containers;
+		this.company = company;
 	}
 
 
+	public boolean equals(Journey journey) {
+		return this.getJourneyID() == journey.getJourneyID();
+	}
 
 
 
@@ -34,20 +43,15 @@ public class Journey {
 	public void setDestination(String destination) {
 		this.destination = destination;
 	}
-	public HashSet<Container> getContainers() {
-		return containers;
-	}
-	public void setContainers(HashSet<Container> containers) {
-		this.containers = containers;
+	
+	
+	public void print() {
+		System.out.println("JourneyID: " + this.getJourneyID());
+		System.out.println("Company: " + this.getCompany());
+		System.out.println("PortOfOrigin: " + this.getPortOfOrigin());
+		System.out.println("Destination: " + this.getDestination());
 	}
 	
-	public LogisticCompany getCompany() {
-		return company;
-	}
-	
-	public void addContainer(Container container) {
-		containers.add(container);
-	}
 	
 	
 }

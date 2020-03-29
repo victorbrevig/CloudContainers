@@ -1,6 +1,7 @@
 CloudContainers\Journey.class
 CloudContainers\ResponseObject.class
 CloudContainers\invalidEmailException.class
+CloudContainers\JourneyDatabase.class
 CloudContainers\LogisticCompany.class
 CloudContainers\Database.class
 CloudContainers\Client.class

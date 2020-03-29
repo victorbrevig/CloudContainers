@@ -26,13 +26,27 @@ Feature: Allocate a container to a client
     When a container is allocated
     Then an allocation succes message is displayed
 
-  #@tag2
-  #Scenario: unsuccesfull allocation
-    #Given a logistic company with a client
-    #And an owned container
-    #When a container is not allocated
-    #Then an allocation failure message is displayed
+  @tag2
+  Scenario: container already owned
+    Given a logistic company with another client
+    And an owned container
+    When a logistic company tries to allocate container
+    Then an allocation failure message is displayed
 
+	@tag3
+  Scenario: container does not exist
+    Given a logistic company with another client
+    And a container that does not exist
+    When a logistic company tries to allocate container
+    Then an allocation failure message is displayed saying container does not exist
+    
+  @tag4
+  Scenario: client does not exist
+    Given a logistic company with a non-registered client
+    And an unowned container
+    When a logistic company tries to allocate container
+    Then an allocation failure message is displayed saying client does not exist
+    
   #@tag2
   #Scenario Outline: Title of your scenario outline
     #Given I want to write a step with <name>

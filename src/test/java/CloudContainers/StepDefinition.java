@@ -91,7 +91,7 @@ public class StepDefinition{
 	
 	// _________________________________________Update Info________________________________________________
 	
-	Client client1 = new Client("Karsten",1,"smallmoney123@gmail.com","24-05-1998","male",10101010);
+	Client client1 = new Client("Karsten",1,"smallmoney123@gmail.com","24-05-1998","male",10101010,lc.getName());
 	@Given("A client with email {string}")
 	public void a_client_with_email(String string) {
 		lc.newClient("Karsten",string,"24-05-1998","male",10101010);
@@ -132,7 +132,7 @@ public class StepDefinition{
 	
 	@Given("A client with the email {string}")
 	public void a_client_with_the_email(String string) {
-		client4 = new Client("Jenny",1,string,"02-02-1998","female",10101010);
+		client4 = new Client("Jenny",1,string,"02-02-1998","female",10101010,lc.getName());
 		lc.newClient("Jenny",string,"02-02-1998","female",10101010);
 	}
 
@@ -152,7 +152,7 @@ public class StepDefinition{
 	
 	@Given("A client with the clientID {int}")
 	public void a_client_with_the_clientID(Integer int1) {
-		client4 = new Client("Jenny",1,"email123@mail.dk","11-10-1992","female",10101010);
+		client4 = new Client("Jenny",1,"email123@mail.dk","11-10-1992","female",10101010,lc.getName());
 		lc.newClient("Jenny","email123@mail.dk","11-10-1992","female",10101010);
 	}
 
@@ -258,7 +258,7 @@ public class StepDefinition{
 	Container container;
 	@Given("a logistic company with a client")
 	public void a_logistic_company_with_a_client() {
-		client = new Client("Jenny",1,"email@dtu.dk","11-10-1998","female",12345678);
+		client = new Client("Jenny",1,"email@dtu.dk","11-10-1998","female",12345678,lc.getName());
 		lc.newClient("Jenny","email@dtu.dk","11-10-1998","female",12345678);
 	    assertTrue(lc.exist("email@dtu.dk"));
 	}
@@ -279,31 +279,135 @@ public class StepDefinition{
 
 	@Then("an allocation succes message is displayed")
 	public void an_allocation_succes_message_is_displayed() {
-		container.print();
-		int id = container.getId();
-		client.findContainer(id).print();
-	    assertTrue(lc.findContainer(id).isOwned());
-	    assertTrue(client.findContainer(id).isOwned());
-	    assertTrue(client.exist(container));
-	    assertEquals(response.getErrorMessage(),"Container succesfully allocated");
+		
+		assertTrue(response.getErrorMessage().equals("Container succesfully allocated"));
+		assertTrue((lc.containerMap.get(container)).getEmail().equals("email@dtu.dk"));
+		assertTrue(container.isOwned());
+
 	}
 
-//	@Given("an owned container")
-//	public void an_owned_container() {
-//	    // Write code here that turns the phrase above into concrete actions
-//	    throw new cucumber.api.PendingException();
-//	}
-//
-//	@When("a container is not allocated")
-//	public void a_container_is_not_allocated() {
-//	    // Write code here that turns the phrase above into concrete actions
-//	    throw new cucumber.api.PendingException();
-//	}
-//
-//	@Then("an allocation failure message is displayed")
-//	public void an_allocation_failure_message_is_displayed() {
-//	    // Write code here that turns the phrase above into concrete actions
-//	    throw new cucumber.api.PendingException();
-//	}
+
+	@Given("a logistic company with another client")
+	public void a_logistic_company_with_another_client() {
+	    client2 = new Client("Bobby",2,"slat@dtu.dk","11-12-1999","male",88888888,lc.getName());
+	    lc.newClient("Bobby","slat@dtu.dk","11-12-1999","male",88888888);
+	    assertTrue(lc.exist("slat@dtu.dk"));
+	}
+	
+	@Given("an owned container")
+	public void an_owned_container() {
+		container = lc.findFreeContainer();
+		client1 = new Client("Jenny",1,"email@dtu.dk","11-10-1998","female",12345678,lc.getName());
+		lc.newClient("Jenny","email@dtu.dk","11-10-1998","female",12345678);
+		response = lc.allocateContainer("email@dtu.dk",container);
+	    assertTrue(container.isOwned());
+	}
+	
+	@When("a logistic company tries to allocate container")
+	public void a_container_is_not_allocated() {
+	    response = lc.allocateContainer("slat@dtu.dk", container);
+	}
+
+	@Then("an allocation failure message is displayed")
+	public void an_allocation_failure_message_is_displayed() {
+		assertTrue(response.getErrorMessage().equals("This container is already owned by a client"));
+		assertTrue((lc.containerMap.get(container)).getEmail().equals("email@dtu.dk"));
+		assertTrue(container.isOwned());
+	}
+	
+	
+	@Given("a container that does not exist")
+	public void a_container_that_does_not_exist() {
+	    container = new Container(0);
+	}
+	
+	@Then("an allocation failure message is displayed saying container does not exist")
+	public void an_allocation_failure_message_is_displayed_saying_container_does_not_exist() {
+		assertTrue(response.getErrorMessage().equals("Container does not exist"));
+		assertFalse(container.isOwned());
+	}
+	
+	@Given("a logistic company with a non-registered client")
+	public void a_logistic_company_with_a_non_registered_client() {
+	    client = new Client("Lizzy",0,"liz@gmail.dk","20-10-1998","female",21436587,lc.getName());
+	}
+
+	@Then("an allocation failure message is displayed saying client does not exist")
+	public void an_allocation_failure_message_is_displayed_saying_client_does_not_exist() {
+		assertTrue(response.getErrorMessage().equals("Client does not exist"));
+		assertFalse(container.isOwned());
+	}
+	
+	// ____________________________________containerOnJourney____________________________________________
+	Journey journey;
+	@Given("a logistic company with a registered client")
+	public void a_logistic_company_with_a_registered_client() {
+		client = new Client("Jenny",1,"email@dtu.dk","11-10-1998","female",12345678,lc.getName());
+		lc.newClient("Jenny","email@dtu.dk","11-10-1998","female",12345678);
+	    assertTrue(lc.exist(client.getEmail()));
+	}
+
+	@Given("a container owned by the client")
+	public void a_container_owned_by_the_client() {
+		container = lc.findFreeContainer();
+		lc.allocateContainer(client.getEmail(),container);
+	}
+
+	@Given("a valid journey")
+	public void a_valid_journey() {
+	    journey = new Journey(1, "Texas", "Zimbabwe", lc.getName());
+	    lc.createJourney(journey.getPortOfOrigin(), journey.getDestination());
+	}
+
+	@When("logistic company tries to put container on journey")
+	public void logistic_company_tries_to_put_container_on_journey() {
+	    response = lc.containerToJourney(client, container, journey, "Bananas");
+	    
+	}
+	Journey journey2;
+	@Then("success message is displayed")
+	public void success_message_is_displayed() {
+	    assertTrue(response.getErrorMessage().equals("Container successfully added to journey"));
+	    assertTrue(container.isOnJourney());
+	    assertTrue(container.isOwned());
+	}
+	
+
+	@Given("an available container")
+	public void an_available_container() {
+	    container = lc.findFreeContainer();
+	}
+
+	@Then("error message displayed saying that client does not exist")
+	public void error_message_displayed_saying_that_client_does_not_exist() {
+	    assertTrue(response.getErrorMessage().equals("Client does not exist"));
+	    assertFalse(container.isOnJourney());
+	    assertFalse(container.isOwned());
+	}
+	
+	@Given("an available container not owned by client")
+	public void an_available_container_not_owned_by_client() {
+		container = lc.findFreeContainer();
+	}
+
+	@Then("error message displayed saying that container does not exist")
+	public void error_message_displayed_saying_that_container_does_not_exist() {
+	    assertTrue(response.getErrorMessage().equals("Container does not belong to client"));
+	    assertFalse(container.isOnJourney());
+	    assertFalse(container.isOwned());
+	}
+	
+	@Given("a non-registered journey")
+	public void a_non_registered_journey() {
+	    journey = new Journey(0,"North Korea","USA","Kim");
+	}
+
+	@Then("error message displayed saying that journey does not exist")
+	public void error_message_displayed_saying_that_journey_does_not_exist() {
+	    assertTrue(response.getErrorMessage().equals("Journey does not exist"));
+	    assertFalse(container.isOnJourney());
+	    assertTrue(container.isOwned());
+	}
+
 	
 }

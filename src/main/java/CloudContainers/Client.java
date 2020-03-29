@@ -11,8 +11,9 @@ public class Client {
 	private String birthdate;
 	private String gender;
 	private int number;
+	private String company;
 	
-	public Client(String name, int clientID, String email, String birthdate, String gender, int number) {
+	public Client(String name, int clientID, String email, String birthdate, String gender, int number, String company) {
 		super();
 		this.name = name;
 		this.clientID = clientID;
@@ -20,9 +21,18 @@ public class Client {
 		this.birthdate = birthdate;
 		this.gender = gender;
 		this.number = number;
+		this.company = company;
 	}
 	
-	public boolean cEquals(Client client) {
+	public String getCompany() {
+		return company;
+	}
+
+	public void setCompany(String company) {
+		this.company = company;
+	}
+
+	public boolean equals(Client client) {
 		return (this.getEmail()).equals(client.getEmail());
 	}
 	
@@ -67,6 +77,7 @@ public class Client {
 	
 	public void print() {
 		System.out.println("Name:" + this.getName());
+		System.out.println("Company: " + this.getCompany());
 		System.out.println("Client ID:" + this.getClientID());
 		System.out.println("Email:" + this.getEmail());
 		System.out.println("Birthdate:" + this.getBirthdate());
@@ -81,7 +92,7 @@ public class Client {
 //		// journey.getCompany().exist(journey);
 //		// containers.exist(container) ...
 //		ResponseObject response = new ResponseObject();
-//		if (this.exist(container) && journey.getCompany().exist(journey)) {
+//		if (.exist(container) && journey.getCompany().exist(journey)) {
 //			journey.addContainer(container);
 //			response.setErrorMessage("Container successfully added to journey");
 //		}
