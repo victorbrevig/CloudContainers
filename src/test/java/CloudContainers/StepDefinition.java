@@ -408,6 +408,50 @@ public class StepDefinition{
 	    assertFalse(container.isOnJourney());
 	    assertTrue(container.isOwned());
 	}
+	
+	// _____________________________updateJourney_____________________________________________________
+	
+	@Given("A logistic company with a registered journey with PoO of {string}")
+	public void a_logistic_company_with_a_registered_journey_with_PoO_of(String string) {
+		lc = new LogisticCompany("Maersk",1,100);
+		lc.createJourney(string, "Copenhagen");
+	}
+
+	@When("the logistic company tries to update port of origin to {string}")
+	public void the_logistic_company_tries_to_update_port_of_origin_to(String string) {
+	    response = lc.updateJourneyPortOfOrigin(1, string);
+	}
+
+	@Then("success message is displayed for port of origin {string}")
+	public void success_message_is_displayed_for_port_of_origin(String string) {
+	    assertEquals(response.getErrorMessage(),string + " successfully updated as port of origin");
+	}
+
+	@Given("A logistic company with a registered journey with destination of {string}")
+	public void a_logistic_company_with_a_registered_journey_with_destination_of(String string) {
+	    lc.createJourney("Bahamas", string);
+	}
+
+	@When("the logistic company tries to update destination to {string}")
+	public void the_logistic_company_tries_to_update_destination_to(String string) {
+	    response = lc.updateJourneyDestination(1, string);
+	}
+
+	@Then("success message is displayed for destination {string}")
+	public void success_message_is_displayed_for_destination(String string) {
+	    assertEquals(response.getErrorMessage(),string +  " successfully updated as destination");
+	}
+
+	@Given("A logistic company with a non-registered journey with destination {string}")
+	public void a_logistic_company_with_a_non_registered_journey_with_destination(String string) {
+	    journey = new Journey(1,"Bahamas",string,"Hellman");
+	    assertFalse(lc.existJ(1));
+	}
+
+	@Then("error message is displayed saying journey does not exist")
+	public void error_message_is_displayed_saying_journey_does_not_exist() {
+	    assertEquals(response.getErrorMessage(),"Journey does not exist");
+	}
 
 	
 }

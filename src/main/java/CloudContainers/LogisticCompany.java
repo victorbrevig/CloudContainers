@@ -263,6 +263,30 @@ public class LogisticCompany {
 		return response;
 	}
 	
+	public ResponseObject updateJourneyPortOfOrigin(int journeyID, String newPortOfOrigin) {
+		ResponseObject response = new ResponseObject();
+		if (existJ(journeyID)) {
+			journeys.getJourney(journeyID).setPortOfOrigin(newPortOfOrigin);
+			response.setErrorMessage(newPortOfOrigin + " successfully updated as port of origin");
+		}
+		else {
+			response.setErrorMessage("Journey does not exist");
+		}
+		return response;
+	}
+	
+	public ResponseObject updateJourneyDestination(int journeyID, String newDestination) {
+		ResponseObject response = new ResponseObject();
+		if (existJ(journeyID)) {
+			journeys.getJourney(journeyID).setDestination(newDestination);
+			response.setErrorMessage(newDestination + " successfully updated as destination");
+		}
+		else {
+			response.setErrorMessage("Journey does not exist");
+		}
+		return response;
+	}
+	
 	
 //	public static void main(String[] args) {
 //
