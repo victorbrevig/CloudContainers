@@ -1,6 +1,9 @@
 package CloudContainers;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class JourneyDatabase extends HashSet<Journey> {
 	
@@ -12,4 +15,20 @@ public class JourneyDatabase extends HashSet<Journey> {
 			}
 		} return emptyJourney;
 	}
+	
+	public Set<Journey> filterPortOfOrigin(String portOfOrigin) {
+		Set<Journey> filtered = this.stream()
+				.filter(journey -> journey.getPortOfOrigin().equals(portOfOrigin))
+				.collect(Collectors.toSet());
+		return filtered;		
+	}
+	public Set<Journey> filterDestination(String destination) {
+		Set<Journey> filtered = this.stream()
+				.filter(journey -> journey.getDestination().equals(destination))
+				.collect(Collectors.toSet());
+		return filtered;		
+	}
+	
+	
+	
 }

@@ -13,7 +13,8 @@ public class LogisticCompany {
 	private String name;
 	private int companyID;
 	private Database db;
-	private JourneyDatabase journeys;
+	// VISIBILITY CHECK
+	JourneyDatabase journeys;
 	private int clientIDgen = 1;
 	private int amountOfContainers;
 	
@@ -248,6 +249,7 @@ public class LogisticCompany {
 		if (c1 && c2 && c3) {
 			container.setOnJourney(true);
 			container.setContent(content);
+			// update container (key) in containerMap?
 			journeyMap.put(container,journey);
 		}
 		else if (!c1) {
@@ -283,6 +285,30 @@ public class LogisticCompany {
 		}
 		else {
 			response.setErrorMessage("Journey does not exist");
+		}
+		return response;
+	}
+	
+	public ResponseObject endJourney(int journeyID) {
+		ResponseObject response = new ResponseObject();
+		
+		boolean someEnded = false;
+		for (Container c : journeyMap.keySet()) {
+			if (journeyMap.get(c).getJourneyID() == journeyID) {
+				Client client = containerMap.get(c);
+				// update container in containerMap to not on journey
+				containerMap.remove(c);
+				containerMap.put(c, client);
+
+				journeyMap.remove(c);
+				someEnded = true;
+			}
+		}
+		if (someEnded) {
+			response.setErrorMessage("Journey successfully ended");
+		}
+		else {
+			response.setErrorMessage("No such journey exist");
 		}
 		return response;
 	}

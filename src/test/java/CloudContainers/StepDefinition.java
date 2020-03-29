@@ -3,6 +3,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Set;
+
 import CloudContainers.Client;
 import CloudContainers.Database;
 import io.cucumber.java.en.Given;
@@ -453,5 +455,74 @@ public class StepDefinition{
 	    assertEquals(response.getErrorMessage(),"Journey does not exist");
 	}
 
+	// ______________________________filterJourney___________________________________________________
+	Set<Journey> filtered;
+	@Given("a journeys with port of origin {string}, {string} and {string}")
+	public void a_journeys_with_port_of_origin_and(String string, String string2, String string3) {
+	    lc.createJourney(string, "Copenhagen");
+	    lc.createJourney(string2, "Copenhagen");
+	    lc.createJourney(string3, "Copenhagen");
+	}
+
+	@When("journeys are filtered for {string}")
+	public void journeys_are_filtered_for(String string) {
+		filtered = lc.journeys.filterPortOfOrigin(string);
+	}
+
+	@Then("display filtered set of journeys with port of origin {string}")
+	public void display_filtered_set_of_journeys_with_port_of_origin(String string) {
+		for (Journey j : filtered) {
+			assertTrue(j.getPortOfOrigin().equals(string));
+		}
+	}
 	
+	
+	@Given("a journeys with destination {string}, {string} and {string}")
+	public void a_journeys_with_destination_and(String string, String string2, String string3) {
+	    lc.createJourney("Copenhagen", string);
+	    lc.createJourney("Copenhagen", string2);
+	    lc.createJourney("Copenhagen", string3);
+	}
+	
+	@When("journeys are filtered for destination {string}")
+	public void journeys_are_filtered_for_destination(String string) {
+		filtered = lc.journeys.filterDestination(string);
+	}
+	
+	@Then("display filtered set of journeys with destination {string}")
+	public void display_filtered_set_of_journeys_with_destination(String string) {
+		for (Journey j : filtered) {
+			assertTrue(j.getDestination().equals(string));
+		}
+	}
+	
+	@Then("get empty set")
+	public void get_empty_set() {
+	    assertEquals(filtered.size(),0);
+	}
+	
+	// ______________________________endJourney____________________________________________________
+	
+	@Given("a logistic company with a registered journey")
+	public void a_logistic_company_with_a_registered_journey() {
+	    lc.createJourney("Copenhagen", "Malmo");
+	}
+
+	@Given("a container allocated to a client is added to the journey")
+	public void a_container_allocated_to_a_client_is_added_to_the_journey() {
+	    container = lc.findFreeContainer();
+	    lc.newClient("Jenny","email@dtu.dk","11-10-1998","female",12345678);
+	    lc.allocateContainer("email@dtu.dk", container);
+	    assertTrue(container.isOnJourney());
+	}
+
+	@When("logistic company tries to end journey")
+	public void logistic_company_tries_to_end_journey() {
+	    response = lc.endJourney(1);
+	}
+
+	@Then("message displayed saying journey successfully ended")
+	public void message_displayed_saying_journey_successfully_ended() {
+	    assertFalse(container.isOnJourney());
+	}
 }
