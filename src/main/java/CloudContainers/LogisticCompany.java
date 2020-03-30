@@ -13,15 +13,14 @@ public class LogisticCompany {
 	private String name;
 	private int companyID;
 	private Database db;
+	private ContainerDatabase containers;
 	// VISIBILITY CHECK
-	JourneyDatabase journeys;
+	private JourneyDatabase journeys;
 	private int clientIDgen = 1;
 	private int amountOfContainers;
 	
-	Map<Container,Client> containerMap;
 	
 	private int journeyIDgen = 1;
-	Map<Container,Journey> journeyMap;
 	
 	public LogisticCompany(String name, int companyID, int amountOfContainers) {
 		super();
@@ -31,14 +30,21 @@ public class LogisticCompany {
 		this.journeys = new JourneyDatabase();
 		this.amountOfContainers = amountOfContainers;
 		
-		this.containerMap = new HashMap<Container,Client>();
-		this.journeyMap = new HashMap<Container,Journey>();
+		this.containers = new ContainerDatabase();
 		
-		for (int i=0; i<amountOfContainers;i++) {
-			containerMap.put(new Container(i), new Client("",0,"","","",0,this.name));
-			//containers.add(new Container(i));
+		// Generate existing containers
+		for (int i=1; i<=amountOfContainers;i++) {
+			containers.add(new Container(i));
 		}
 		
+	}
+	
+	public JourneyDatabase getJourneyDatabase() {
+		return journeys;
+	}
+	
+	public ContainerDatabase getContainerDatabase() {
+		return containers;
 	}
 	
 	public void createJourney(String portOfOrigin, String destination) {
@@ -49,7 +55,7 @@ public class LogisticCompany {
 	
 	public void addContainer() {
 		this.amountOfContainers++;
-		containerMap.put(new Container(amountOfContainers), new Client("",0,"","","",0,this.name));
+		containers.add(new Container(amountOfContainers));
 	}
 	
 	public int getClientIDgen() {
@@ -103,7 +109,7 @@ public class LogisticCompany {
 		return db.contains(db.getClient(number));
 	}
 	public boolean exist(Container container) {
-		return containerMap.containsKey(container);
+		return containers.contains(container);
 	}
 	public boolean existJ(int journeyID) {
 		return journeys.contains(journeys.getJourney(journeyID));
@@ -205,7 +211,7 @@ public class LogisticCompany {
 //		Container 0, is returned if no vacant containers are available
 		Container container = new Container(0);
 		
-		for (Container c: containerMap.keySet()) {
+		for (Container c: containers) {
 			if (!c.isOwned()) {
 				return c;
 			}
@@ -213,10 +219,10 @@ public class LogisticCompany {
 	}
 
 	
-	public ResponseObject allocateContainer(String email,Container container) {
+	public ResponseObject allocateContainer(int clientId,Container container) {
 		ResponseObject response = new ResponseObject("Container succesfully allocated");
-		boolean existClient = this.exist(email);
-		boolean existContainer = this.containerMap.containsKey(container);
+		boolean existClient = this.exist(clientId);
+		boolean existContainer = this.exist(container);
 		boolean owned = container.isOwned();
 		
 		if(!existClient) {
@@ -230,27 +236,27 @@ public class LogisticCompany {
 		}
 		else {
 			container.setOwned(true);
-			containerMap.replace(container,this.findClient(email));
+			container.setClientId(clientId);
 			
 		}
 		return response;
 	}
 	
-	public ResponseObject containerToJourney(Client client, Container container, Journey journey, String content) {
+	public ResponseObject containerToJourney(int clientID, Container container, int journeyID, String content) {
 		ResponseObject response = new ResponseObject("Container successfully added to journey");
 		// Conditions to check
 		// Client exists OR db.contains(client);
-		boolean c1 = exist(client.getEmail());
+		boolean c1 = exist(clientID);
 		// Container belongs to client
-		boolean c2 = (containerMap.get(container)).equals(client);
+		boolean c2 = container.getClientId() == clientID;
 		// Journey exists
-		boolean c3 = exist(journey.getJourneyID());
+		boolean c3 = existJ(journeyID);
 		
 		if (c1 && c2 && c3) {
 			container.setOnJourney(true);
 			container.setContent(content);
 			// update container (key) in containerMap?
-			journeyMap.put(container,journey);
+			container.setJourneyId(journeyID);
 		}
 		else if (!c1) {
 			response.setErrorMessage("Client does not exist");
@@ -292,24 +298,24 @@ public class LogisticCompany {
 	public ResponseObject endJourney(int journeyID) {
 		ResponseObject response = new ResponseObject();
 		
+		if (!existJ(journeyID)) {
+			response.setErrorMessage("No such journey exist");
+			return response;
+		}
+		
+		int countFree = 0;
 		boolean someEnded = false;
-		for (Container c : journeyMap.keySet()) {
-			if (journeyMap.get(c).getJourneyID() == journeyID) {
-				Client client = containerMap.get(c);
-				// update container in containerMap to not on journey
-				containerMap.remove(c);
-				containerMap.put(c, client);
+		for (Container container : containers) {
+			if (container.getJourneyId() == journeyID) {
+				container.setJourneyId(0);
+				container.setOnJourney(false);
+				
+				countFree++;
 
-				journeyMap.remove(c);
-				someEnded = true;
 			}
 		}
-		if (someEnded) {
-			response.setErrorMessage("Journey successfully ended");
-		}
-		else {
-			response.setErrorMessage("No such journey exist");
-		}
+		response.setErrorMessage("Journey successfully ended. " + countFree + " containers were set free.");
+		
 		return response;
 	}
 	

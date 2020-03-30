@@ -35,9 +35,9 @@ Feature: Allocate a container to a client
 
 	@tag3
   Scenario: container does not exist
-    Given a logistic company with another client
+    Given a logistic company with a client
     And a container that does not exist
-    When a logistic company tries to allocate container
+    When a logistic company tries to allocate container to client
     Then an allocation failure message is displayed saying container does not exist
     
   @tag4

@@ -22,10 +22,16 @@ Feature: End a journey
   @tag1
   Scenario: a journey successfully ended
     Given a logistic company with a registered journey
-    And a container allocated to a client is added to the journey
+    And one container allocated to a client is added to the journey
     When logistic company tries to end journey
-    Then message displayed saying journey successfully ended
-
+    Then message displayed saying journey successfully ended for 1 containers
+    
+  @tag2
+  Scenario: journey does not exist
+    Given a logistic company with a non-registered journey
+    And a container allocated to a client is added to the journey pt2
+    When logistic company tries to end journey
+    Then error message displayed saying journey does not exist
 
   #@tag2
   #Scenario Outline: Title of your scenario outline

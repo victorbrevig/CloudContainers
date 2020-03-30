@@ -1,7 +1,7 @@
 package CloudContainers;
 
 public class Container {
-	private int id;
+	private int containerId;
 	// Default is 20.0C (not on journey)
 	private double temperature = 20.0;
 	// Default is 1 atm (not on journey)
@@ -11,6 +11,41 @@ public class Container {
 	// Default is false
 	private boolean onJourney = false;
 	private boolean owned = false;
+	
+	private int clientId;
+	private int journeyId;
+	
+	
+	
+	public boolean equals(Container container) {
+		return this.getContainerId() == container.getContainerId();
+	}
+	
+	public int hashCode() {
+		return this.getContainerId() * 7;
+	}
+	
+	
+	public int getClientId() {
+		return clientId;
+	}
+
+	public void setClientId(int clientId) {
+		this.clientId = clientId;
+	}
+
+	public int getJourneyId() {
+		return journeyId;
+	}
+
+	public void setJourneyId(int journeyId) {
+		this.journeyId = journeyId;
+	}
+	
+	public Container(int containerId) {
+		super();
+		this.containerId = containerId;
+	}
 	
 	public boolean isOnJourney() {
 		return onJourney;
@@ -33,15 +68,12 @@ public class Container {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public int getId() {
-		return id;
+	public int getContainerId() {
+		return containerId;
 	}
-	public Container(int id) {
-		super();
-		this.id = id;
-	}
-	public void setId(int id) {
-		this.id = id;
+
+	public void setContainerId(int containerId) {
+		this.containerId = containerId;
 	}
 	public double getTemperature() {
 		return temperature;
@@ -62,17 +94,16 @@ public class Container {
 		this.airHumidity = airHumidity;
 	}
 	
-	public boolean equals(Container c) {
-		return this.getId() == c.getId();
-	}
 	public void print() {
-		System.out.println(this.getId());
+		System.out.println(this.getContainerId());
 		System.out.println(this.getTemperature());
 		System.out.println(this.getPressure());
 		System.out.println(this.getAirHumidity());
 		System.out.println(this.isOwned());
 		System.out.println(this.isOnJourney());
 	}
+
+
 	
 	
 }

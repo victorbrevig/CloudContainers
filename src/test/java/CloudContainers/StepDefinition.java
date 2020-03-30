@@ -268,13 +268,13 @@ public class StepDefinition{
 	@Given("an unowned container")
 	public void an_unowned_container() {
 		container = lc.findFreeContainer();
-		assertTrue(!container.isOwned() && container.getId() != 0);
+		assertTrue(!container.isOwned() && container.getContainerId() != 0);
 		
 	}
 	
 	@When("a container is allocated")
 	public void a_container_is_allocated() {
-		response = lc.allocateContainer("email@dtu.dk",container);
+		response = lc.allocateContainer(1,container);
 		
 	    
 	}
@@ -283,7 +283,8 @@ public class StepDefinition{
 	public void an_allocation_succes_message_is_displayed() {
 		
 		assertTrue(response.getErrorMessage().equals("Container succesfully allocated"));
-		assertTrue((lc.containerMap.get(container)).getEmail().equals("email@dtu.dk"));
+		
+		assertTrue((lc.getContainerDatabase()).getContainer(container.getContainerId()).getClientId() == 1);		
 		assertTrue(container.isOwned());
 
 	}
@@ -301,19 +302,19 @@ public class StepDefinition{
 		container = lc.findFreeContainer();
 		client1 = new Client("Jenny",1,"email@dtu.dk","11-10-1998","female",12345678,lc.getName());
 		lc.newClient("Jenny","email@dtu.dk","11-10-1998","female",12345678);
-		response = lc.allocateContainer("email@dtu.dk",container);
+		response = lc.allocateContainer(1,container);
 	    assertTrue(container.isOwned());
 	}
 	
 	@When("a logistic company tries to allocate container")
 	public void a_container_is_not_allocated() {
-	    response = lc.allocateContainer("slat@dtu.dk", container);
+	    response = lc.allocateContainer(2, container);
 	}
 
 	@Then("an allocation failure message is displayed")
 	public void an_allocation_failure_message_is_displayed() {
 		assertTrue(response.getErrorMessage().equals("This container is already owned by a client"));
-		assertTrue((lc.containerMap.get(container)).getEmail().equals("email@dtu.dk"));
+		assertTrue((lc.getContainerDatabase()).getContainer(container.getContainerId()).getClientId() == 1);		
 		assertTrue(container.isOwned());
 	}
 	
@@ -321,6 +322,10 @@ public class StepDefinition{
 	@Given("a container that does not exist")
 	public void a_container_that_does_not_exist() {
 	    container = new Container(0);
+	}
+	@When("a logistic company tries to allocate container to client")
+	public void a_container_is_not_allocated_to_client() {
+	    response = lc.allocateContainer(1, container);
 	}
 	
 	@Then("an allocation failure message is displayed saying container does not exist")
@@ -352,7 +357,7 @@ public class StepDefinition{
 	@Given("a container owned by the client")
 	public void a_container_owned_by_the_client() {
 		container = lc.findFreeContainer();
-		lc.allocateContainer(client.getEmail(),container);
+		lc.allocateContainer(client.getClientID(),container);
 	}
 
 	@Given("a valid journey")
@@ -363,7 +368,7 @@ public class StepDefinition{
 
 	@When("logistic company tries to put container on journey")
 	public void logistic_company_tries_to_put_container_on_journey() {
-	    response = lc.containerToJourney(client, container, journey, "Bananas");
+	    response = lc.containerToJourney(client.getClientID(), container, journey.getJourneyID(), "Bananas");
 	    
 	}
 	Journey journey2;
@@ -466,7 +471,7 @@ public class StepDefinition{
 
 	@When("journeys are filtered for {string}")
 	public void journeys_are_filtered_for(String string) {
-		filtered = lc.journeys.filterPortOfOrigin(string);
+		filtered = lc.getJourneyDatabase().filterPortOfOrigin(string);
 	}
 
 	@Then("display filtered set of journeys with port of origin {string}")
@@ -486,7 +491,7 @@ public class StepDefinition{
 	
 	@When("journeys are filtered for destination {string}")
 	public void journeys_are_filtered_for_destination(String string) {
-		filtered = lc.journeys.filterDestination(string);
+		filtered = lc.getJourneyDatabase().filterDestination(string);
 	}
 	
 	@Then("display filtered set of journeys with destination {string}")
@@ -508,11 +513,12 @@ public class StepDefinition{
 	    lc.createJourney("Copenhagen", "Malmo");
 	}
 
-	@Given("a container allocated to a client is added to the journey")
-	public void a_container_allocated_to_a_client_is_added_to_the_journey() {
+	@Given("one container allocated to a client is added to the journey")
+	public void one_container_allocated_to_a_client_is_added_to_the_journey() {
 	    container = lc.findFreeContainer();
 	    lc.newClient("Jenny","email@dtu.dk","11-10-1998","female",12345678);
-	    lc.allocateContainer("email@dtu.dk", container);
+	    lc.allocateContainer(1, container);
+	    lc.containerToJourney(1, container, 1, "Bananas");
 	    assertTrue(container.isOnJourney());
 	}
 
@@ -521,8 +527,31 @@ public class StepDefinition{
 	    response = lc.endJourney(1);
 	}
 
-	@Then("message displayed saying journey successfully ended")
-	public void message_displayed_saying_journey_successfully_ended() {
+	@Then("message displayed saying journey successfully ended for {int} containers")
+	public void message_displayed_saying_journey_successfully_ended_for_containers(Integer int1) {
+		assertEquals(response.getErrorMessage(),"Journey successfully ended. " + int1 + " containers were set free.");
+	    assertFalse(container.isOnJourney());
+	}
+	
+	
+	@Given("a logistic company with a non-registered journey")
+	public void a_logistic_company_with_a_non_registered_journey() {
+		journey = new Journey(1,"Bahamas","Copenhagen","Hellman");
+	    assertFalse(lc.existJ(1));
+	}
+	
+	@Given("a container allocated to a client is added to the journey pt2")
+	public void a_container_allocated_to_a_client_is_added_to_the_journey_pt2() {
+	    container = lc.findFreeContainer();
+	    lc.newClient("Jenny","email@dtu.dk","11-10-1998","female",12345678);
+	    lc.allocateContainer(1, container);
+	    response = lc.containerToJourney(1, container, 1, "Bananas");
+	    assertEquals(response.getErrorMessage(),"Journey does not exist");
+	}
+
+	@Then("error message displayed saying journey does not exist")
+	public void error_message_displayed_saying_journey_does_not_exist() {
+		assertEquals(response.getErrorMessage(),"No such journey exist");
 	    assertFalse(container.isOnJourney());
 	}
 }
