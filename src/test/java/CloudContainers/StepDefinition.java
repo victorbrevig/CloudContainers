@@ -596,7 +596,7 @@ public class StepDefinition{
 
 	@Then("a file named {string} exists in folder")
 	public void a_file_named_exists_in_folder(String string) {
-		File csvFile = new File(string);
+		File csvFile = new File("C:\\Users\\victo\\git\\CloudContainers\\JourneyStatusData\\" + string);
 	    assertTrue(csvFile.isFile());
 	}
 

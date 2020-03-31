@@ -1,5 +1,5 @@
 package CloudContainers;
-
+import java.nio.file.Paths;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -329,8 +329,11 @@ public class LogisticCompany {
 		
 		ResponseObject response = new ResponseObject();
 		
+		
+		// Check that journey exist before making file
+		
 		try {
-			csvWriter = new FileWriter("journey" + journeyID + ".csv");
+			csvWriter = new FileWriter("C:\\Users\\victo\\git\\CloudContainers\\JourneyStatusData\\" + "journey" + journeyID + ".csv");
 			// Make columns
 			csvWriter.append("Time");
 			csvWriter.append(",");
@@ -356,12 +359,12 @@ public class LogisticCompany {
 				response = endJourney(journeyID);
 			}
 			// Gen data
-			// +- 10 degrees C
-			double randTempIncrement = rand.nextDouble() * (rand.nextBoolean() ? -1 : 1) * 10;
-			// +- 0.3 atm
-			double randPressureIncrement = rand.nextDouble() * (rand.nextBoolean() ? -1 : 1) * 0.3;
-			// +- 0.1
-			double randAirHumIncrement = rand.nextDouble() * (rand.nextBoolean() ? -1 : 1) * 0.1;
+			// +- 3 degrees C
+			double randTempIncrement = rand.nextDouble() * (rand.nextBoolean() ? -1 : 1) * 3;
+			// +- 0.1 atm
+			double randPressureIncrement = rand.nextDouble() * (rand.nextBoolean() ? -1 : 1) * 0.1;
+			// +- 0.05
+			double randAirHumIncrement = rand.nextDouble() * (rand.nextBoolean() ? -1 : 1) * 0.05;
 			
 			double newTemp = 0;
 			double newPressure = 0;
