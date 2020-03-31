@@ -3,6 +3,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.util.Set;
 
 import CloudContainers.Client;
@@ -554,4 +555,55 @@ public class StepDefinition{
 		assertEquals(response.getErrorMessage(),"No such journey exist");
 	    assertFalse(container.isOnJourney());
 	}
+	
+	// ____________________________runJourney______________________________________________________
+	Container container1;
+	Container container2;
+	Container container3;
+	@Given("a logistic company with a journey")
+	public void a_logistic_company_with_a_journey() {
+		lc.createJourney("Copenhagen", "Malmo");
+	}
+
+	@Given("a registered client")
+	public void a_registered_client() {
+		lc.newClient("Jenny","email@dtu.dk","11-10-1998","female",12345678);
+	}
+
+	@Given("three containers registered to the client")
+	public void three_containers_registered_to_the_client() {
+		container1 = lc.findFreeContainer();
+		lc.allocateContainer(1, container1);
+		container2 = lc.findFreeContainer();
+		lc.allocateContainer(1, container2);
+		container3 = lc.findFreeContainer();
+		lc.allocateContainer(1, container3);
+		
+	}
+
+	@Given("the containers are put on journey")
+	public void the_containers_are_put_on_journey() {
+	    lc.containerToJourney(1, container1, 1, "Bananas");
+	    lc.containerToJourney(1, container2, 1, "Coffee");
+	    lc.containerToJourney(1, container3, 1, "Milk");
+	}
+
+	@When("journey is started and run for {int} hours")
+	public void journey_is_started_and_run_for_hours(Integer int1) {
+	    response = lc.startJourney(1,int1);
+	}
+
+
+	@Then("a file named {string} exists in folder")
+	public void a_file_named_exists_in_folder(String string) {
+		File csvFile = new File(string);
+	    assertTrue(csvFile.isFile());
+	}
+
+	@Then("response for endJourney shows success message for {int} containers")
+	public void response_for_endJourney_shows_success_message_for_containers(Integer int1) {
+	    assertEquals(response.getErrorMessage(), "Journey successfully ended. " + int1 + " containers were set free.");
+	}
+	
+	
 }

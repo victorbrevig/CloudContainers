@@ -6,9 +6,16 @@ public class Journey {
 	private String portOfOrigin;
 	private String destination;
 	private String company;
+	private boolean isStarted;
 	
 	
 	
+	public boolean isStarted() {
+		return isStarted;
+	}
+	public void setStarted(boolean isStarted) {
+		this.isStarted = isStarted;
+	}
 	public String getCompany() {
 		return company;
 	}
@@ -51,6 +58,7 @@ public class Journey {
 		System.out.println("PortOfOrigin: " + this.getPortOfOrigin());
 		System.out.println("Destination: " + this.getDestination());
 	}
+
 	
 	
 	

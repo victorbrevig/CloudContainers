@@ -1,9 +1,13 @@
 package CloudContainers;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -14,11 +18,13 @@ public class LogisticCompany {
 	private int companyID;
 	private Database db;
 	private ContainerDatabase containers;
-	// VISIBILITY CHECK
 	private JourneyDatabase journeys;
 	private int clientIDgen = 1;
 	private int amountOfContainers;
+	private PrintWriter printWriter;
+	private Random rand = new Random();
 	
+	private FileWriter csvWriter;
 	
 	private int journeyIDgen = 1;
 	
@@ -305,11 +311,11 @@ public class LogisticCompany {
 		
 		int countFree = 0;
 		boolean someEnded = false;
+		journeys.getJourney(journeyID).setStarted(false);
 		for (Container container : containers) {
 			if (container.getJourneyId() == journeyID) {
 				container.setJourneyId(0);
 				container.setOnJourney(false);
-				
 				countFree++;
 
 			}
@@ -319,18 +325,84 @@ public class LogisticCompany {
 		return response;
 	}
 	
+	public ResponseObject startJourney(int journeyID, double finishTime) {
+		
+		ResponseObject response = new ResponseObject();
+		
+		try {
+			csvWriter = new FileWriter("journey" + journeyID + ".csv");
+			// Make columns
+			csvWriter.append("Time");
+			csvWriter.append(",");
+			csvWriter.append("Temperature");
+			csvWriter.append(",");
+			csvWriter.append("Pressure");
+			csvWriter.append(",");
+			csvWriter.append("Air humidity");
+			csvWriter.append("\n");
+			csvWriter.flush();
+			csvWriter.close();
+			
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		// 1 hour = 1 second
+		int time = 0;
+		journeys.getJourney(journeyID).setStarted(true);
+		while (journeys.getJourney(journeyID).isStarted()) {
+			
+			if (time > finishTime) {
+				response = endJourney(journeyID);
+			}
+			// Gen data
+			// +- 10 degrees C
+			double randTempIncrement = rand.nextDouble() * (rand.nextBoolean() ? -1 : 1) * 10;
+			// +- 0.3 atm
+			double randPressureIncrement = rand.nextDouble() * (rand.nextBoolean() ? -1 : 1) * 0.3;
+			// +- 0.1
+			double randAirHumIncrement = rand.nextDouble() * (rand.nextBoolean() ? -1 : 1) * 0.1;
+			
+			double newTemp = 0;
+			double newPressure = 0;
+			double newAirHum = 0;
+			
+			boolean existingContainer = false;
+			for (Container container : containers) {
+				if (container.getJourneyId() == journeyID) {
+					existingContainer = existingContainer || true;
+					newTemp = container.getTemperature() + randTempIncrement;
+					container.setTemperature(newTemp);
+					newPressure = container.getPressure() + randPressureIncrement;
+					container.setPressure(newPressure);
+					newAirHum = container.getAirHumidity() + randAirHumIncrement;
+					container.setAirHumidity(newAirHum);
+				}
+			}
+			
+			if (existingContainer) {
+				// Insert in csv
+				toCSV.writeCSV("journey" + journeyID + ".csv", time, newTemp,newPressure,newAirHum);
+			}
+			
+			// Increment
+			time++;
+			
+			try {
+				Thread.sleep(1000);
+			}
+			catch(InterruptedException e) {
+				System.out.println("Error in data generator");
+				break;
+			}
+			
+		}
+		
+		return response;
+	}
+
 	
-//	public static void main(String[] args) {
-//
-//		ResponseObject response;
-//		LogisticCompany lc = new LogisticCompany("Maersk",1,100);
-//		lc.newClient("Jenny","email@dtu.dk","11-10-1998","female",12345678);
-//		Container container = lc.findFreeContainer();
-//		System.out.println(container.isOwned());
-//		lc.allocateContainer("email@dtu.dk",container);
-//		System.out.println(lc.containerMap.get(container).getEmail());
-//		System.out.println(container.isOwned());
-//	}
+
 }
 
 
