@@ -560,14 +560,14 @@ public class StepDefinition{
 	Container container1;
 	Container container2;
 	Container container3;
-	@Given("a logistic company with a journey")
-	public void a_logistic_company_with_a_journey() {
-		lc.createJourney("Copenhagen", "Malmo");
+	@Given("a logistic company with a journey from {string} to {string}")
+	public void a_logistic_company_with_a_journey_to(String string1, String string2) {
+		lc.createJourney(string1, string2);
 	}
 
-	@Given("a registered client")
-	public void a_registered_client() {
-		lc.newClient("Jenny","email@dtu.dk","11-10-1998","female",12345678);
+	@Given("a registered client with email {string}")
+	public void a_registered_client_with_email(String string1) {
+		lc.newClient("Jenny",string1,"11-10-1998","female",12345678);
 	}
 
 	@Given("three containers registered to the client")
@@ -580,14 +580,15 @@ public class StepDefinition{
 		lc.allocateContainer(1, container3);
 		
 	}
-
-	@Given("the containers are put on journey")
-	public void the_containers_are_put_on_journey() {
-	    lc.containerToJourney(1, container1, 1, "Bananas");
-	    lc.containerToJourney(1, container2, 1, "Coffee");
-	    lc.containerToJourney(1, container3, 1, "Milk");
+	
+	@Given("the containers are put on the journey containing {string}, {string} and {string} respectively")
+	public void the_containers_are_put_on_the_journey_containing_and_respectively(String string, String string2, String string3) {
+		lc.containerToJourney(1, container1, 1, string);
+	    lc.containerToJourney(1, container2, 1, string2);
+	    lc.containerToJourney(1, container3, 1, string3);
 	}
-
+	
+	
 	@When("journey is started and run for {int} hours")
 	public void journey_is_started_and_run_for_hours(Integer int1) {
 	    response = lc.startJourney(1,int1);

@@ -21,10 +21,10 @@ Feature: Start journey and get data
 
   @tag1
   Scenario: Three containers to journey on journey for 10 seconds (ten hours)
-    Given a logistic company with a journey
-    And a registered client
+    Given a logistic company with a journey from "Copenhagen" to "Oslo"
+    And a registered client with email "s184469@student.dtu.dk"
     And three containers registered to the client
- 		And the containers are put on journey
+ 		And the containers are put on the journey containing "bananas", "milk" and "oranges" respectively
     When journey is started and run for 10 hours
     Then a file named "journey1.csv" exists in folder
     And response for endJourney shows success message for 3 containers
