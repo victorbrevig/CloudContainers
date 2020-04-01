@@ -21,8 +21,8 @@ Feature: End a journey
 
   @tag1
   Scenario: a journey successfully ended
-    Given a logistic company with a registered journey
-    And one container allocated to a client is added to the journey
+    Given a logistic company with a registered journey from "Copenhagen" to "Oslo"
+    And one container with "oranges" allocated to a client with email "s184469@student.dtu.dk" is added to the journey
     When logistic company tries to end journey
     Then message displayed saying journey successfully ended for 1 containers
     

@@ -509,18 +509,17 @@ public class StepDefinition{
 	
 	// ______________________________endJourney____________________________________________________
 	
-	@Given("a logistic company with a registered journey")
-	public void a_logistic_company_with_a_registered_journey() {
-	    lc.createJourney("Copenhagen", "Malmo");
+	@Given("a logistic company with a registered journey from {string} to {string}")
+	public void a_logistic_company_with_a_registered_journey_from_to(String string, String string2) {
+	    lc.createJourney(string, string2);
 	}
 
-	@Given("one container allocated to a client is added to the journey")
-	public void one_container_allocated_to_a_client_is_added_to_the_journey() {
+	@Given("one container with {string} allocated to a client with email {string} is added to the journey")
+	public void one_container_with_allocated_to_a_client_with_email_is_added_to_the_journey(String string, String string2) {
 	    container = lc.findFreeContainer();
-	    lc.newClient("Jenny","email@dtu.dk","11-10-1998","female",12345678,"1234");
+	    lc.newClient("Jenny",string2,"11-10-1998","female",12345678,"1234");
 	    lc.allocateContainer(1, container);
-	    lc.containerToJourney(1, container, 1, "Bananas");
-	    assertTrue(container.isOnJourney());
+	    lc.containerToJourney(1, container, 1, string);
 	}
 
 	@When("logistic company tries to end journey")

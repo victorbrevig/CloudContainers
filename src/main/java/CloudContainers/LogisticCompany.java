@@ -18,7 +18,6 @@ public class LogisticCompany {
 	private JourneyDatabase journeys;
 	private int clientIDgen = 1;
 	private int amountOfContainers;
-	private PrintWriter printWriter;
 	private Random rand = new Random();
 	
 	private FileWriter csvWriter;
@@ -325,7 +324,6 @@ public class LogisticCompany {
 	public ResponseObject startJourney(int journeyID, double finishTime) {
 		
 		ResponseObject response = new ResponseObject();
-		
 		
 		// Check that journey exist before making file
 		
