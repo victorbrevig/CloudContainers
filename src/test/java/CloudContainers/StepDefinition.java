@@ -7,7 +7,7 @@ import java.io.File;
 import java.util.Set;
 
 import CloudContainers.Client;
-import CloudContainers.Database;
+import CloudContainers.ClientDatabase;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;

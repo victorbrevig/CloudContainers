@@ -16,7 +16,7 @@ import org.apache.commons.validator.GenericValidator;
 public class LogisticCompany {
 	private String name;
 	private int companyID;
-	private Database db;
+	private ClientDatabase clients;
 	private ContainerDatabase containers;
 	private JourneyDatabase journeys;
 	private int clientIDgen = 1;
@@ -32,7 +32,7 @@ public class LogisticCompany {
 		super();
 		this.name = name;
 		this.companyID = companyID;
-		this.db = new Database();
+		this.clients = new ClientDatabase();
 		this.journeys = new JourneyDatabase();
 		this.amountOfContainers = amountOfContainers;
 		
@@ -68,11 +68,11 @@ public class LogisticCompany {
 		return clientIDgen;
 	}
 	
-	public Database getDb() {
-		return db;
+	public ClientDatabase getClients() {
+		return clients;
 	}
-	public void setDb(Database db) {
-		this.db = db;
+	public void setClients(ClientDatabase clients) {
+		this.clients = clients;
 	}
 	
 	public String getName() {
@@ -88,31 +88,31 @@ public class LogisticCompany {
 	}
 
 	public Client findClient(int id) {
-		return db.getClient(id);
+		return clients.getClient(id);
 	}
 	
 	public Client findClient(String email) {
-		return db.getClient(email);
+		return clients.getClient(email);
 	}
 	
 	public boolean removeClient(int clientID) {
-		return db.remove(db.getClient(clientID));
+		return clients.remove(clients.getClient(clientID));
 	}
 	public boolean removeClient(String email) {
-		return db.remove(db.getClient(email));
+		return clients.remove(clients.getClient(email));
 	}
 	// Does not work
 	public boolean exist(Client client) {
-		return db.contains(client);
+		return clients.contains(client);
 	}
 	public boolean exist(int clientID) {
-		return db.contains(db.getClient(clientID));
+		return clients.contains(clients.getClient(clientID));
 	}
 	public boolean exist(String email) {
-		return db.contains(db.getClient(email));
+		return clients.contains(clients.getClient(email));
 	}
 	public boolean existN(int number) {
-		return db.contains(db.getClient(number));
+		return clients.contains(clients.getClient(number));
 	}
 	public boolean exist(Container container) {
 		return containers.contains(container);
@@ -189,7 +189,7 @@ public class LogisticCompany {
 			if (response.getErrorMessage().equals("Non-existing client")) {
 				int clientID = this.clientIDgen++;
 				Client client = new Client(name,clientID,email,birthdate,gender,number,this.name);
-				this.db.add(client);
+				this.clients.add(client);
 				response.setErrorMessage("Client was successfully added");
 			}return response;
 	}
@@ -251,7 +251,7 @@ public class LogisticCompany {
 	public ResponseObject containerToJourney(int clientID, Container container, int journeyID, String content) {
 		ResponseObject response = new ResponseObject("Container successfully added to journey");
 		// Conditions to check
-		// Client exists OR db.contains(client);
+		// Client exists OR clients.contains(client);
 		boolean c1 = exist(clientID);
 		// Container belongs to client
 		boolean c2 = container.getClientId() == clientID;

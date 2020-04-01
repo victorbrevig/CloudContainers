@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 
-public class Database extends HashSet<Client> {
+public class ClientDatabase extends HashSet<Client> {
 		
 		Client emptyClient = new Client("",0,"","","",0,"");
 		public Client getClient(int clientID) {
