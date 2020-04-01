@@ -33,20 +33,20 @@ public class StepDefinition{
 	
 	@Then("display success message")
 	public void display_success_message() {
-		response = lc.newClient("Bob1","bigman1@dtu.dk","11-02-1994","male",10101010);
+		response = lc.newClient("Bob1","bigman1@dtu.dk","11-02-1994","male",10101010,"1234");
 		assertTrue(lc.exist(1));
 		assertEquals(response.getErrorMessage(),"Client was successfully added");
 	}
 	
 	@Given("existing client")
 	public void existing_client() {
-		lc.newClient("Bob1","bigman1@dtu.dk","11-04-1995","male",10101010);
+		lc.newClient("Bob1","bigman1@dtu.dk","11-04-1995","male",10101010,"1234");
 		assertTrue(lc.exist(1));
 	}
 	
 	@When("repeated information is entered")
 	public void repeated_information_is_entered() {
-		response = lc.newClient("Bob2","bigman1@dtu.dk","11-04-1995","male",10101010);
+		response = lc.newClient("Bob2","bigman1@dtu.dk","11-04-1995","male",10101010,"1234");
 	}
 
 	@Then("error message is thrown")
@@ -57,7 +57,7 @@ public class StepDefinition{
 	
 	@When("information with missing parameters")
 	public void information_with_missing_parameters() {
-		response = lc.newClient("Bob3","bigman3@dtu.dk","","male",10101010);
+		response = lc.newClient("Bob3","bigman3@dtu.dk","","male",10101010,"1234");
 	}
 
 	@Then("missing parameter error message is thrown")
@@ -73,7 +73,7 @@ public class StepDefinition{
 
 	@When("invalid email {string} is entered")
 	public void invalid_email_is_entered(String string) {
-		response = lc.newClient("Bob4",string,"11-04-1995","male",10101010);
+		response = lc.newClient("Bob4",string,"11-04-1995","male",10101010,"1234");
 	}
 
 	@Then("invalid email error is displayed for {string}")
@@ -83,7 +83,7 @@ public class StepDefinition{
 
 	@When("invalid birthdate {string} is entered")
 	public void invalid_birthdate_is_entered(String string) {
-		response = lc.newClient("Bob5","bigman5@dtu.dk",string,"male",10101010);
+		response = lc.newClient("Bob5","bigman5@dtu.dk",string,"male",10101010,"1234");
 	}
 
 	@Then("invalid birtdate error is displayed for {string}")
@@ -94,10 +94,10 @@ public class StepDefinition{
 	
 	// _________________________________________Update Info________________________________________________
 	
-	Client client1 = new Client("Karsten",1,"smallmoney123@gmail.com","24-05-1998","male",10101010,lc.getName());
+	Client client1 = new Client("Karsten",1,"smallmoney123@gmail.com","24-05-1998","male",10101010,lc.getName(),"1234");
 	@Given("A client with email {string}")
 	public void a_client_with_email(String string) {
-		lc.newClient("Karsten",string,"24-05-1998","male",10101010);
+		lc.newClient("Karsten",string,"24-05-1998","male",10101010,"1234");
 		
 	}
 	
@@ -113,7 +113,7 @@ public class StepDefinition{
 
 	@Given("A client with phone number {int}")
 	public void a_client_with_phone_number(Integer int1) {
-		lc.newClient("Jenny","bigstonks123@gmail.com","27-10-1987","female",int1);
+		lc.newClient("Jenny","bigstonks123@gmail.com","27-10-1987","female",int1,"1234");
 	}
 
 	@When("A client with email {string} New phone number entered as {int}")
@@ -135,8 +135,8 @@ public class StepDefinition{
 	
 	@Given("A client with the email {string}")
 	public void a_client_with_the_email(String string) {
-		client4 = new Client("Jenny",1,string,"02-02-1998","female",10101010,lc.getName());
-		lc.newClient("Jenny",string,"02-02-1998","female",10101010);
+		client4 = new Client("Jenny",1,string,"02-02-1998","female",10101010,lc.getName(),"1234");
+		lc.newClient("Jenny",string,"02-02-1998","female",10101010,"1234");
 	}
 
 	@When("The logistic company searches for {string}")
@@ -155,8 +155,8 @@ public class StepDefinition{
 	
 	@Given("A client with the clientID {int}")
 	public void a_client_with_the_clientID(Integer int1) {
-		client4 = new Client("Jenny",1,"email123@mail.dk","11-10-1992","female",10101010,lc.getName());
-		lc.newClient("Jenny","email123@mail.dk","11-10-1992","female",10101010);
+		client4 = new Client("Jenny",1,"email123@mail.dk","11-10-1992","female",10101010,lc.getName(),"1234");
+		lc.newClient("Jenny","email123@mail.dk","11-10-1992","female",10101010,"1234");
 	}
 
 	@When("The logistic company searches for {int}")
@@ -205,7 +205,7 @@ public class StepDefinition{
 	
 	@Given("A logistic company that has a client with clientID {int}")
 	public void a_logistic_company_with_a_client_with_clientID(Integer int1) {
-		lc.newClient("Jenny","j1@gmail.com","11-10-1998","female",12345678);
+		lc.newClient("Jenny","j1@gmail.com","11-10-1998","female",12345678,"1234");
 		assertTrue(lc.exist(int1));
 	}
 
@@ -216,7 +216,7 @@ public class StepDefinition{
 	
 	@Given("A logistic company that has a client with an email {string}")
 	public void a_logistic_company_that_has_a_client_with_an_email(String string) {
-		lc.newClient("Jenny",string,"11-10-1998","female",12345678);
+		lc.newClient("Jenny",string,"11-10-1998","female",12345678,"1234");
 		assertTrue(lc.exist(string));
 	}
 
@@ -261,8 +261,8 @@ public class StepDefinition{
 	Container container;
 	@Given("a logistic company with a client")
 	public void a_logistic_company_with_a_client() {
-		client = new Client("Jenny",1,"email@dtu.dk","11-10-1998","female",12345678,lc.getName());
-		lc.newClient("Jenny","email@dtu.dk","11-10-1998","female",12345678);
+		client = new Client("Jenny",1,"email@dtu.dk","11-10-1998","female",12345678,lc.getName(),"1234");
+		lc.newClient("Jenny","email@dtu.dk","11-10-1998","female",12345678,"1234");
 	    assertTrue(lc.exist("email@dtu.dk"));
 	}
 	
@@ -293,16 +293,16 @@ public class StepDefinition{
 
 	@Given("a logistic company with another client")
 	public void a_logistic_company_with_another_client() {
-	    client2 = new Client("Bobby",2,"slat@dtu.dk","11-12-1999","male",88888888,lc.getName());
-	    lc.newClient("Bobby","slat@dtu.dk","11-12-1999","male",88888888);
+	    client2 = new Client("Bobby",2,"slat@dtu.dk","11-12-1999","male",88888888,lc.getName(),"1234");
+	    lc.newClient("Bobby","slat@dtu.dk","11-12-1999","male",88888888,"1234");
 	    assertTrue(lc.exist("slat@dtu.dk"));
 	}
 	
 	@Given("an owned container")
 	public void an_owned_container() {
 		container = lc.findFreeContainer();
-		client1 = new Client("Jenny",1,"email@dtu.dk","11-10-1998","female",12345678,lc.getName());
-		lc.newClient("Jenny","email@dtu.dk","11-10-1998","female",12345678);
+		client1 = new Client("Jenny",1,"email@dtu.dk","11-10-1998","female",12345678,lc.getName(),"1234");
+		lc.newClient("Jenny","email@dtu.dk","11-10-1998","female",12345678,"1234");
 		response = lc.allocateContainer(1,container);
 	    assertTrue(container.isOwned());
 	}
@@ -337,7 +337,7 @@ public class StepDefinition{
 	
 	@Given("a logistic company with a non-registered client")
 	public void a_logistic_company_with_a_non_registered_client() {
-	    client = new Client("Lizzy",0,"liz@gmail.dk","20-10-1998","female",21436587,lc.getName());
+	    client = new Client("Lizzy",0,"liz@gmail.dk","20-10-1998","female",21436587,lc.getName(),"1234");
 	}
 
 	@Then("an allocation failure message is displayed saying client does not exist")
@@ -350,8 +350,8 @@ public class StepDefinition{
 	Journey journey;
 	@Given("a logistic company with a registered client")
 	public void a_logistic_company_with_a_registered_client() {
-		client = new Client("Jenny",1,"email@dtu.dk","11-10-1998","female",12345678,lc.getName());
-		lc.newClient("Jenny","email@dtu.dk","11-10-1998","female",12345678);
+		client = new Client("Jenny",1,"email@dtu.dk","11-10-1998","female",12345678,lc.getName(),"1234");
+		lc.newClient("Jenny","email@dtu.dk","11-10-1998","female",12345678,"1234");
 	    assertTrue(lc.exist(client.getEmail()));
 	}
 
@@ -517,7 +517,7 @@ public class StepDefinition{
 	@Given("one container allocated to a client is added to the journey")
 	public void one_container_allocated_to_a_client_is_added_to_the_journey() {
 	    container = lc.findFreeContainer();
-	    lc.newClient("Jenny","email@dtu.dk","11-10-1998","female",12345678);
+	    lc.newClient("Jenny","email@dtu.dk","11-10-1998","female",12345678,"1234");
 	    lc.allocateContainer(1, container);
 	    lc.containerToJourney(1, container, 1, "Bananas");
 	    assertTrue(container.isOnJourney());
@@ -544,7 +544,7 @@ public class StepDefinition{
 	@Given("a container allocated to a client is added to the journey pt2")
 	public void a_container_allocated_to_a_client_is_added_to_the_journey_pt2() {
 	    container = lc.findFreeContainer();
-	    lc.newClient("Jenny","email@dtu.dk","11-10-1998","female",12345678);
+	    lc.newClient("Jenny","email@dtu.dk","11-10-1998","female",12345678,"1234");
 	    lc.allocateContainer(1, container);
 	    response = lc.containerToJourney(1, container, 1, "Bananas");
 	    assertEquals(response.getErrorMessage(),"Journey does not exist");
@@ -567,7 +567,7 @@ public class StepDefinition{
 
 	@Given("a registered client with email {string}")
 	public void a_registered_client_with_email(String string1) {
-		lc.newClient("Jenny",string1,"11-10-1998","female",12345678);
+		lc.newClient("Jenny",string1,"11-10-1998","female",12345678,"1234");
 	}
 
 	@Given("three containers registered to the client")

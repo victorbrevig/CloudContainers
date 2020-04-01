@@ -183,12 +183,12 @@ public class LogisticCompany {
 
 
 	
-	public ResponseObject newClient(String name, String email, String birthdate, String gender, int number) {
+	public ResponseObject newClient(String name, String email, String birthdate, String gender, int number, String password) {
 			ResponseObject response;
 			response = validInput(name,email,birthdate,gender,number);
 			if (response.getErrorMessage().equals("Non-existing client")) {
 				int clientID = this.clientIDgen++;
-				Client client = new Client(name,clientID,email,birthdate,gender,number,this.name);
+				Client client = new Client(name,clientID,email,birthdate,gender,number,this.name, password);
 				this.clients.add(client);
 				response.setErrorMessage("Client was successfully added");
 			}return response;

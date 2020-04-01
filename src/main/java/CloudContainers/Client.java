@@ -12,8 +12,17 @@ public class Client {
 	private String gender;
 	private int number;
 	private String company;
+	private String password;
 	
-	public Client(String name, int clientID, String email, String birthdate, String gender, int number, String company) {
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Client(String name, int clientID, String email, String birthdate, String gender, int number, String company, String password) {
 		super();
 		this.name = name;
 		this.clientID = clientID;
@@ -22,6 +31,7 @@ public class Client {
 		this.gender = gender;
 		this.number = number;
 		this.company = company;
+		this.password = password;
 	}
 	
 	public String getCompany() {
