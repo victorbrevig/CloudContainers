@@ -384,7 +384,7 @@ public class LogisticCompany {
 			response.setErrorMessage("Your container on journey " + journeyID + " has traveled " + timeTraveled + " hours and the journey has ended.");
 		}
 		else {
-			response.setErrorMessage("no containers are on this journey");
+			response.setErrorMessage("No containers are on this journey");
 		}
 			
 		

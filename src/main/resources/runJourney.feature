@@ -30,7 +30,7 @@ Feature: elapse time for journey
     And data has been collected up till 10 hours
     And a succes response is given for journey 1 elapsed time 10
 
-   @tag2
+  @tag2
   Scenario: journey ends
     Given a logistic company with a journey from "Copenhagen" to "Oslo" with 5 hours to destination
     And a registered client with email "s184469@student.dtu.dk"
@@ -40,3 +40,11 @@ Feature: elapse time for journey
     Then journey elapsed time is updated to 5 hours
     And data has been collected up till 5 hours
     And a response is returned that the journey has ended for journey 1 after 5 hours
+    
+  @tag3
+  Scenario: no container assigned to journey
+    Given a logistic company with a journey from "Copenhagen" to "Oslo" with 80 hours to destination
+    When journey is started and run for 10 hours
+    Then journey elapsed time is updated to 10 hours
+    And no data has been collected
+    And a response is returned that the journey has no containers

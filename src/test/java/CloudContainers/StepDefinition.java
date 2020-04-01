@@ -621,6 +621,18 @@ public class StepDefinition{
 	public void a_response_is_returned_that_the_journey_has_ended_for_journey_after_hours(Integer int1, Integer int2) {
 	    assertEquals(response.getErrorMessage(),"Your container on journey " + int1 + " has traveled " + int2 + " hours and the journey has ended.");
 	}
+	
+	@Then("no data has been collected")
+	public void no_data_has_been_collected() {
+		ArrayList<statusTrackingObject> list;
+		list = lc.getJourneyDatabase().getJourney(1).getStatusData();
+		assertTrue(list.size() == 0);
+	}
+
+	@Then("a response is returned that the journey has no containers")
+	public void a_response_is_returned_that_the_journey_has_no_containers() {
+		assertEquals(response.getErrorMessage(),"No containers are on this journey");
+	}
 
 	
 }
