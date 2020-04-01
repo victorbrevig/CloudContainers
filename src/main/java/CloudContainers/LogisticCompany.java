@@ -3,10 +3,7 @@ import java.nio.file.Paths;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+
 import java.util.Random;
 
 import javax.mail.internet.AddressException;
@@ -310,7 +307,7 @@ public class LogisticCompany {
 		}
 		
 		int countFree = 0;
-		boolean someEnded = false;
+
 		journeys.getJourney(journeyID).setStarted(false);
 		for (Container container : containers) {
 			if (container.getJourneyId() == journeyID) {
