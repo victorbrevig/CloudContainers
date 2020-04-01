@@ -17,25 +17,26 @@
 ## (Comments)
 #Sample Feature Definition Template
 @tag
-Feature: Start journey and get data
+Feature: elapse time for journey
 
   @tag1
-  Scenario: Three containers to journey on journey for 10 seconds (ten hours)
-    Given a logistic company with a journey from "Copenhagen" to "Oslo"
+  Scenario: Elapse time of journey for ten hours
+    Given a logistic company with a journey from "Copenhagen" to "Oslo" with 80 hours to destination
     And a registered client with email "s184469@student.dtu.dk"
     And three containers registered to the client
  		And the containers are put on the journey containing "bananas", "milk" and "oranges" respectively
     When journey is started and run for 10 hours
-    Then a file named "journey1.csv" exists in folder
-    And response for endJourney shows success message for 3 containers
+    Then journey elapsed time is updated to 10 hours
+    And data has been collected up till 10 hours
+    And a succes response is given for journey 1 elapsed time 10
 
-  #@tag2
-  #Scenario Outline: Title of your scenario outline
-    #Given I want to write a step with <name>
-    #When I check for the <value> in step
-    #Then I verify the <status> in step
-
-    #Examples: 
-     # | name  | value | status  |
-     # | name1 |     5 | success |
-     # | name2 |     7 | Fail    |
+   @tag2
+  Scenario: journey ends
+    Given a logistic company with a journey from "Copenhagen" to "Oslo" with 5 hours to destination
+    And a registered client with email "s184469@student.dtu.dk"
+    And three containers registered to the client
+ 		And the containers are put on the journey containing "bananas", "milk" and "oranges" respectively
+    When journey is started and run for 10 hours
+    Then journey elapsed time is updated to 5 hours
+    And data has been collected up till 5 hours
+    And a response is returned that the journey has ended for journey 1 after 5 hours

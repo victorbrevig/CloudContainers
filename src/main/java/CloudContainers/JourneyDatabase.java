@@ -1,5 +1,6 @@
 package CloudContainers;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -7,7 +8,10 @@ import java.util.stream.Collectors;
 
 public class JourneyDatabase extends HashSet<Journey> {
 	
-	Journey emptyJourney = new Journey(0,"","","");
+	
+	Journey emptyJourney = new Journey(0,"","","",0);
+
+	
 	public Journey getJourney(int journeyID) {
 		for (Journey j : this) {
 			if (j.getJourneyID() == journeyID) {

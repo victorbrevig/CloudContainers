@@ -4,6 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Set;
 
 import CloudContainers.Client;
@@ -363,8 +364,8 @@ public class StepDefinition{
 
 	@Given("a valid journey")
 	public void a_valid_journey() {
-	    journey = new Journey(1, "Texas", "Zimbabwe", lc.getName());
-	    lc.createJourney(journey.getPortOfOrigin(), journey.getDestination());
+	    journey = new Journey(1, "Texas", "Zimbabwe", lc.getName(),0);
+	    lc.createJourney(journey.getPortOfOrigin(), journey.getDestination(),50);
 	}
 
 	@When("logistic company tries to put container on journey")
@@ -407,7 +408,7 @@ public class StepDefinition{
 	
 	@Given("a non-registered journey")
 	public void a_non_registered_journey() {
-	    journey = new Journey(0,"North Korea","USA","Kim");
+	    journey = new Journey(0,"North Korea","USA","Kim",0);
 	}
 
 	@Then("error message displayed saying that journey does not exist")
@@ -422,7 +423,7 @@ public class StepDefinition{
 	@Given("A logistic company with a registered journey with PoO of {string}")
 	public void a_logistic_company_with_a_registered_journey_with_PoO_of(String string) {
 		lc = new LogisticCompany("Maersk",1,100);
-		lc.createJourney(string, "Copenhagen");
+		lc.createJourney(string, "Copenhagen",50);
 	}
 
 	@When("the logistic company tries to update port of origin to {string}")
@@ -437,7 +438,7 @@ public class StepDefinition{
 
 	@Given("A logistic company with a registered journey with destination of {string}")
 	public void a_logistic_company_with_a_registered_journey_with_destination_of(String string) {
-	    lc.createJourney("Bahamas", string);
+	    lc.createJourney("Bahamas", string,50);
 	}
 
 	@When("the logistic company tries to update destination to {string}")
@@ -452,7 +453,7 @@ public class StepDefinition{
 
 	@Given("A logistic company with a non-registered journey with destination {string}")
 	public void a_logistic_company_with_a_non_registered_journey_with_destination(String string) {
-	    journey = new Journey(1,"Bahamas",string,"Hellman");
+	    journey = new Journey(1,"Bahamas",string,"Hellman",0);
 	    assertFalse(lc.existJ(1));
 	}
 
@@ -465,9 +466,9 @@ public class StepDefinition{
 	Set<Journey> filtered;
 	@Given("a journeys with port of origin {string}, {string} and {string}")
 	public void a_journeys_with_port_of_origin_and(String string, String string2, String string3) {
-	    lc.createJourney(string, "Copenhagen");
-	    lc.createJourney(string2, "Copenhagen");
-	    lc.createJourney(string3, "Copenhagen");
+	    lc.createJourney(string, "Copenhagen",50);
+	    lc.createJourney(string2, "Copenhagen",50);
+	    lc.createJourney(string3, "Copenhagen",50);
 	}
 
 	@When("journeys are filtered for {string}")
@@ -485,9 +486,9 @@ public class StepDefinition{
 	
 	@Given("a journeys with destination {string}, {string} and {string}")
 	public void a_journeys_with_destination_and(String string, String string2, String string3) {
-	    lc.createJourney("Copenhagen", string);
-	    lc.createJourney("Copenhagen", string2);
-	    lc.createJourney("Copenhagen", string3);
+	    lc.createJourney("Copenhagen", string,50);
+	    lc.createJourney("Copenhagen", string2,50);
+	    lc.createJourney("Copenhagen", string3,50);
 	}
 	
 	@When("journeys are filtered for destination {string}")
@@ -511,7 +512,7 @@ public class StepDefinition{
 	
 	@Given("a logistic company with a registered journey from {string} to {string}")
 	public void a_logistic_company_with_a_registered_journey_from_to(String string, String string2) {
-	    lc.createJourney(string, string2);
+	    lc.createJourney(string, string2,50);
 	}
 
 	@Given("one container with {string} allocated to a client with email {string} is added to the journey")
@@ -536,7 +537,7 @@ public class StepDefinition{
 	
 	@Given("a logistic company with a non-registered journey")
 	public void a_logistic_company_with_a_non_registered_journey() {
-		journey = new Journey(1,"Bahamas","Copenhagen","Hellman");
+		journey = new Journey(1,"Bahamas","Copenhagen","Hellman",0);
 	    assertFalse(lc.existJ(1));
 	}
 	
@@ -559,9 +560,9 @@ public class StepDefinition{
 	Container container1;
 	Container container2;
 	Container container3;
-	@Given("a logistic company with a journey from {string} to {string}")
-	public void a_logistic_company_with_a_journey_to(String string1, String string2) {
-		lc.createJourney(string1, string2);
+	@Given("a logistic company with a journey from {string} to {string}  with {int} hours to destination")
+	public void a_logistic_company_with_a_journey_to_at_time_hours(String string1, String string2,Integer int1) {
+		lc.createJourney(string1, string2,int1);
 	}
 
 	@Given("a registered client with email {string}")
@@ -590,20 +591,36 @@ public class StepDefinition{
 	
 	@When("journey is started and run for {int} hours")
 	public void journey_is_started_and_run_for_hours(Integer int1) {
-	    response = lc.startJourney(1,int1);
-	}
-
-
-	@Then("a file named {string} exists in folder")
-	public void a_file_named_exists_in_folder(String string) {
-		File csvFile = new File("C:\\Users\\victo\\git\\CloudContainers\\JourneyStatusData\\" + string);
-	    assertTrue(csvFile.isFile());
-	}
-
-	@Then("response for endJourney shows success message for {int} containers")
-	public void response_for_endJourney_shows_success_message_for_containers(Integer int1) {
-	    assertEquals(response.getErrorMessage(), "Journey successfully ended. " + int1 + " containers were set free.");
+	    response = lc.progressJourney(1,int1);
 	}
 	
+	@Then("journey elapsed time is updated to {int} hours")
+	public void journey_elapsed_time_is_updated_to_hours(Integer int1) {
+	    assertTrue(lc.getJourneyDatabase().getJourney(1).getElapsedTime()==int1);
+	    
+	}
+
+	@Then("data has been collected up till {int} hours")
+	public void data_has_been_collected_up_till_hours(Integer int1) {
+		ArrayList<statusTrackingObject> list;
+		list = lc.getJourneyDatabase().getJourney(1).getStatusData();
+		assertTrue(list.get(list.size()-1).getTime() == int1);
+	}
+
+	
+
+	@Then("a succes response is given for journey {int} elapsed time {int}")
+	public void a_succes_response_is_given_for_journey_elapsed_time(Integer int1, Integer int2) {
+	    assertEquals(response.getErrorMessage(),"Your container on journey " + int1 + " has traveled " + int2 + " hours.");
+	}
+	@Given("a logistic company with a journey from {string} to {string} with {int} hours to destination")
+	public void a_logistic_company_with_a_journey_from_to_with_hours_to_destination(String string, String string2, Integer int1) {
+		lc.createJourney(string, string2,int1);
+	}
+	@Then("a response is returned that the journey has ended for journey {int} after {int} hours")
+	public void a_response_is_returned_that_the_journey_has_ended_for_journey_after_hours(Integer int1, Integer int2) {
+	    assertEquals(response.getErrorMessage(),"Your container on journey " + int1 + " has traveled " + int2 + " hours and the journey has ended.");
+	}
+
 	
 }

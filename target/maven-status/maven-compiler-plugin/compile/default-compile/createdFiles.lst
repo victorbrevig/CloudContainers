@@ -5,6 +5,7 @@ CloudContainers\toCSV.class
 CloudContainers\invalidEmailException.class
 CloudContainers\JourneyDatabase.class
 CloudContainers\LogisticCompany.class
+CloudContainers\statusTrackingObject.class
 CloudContainers\Client.class
 CloudContainers\invalidBirthdateException.class
 CloudContainers\ClientDatabase.class

@@ -49,8 +49,8 @@ public class LogisticCompany {
 		return containers;
 	}
 	
-	public void createJourney(String portOfOrigin, String destination) {
-		Journey journey = new Journey(journeyIDgen, portOfOrigin, destination, this.name);
+	public void createJourney(String portOfOrigin, String destination,int timeToDestination) {
+		Journey journey = new Journey(journeyIDgen, portOfOrigin, destination, this.name,timeToDestination);
 		journeyIDgen++;
 		journeys.add(journey);
 	}
@@ -306,8 +306,9 @@ public class LogisticCompany {
 		}
 		
 		int countFree = 0;
-
+		
 		journeys.getJourney(journeyID).setStarted(false);
+		
 		for (Container container : containers) {
 			if (container.getJourneyId() == journeyID) {
 				container.setJourneyId(0);
@@ -321,51 +322,37 @@ public class LogisticCompany {
 		return response;
 	}
 	
-	public ResponseObject startJourney(int journeyID, double finishTime) {
+	public ResponseObject progressJourney(int journeyID, int timeIncrement) {
 		
 		ResponseObject response = new ResponseObject();
+		int elapsedTime = journeys.getJourney(journeyID).getElapsedTime();
+		int timeToDestination = journeys.getJourney(journeyID).getTimeToDestination();
+		journeys.getJourney(journeyID).setStarted(true);
+
+		double newTemp = 0;
+		double newPressure = 0;
+		double newAirHum = 0;
+		int timeTraveled = 0;
+		boolean existingContainer = false;
 		
-		// Check that journey exist before making file
 		
-		try {
-			csvWriter = new FileWriter("C:\\Users\\victo\\git\\CloudContainers\\JourneyStatusData\\" + "journey" + journeyID + ".csv");
-			// Make columns
-			csvWriter.append("Time");
-			csvWriter.append(",");
-			csvWriter.append("Temperature");
-			csvWriter.append(",");
-			csvWriter.append("Pressure");
-			csvWriter.append(",");
-			csvWriter.append("Air humidity");
-			csvWriter.append("\n");
-			csvWriter.flush();
-			csvWriter.close();
-			
-		} catch (IOException e1) {
-			e1.printStackTrace();
+		if (!this.existJ(journeyID)) {
+			response.setErrorMessage("Journey does not exist");
+			return response;
 		}
 		
-		// 1 hour = 1 second
-		int time = 0;
-		journeys.getJourney(journeyID).setStarted(true);
-		while (journeys.getJourney(journeyID).isStarted()) {
+		for (int i = 1; i<=timeIncrement;i++) {
+//			Checking if the journey has ended
+			if (timeToDestination == 0) {
+				this.endJourney(journeyID);
+				break;
+			} 
 			
-			if (time > finishTime) {
-				response = endJourney(journeyID);
-			}
-			// Gen data
-			// +- 3 degrees C
 			double randTempIncrement = rand.nextDouble() * (rand.nextBoolean() ? -1 : 1) * 3;
 			// +- 0.1 atm
 			double randPressureIncrement = rand.nextDouble() * (rand.nextBoolean() ? -1 : 1) * 0.1;
 			// +- 0.05
 			double randAirHumIncrement = rand.nextDouble() * (rand.nextBoolean() ? -1 : 1) * 0.05;
-			
-			double newTemp = 0;
-			double newPressure = 0;
-			double newAirHum = 0;
-			
-			boolean existingContainer = false;
 			for (Container container : containers) {
 				if (container.getJourneyId() == journeyID) {
 					existingContainer = existingContainer || true;
@@ -377,24 +364,29 @@ public class LogisticCompany {
 					container.setAirHumidity(newAirHum);
 				}
 			}
-			
+			elapsedTime++;
+			timeToDestination--;
+			timeTraveled++;
 			if (existingContainer) {
-				// Insert in csv
-				toCSV.writeCSV("journey" + journeyID + ".csv", time, newTemp,newPressure,newAirHum);
+				statusTrackingObject status = new statusTrackingObject(elapsedTime,newAirHum,newTemp,newPressure);
+				journeys.getJourney(journeyID).addDataPoint(status);
 			}
-			
-			// Increment
-			time++;
-			
-			try {
-				Thread.sleep(1000);
-			}
-			catch(InterruptedException e) {
-				System.out.println("Error in data generator");
-				break;
-			}
+//			Increment time
+			journeys.getJourney(journeyID).setElapsedTime(elapsedTime);
+			journeys.getJourney(journeyID).setTimeToDestination(timeToDestination);
 			
 		}
+		if(existingContainer && journeys.getJourney(journeyID).isStarted() == true){
+			response.setErrorMessage("Your container on journey " + journeyID + " has traveled " + timeIncrement + " hours.");
+			
+		}else if(journeys.getJourney(journeyID).isStarted() == false){
+//			Checking if journey has ended
+			response.setErrorMessage("Your container on journey " + journeyID + " has traveled " + timeTraveled + " hours and the journey has ended.");
+		}
+		else {
+			response.setErrorMessage("no containers are on this journey");
+		}
+			
 		
 		return response;
 	}
