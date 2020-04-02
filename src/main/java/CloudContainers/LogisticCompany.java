@@ -3,7 +3,7 @@ import java.nio.file.Paths;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.mail.internet.AddressException;
@@ -19,8 +19,7 @@ public class LogisticCompany {
 	private int clientIDgen = 1;
 	private int amountOfContainers;
 	private Random rand = new Random();
-	
-	private FileWriter csvWriter;
+
 	
 	private int journeyIDgen = 1;
 	
@@ -110,8 +109,8 @@ public class LogisticCompany {
 	public boolean existN(int number) {
 		return clients.contains(clients.getClient(number));
 	}
-	public boolean exist(Container container) {
-		return containers.contains(container);
+	public boolean existCon(int containerID) {
+		return containers.contains(containers.getContainer(containerID));
 	}
 	public boolean existJ(int journeyID) {
 		return journeys.contains(journeys.getJourney(journeyID));
@@ -224,7 +223,7 @@ public class LogisticCompany {
 	public ResponseObject allocateContainer(int clientId,Container container) {
 		ResponseObject response = new ResponseObject("Container succesfully allocated");
 		boolean existClient = this.exist(clientId);
-		boolean existContainer = this.exist(container);
+		boolean existContainer = this.existCon(container.getContainerId());
 		boolean owned = container.isOwned();
 		
 		if(!existClient) {
@@ -339,7 +338,11 @@ public class LogisticCompany {
 		if (!this.existJ(journeyID)) {
 			response.setErrorMessage("Journey does not exist");
 			return response;
+		}else if (timeIncrement <= 0) {
+			response.setErrorMessage("Travel time has to be a more than 0");
+			return response;
 		}
+		
 		
 		for (int i = 1; i<=timeIncrement;i++) {
 //			Checking if the journey has ended
@@ -389,6 +392,39 @@ public class LogisticCompany {
 			
 		
 		return response;
+	}
+
+	
+	public boolean ownedContainer(int clientID, int containerID) {
+		return this.getContainerDatabase().getContainer(containerID).getClientId() == clientID;
+	}
+	
+	public ResponseObject accessStatus(Integer clientID, Integer containerID) {
+		ResponseObject response = new ResponseObject();
+		Container container = containers.getContainer(containerID);
+		Journey journey = journeys.getJourney(container.getJourneyId());
+//		Container exists
+		boolean c1 = this.existCon(containerID);
+//		Container owned
+		boolean c2 = ownedContainer(clientID,containerID);
+//		Journey is started, and data exists
+		boolean c3 = journey.isStarted();
+		
+		if (!c1 || !c2) {
+			response.setErrorMessage("You don't own this container");
+			return response;
+		} else if (!c3) {
+			response.setErrorMessage("Ship's still at harbour");
+			return response;
+		} else {
+//		Getting the status of container
+		ArrayList<statusTrackingObject> list;
+		list = journey.getStatusData();
+		statusTrackingObject status = list.get(list.size()-1);
+		response.setStatus(status);
+		response.setErrorMessage("This is the current status of your container");
+		return response;}
+
 	}
 
 	

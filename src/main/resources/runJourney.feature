@@ -48,3 +48,14 @@ Feature: elapse time for journey
     Then journey elapsed time is updated to 10 hours
     And no data has been collected
     And a response is returned that the journey has no containers
+    
+   @tag4
+  Scenario: time increment is to small
+    Given a logistic company with a journey from "Copenhagen" to "Oslo" with 80 hours to destination
+    And a registered client with email "s184469@student.dtu.dk"
+    And three containers registered to the client
+ 		And the containers are put on the journey containing "bananas", "milk" and "oranges" respectively
+    When journey is started and run for 0 hours
+    Then journey elapsed time is updated to 0 hours
+    And no data has been collected
+    And a response is given for travel time too low

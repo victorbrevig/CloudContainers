@@ -567,6 +567,7 @@ public class StepDefinition{
 
 	@Given("a registered client with email {string}")
 	public void a_registered_client_with_email(String string1) {
+		
 		lc.newClient("Jenny",string1,"11-10-1998","female",12345678,"1234");
 	}
 
@@ -578,9 +579,7 @@ public class StepDefinition{
 		lc.allocateContainer(1, container2);
 		container3 = lc.findFreeContainer();
 		lc.allocateContainer(1, container3);
-		
 	}
-	
 	@Given("the containers are put on the journey containing {string}, {string} and {string} respectively")
 	public void the_containers_are_put_on_the_journey_containing_and_respectively(String string, String string2, String string3) {
 		lc.containerToJourney(1, container1, 1, string);
@@ -607,8 +606,6 @@ public class StepDefinition{
 		assertTrue(list.get(list.size()-1).getTime() == int1);
 	}
 
-	
-
 	@Then("a succes response is given for journey {int} elapsed time {int}")
 	public void a_succes_response_is_given_for_journey_elapsed_time(Integer int1, Integer int2) {
 	    assertEquals(response.getErrorMessage(),"Your container on journey " + int1 + " has traveled " + int2 + " hours.");
@@ -633,6 +630,41 @@ public class StepDefinition{
 	public void a_response_is_returned_that_the_journey_has_no_containers() {
 		assertEquals(response.getErrorMessage(),"No containers are on this journey");
 	}
+	
+	
+	
+	@Then("a response is given for travel time too low")
+	public void a_response_is_given_for_travel_time_too_low() {
+	    assertEquals(response.getErrorMessage(), "Travel time has to be a more than 0");
+	}
+	
+	// ____________________________accessData______________________________________________________
+	
+	@When("client {int} request the data for his container")
+	public void client_request_the_data_for_his_container(Integer clientID) {
+	    response = lc.accessStatus(clientID,container1.getContainerId());
+	}
+
+	@Then("the status of the container is returned")
+	public void the_status_of_the_container_is_returned() {
+	    assertTrue(response.getStatus().getTime() != 0);
+	}
+
+	@Then("a succes for data access is displayed")
+	public void a_succes_for_data_access_is_displayed() {
+	    assertEquals(response.getErrorMessage(),"This is the current status of your container");
+	}
+	
+	@When("client {int} request the data for a container with ID {int}")
+	public void client_request_the_data_for_a_container_with_ID(Integer int1, Integer int2) {
+	    response = lc.accessStatus(int1, int2);
+	}
+
+	@Then("a error message is returned for data acces")
+	public void a_error_message_is_returned_for_data_acces() {
+	    assertEquals(response.getErrorMessage(),"You don't own this container");
+	}
+
 
 	
 }
