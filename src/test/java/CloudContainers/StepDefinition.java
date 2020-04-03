@@ -563,18 +563,40 @@ public class StepDefinition{
 	public void one_container_registered_to_the_client() {
 		container1 = lc.findFreeContainer();
 		lc.allocateContainer(1, container1);
+
 		
 	}
 
 	@When("logistic company frees one container")
 	public void logistic_company_frees_one_container() {
 	    response = lc.freeContainer(container1.getContainerId());
+	    
 	}
 
 	@Then("A succes message is displayed for freeing a container")
 	public void a_succes_message_is_displayed_for_freeing_a_container() {
+
 	    assertEquals(response.getErrorMessage(),"Container was successfully freed");
 	}
+	@Given("the container is put on the journey containing {string}")
+	public void the_container_is_put_on_the_journey_containing(String string) {
+		lc.containerToJourney(1, container1, 1, string);
+	}
+
+	@Then("A error message is displayed that container is on journey")
+	public void a_error_message_is_displayed_that_container_is_on_journey() {
+	    assertEquals(response.getErrorMessage(),"This container is on a journey");
+	}
+	@Given("one container")
+	public void one_container() {
+		container1 = lc.findFreeContainer();
+	}
+	
+	@Then("A error message is displayed as container is not owned")
+	public void a_error_message_is_displayed_as_container_is_not_owned() {
+		assertEquals(response.getErrorMessage(),"This container does not belong to a client");
+	}
+	
 	// ____________________________runJourney______________________________________________________
 
 	@Given("a logistic company with a journey from {string} to {string}  with {int} hours to destination")

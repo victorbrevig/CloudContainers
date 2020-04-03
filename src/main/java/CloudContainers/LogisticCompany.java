@@ -251,7 +251,7 @@ public class LogisticCompany {
 //		container is owned
 		boolean onJourney = container.isOnJourney();
 		boolean owned = container.isOwned();
-		if (!onJourney) {
+		if (onJourney) {
 			response.setErrorMessage("This container is on a journey");
 		}else if (!owned) {
 			response.setErrorMessage("This container does not belong to a client");

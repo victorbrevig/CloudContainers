@@ -27,4 +27,22 @@ Feature: Free a container
     When logistic company frees one container
     Then A succes message is displayed for freeing a container
 
+  @tag2
+  Scenario: container is on journey
+  	Given a logistic company with a journey from "Copenhagen" to "Oslo" with 80 hours to destination
+    And a registered client with email "s184469@student.dtu.dk"
+    And one container registered to the client
+    And the container is put on the journey containing "bananas"
+    When logistic company frees one container
+    Then A error message is displayed that container is on journey
+
+  @tag3
+  Scenario: container is not owned
+  	Given A logistic company
+    And a registered client with email "s184469@student.dtu.dk"
+    And one container
+    When logistic company frees one container
+    Then A error message is displayed as container is not owned
+
+
 

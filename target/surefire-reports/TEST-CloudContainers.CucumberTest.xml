@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="44" failures="0" name="CloudContainers.CucumberTest" time="0.069" errors="0" skipped="4">
+<testsuite tests="3" failures="0" name="CloudContainers.CucumberTest" time="0.047" errors="0" skipped="1">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="13.0.2+8"/>
@@ -25,7 +25,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="user.variant" value=""/>
     <property name="os.name" value="Windows 10"/>
-    <property name="classworlds.conf" value="C:\Users\Bruger\OneDrive\DTU - General engineering\4. Semester\Agile Object-Oriented Software Development\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf11853824559179375764.tmp"/>
+    <property name="classworlds.conf" value="C:\Users\Bruger\OneDrive\DTU - General engineering\4. Semester\Agile Object-Oriented Software Development\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf11353856713291403566.tmp"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
     <property name="java.library.path" value="C:\Program Files\Java\jdk-13.0.2\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Program Files/Java/jdk-13.0.2/bin/server;C:/Program Files/Java/jdk-13.0.2/bin;C:\Program Files\Python37\Scripts\;C:\Program Files\Python37\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\PuTTY\;C:\Program Files\MATLAB\R2019b\bin;C:\Program Files\Git\cmd;C:\Users\Bruger\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\FSharp;C:\Users\Bruger\Desktop;;."/>
     <property name="jdk.debug" value="release"/>
@@ -56,56 +56,9 @@
     <property name="sun.cpu.endian" value="little"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="Adding a client to register" name="New client succesfully added" time="0.023"/>
-  <testcase classname="Adding a client to register" name="Client already exists" time="0.001"/>
-  <testcase classname="Adding a client to register" name="Missing parameter" time="0"/>
-  <testcase classname="Adding a client to register" name="Email is invalid" time="0.001"/>
-  <testcase classname="Adding a client to register" name="Birthdate is invalid" time="0.001"/>
-  <testcase classname="access data as client" name="access existing data" time="0.003"/>
-  <testcase classname="access data as client" name="container does not exist" time="0.006"/>
-  <testcase classname="access data as client" name="container is not owned by client" time="0.005"/>
-  <testcase classname="access data as client" name="journey has not started" time="0"/>
-  <testcase classname="Add container to journey" name="Successfully add a container to journey" time="0.001"/>
-  <testcase classname="Add container to journey" name="Client does not exist" time="0.001"/>
-  <testcase classname="Add container to journey" name="Container does not exist" time="0"/>
-  <testcase classname="Add container to journey" name="Journey does not exist" time="0"/>
-  <testcase classname="Allocate a container to a client" name="succesfull allocation" time="0"/>
-  <testcase classname="Allocate a container to a client" name="container already owned" time="0.001"/>
-  <testcase classname="Allocate a container to a client" name="container does not exist" time="0.001"/>
-  <testcase classname="Allocate a container to a client" name="client does not exist" time="0.001"/>
-  <testcase classname="End a journey" name="a journey successfully ended" time="0.001"/>
-  <testcase classname="End a journey" name="journey does not exist" time="0"/>
-  <testcase classname="Client wish to filter journey" name="client wish to filter journeys after port of origin" time="0.003"/>
-  <testcase classname="Client wish to filter journey" name="client wish to filter journeys after destination" time="0"/>
-  <testcase classname="Client wish to filter journey" name="no journey matching port of destination given by input" time="0.001"/>
-  <testcase classname="Client wish to filter journey" name="no journey matching destination given by input" time="0"/>
-  <testcase classname="Free a container" name="a container is successfully freed" time="0.002">
+  <testcase classname="Free a container" name="a container is successfully freed" time="0.041"/>
+  <testcase classname="Free a container" name="container is on journey" time="0.002"/>
+  <testcase classname="Free a container" name="container is not owned" time="0.004">
     <skipped/>
   </testcase>
-  <testcase classname="Free a container" name="a container is successfully freed" time="0.003">
-    <skipped/>
-  </testcase>
-  <testcase classname="Free a container" name="a container is successfully freed" time="0.003">
-    <skipped/>
-  </testcase>
-  <testcase classname="Free a container" name="a container is successfully freed" time="0.003">
-    <skipped/>
-  </testcase>
-  <testcase classname="Remove client" name="A logistic company wants to remove a client" time="0"/>
-  <testcase classname="Remove client" name="A logistic company wants to remove a client" time="0.001"/>
-  <testcase classname="Remove client" name="A logistic company tries to remove a non existing client" time="0"/>
-  <testcase classname="Remove client" name="A logistic company tries to remove a non existing client" time="0"/>
-  <testcase classname="elapse time for journey" name="Elapse time of journey for ten hours" time="0.001"/>
-  <testcase classname="elapse time for journey" name="journey ends" time="0"/>
-  <testcase classname="elapse time for journey" name="no container assigned to journey" time="0.001"/>
-  <testcase classname="elapse time for journey" name="time increment is to small" time="0.001"/>
-  <testcase classname="Logistic company search for client" name="Searching for an existing client" time="0.002"/>
-  <testcase classname="Logistic company search for client" name="Searching for an existing client" time="0.001"/>
-  <testcase classname="Logistic company search for client" name="Searching for a non existing client" time="0"/>
-  <testcase classname="Logistic company search for client" name="Searching for a non existing client" time="0"/>
-  <testcase classname="Update client information" name="Client wants to update email" time="0.001"/>
-  <testcase classname="Update client information" name="Client wants to update phone number" time="0"/>
-  <testcase classname="Title of your feature" name="Logistic company wants to update the port of origin of a journey" time="0"/>
-  <testcase classname="Title of your feature" name="Logistic company wants to update the destination of a journey" time="0"/>
-  <testcase classname="Title of your feature" name="Journey does not exist" time="0"/>
 </testsuite>
