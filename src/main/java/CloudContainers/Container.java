@@ -1,24 +1,38 @@
 package CloudContainers;
 
+import java.util.ArrayList;
+import javafx.util.Pair;
+
 public class Container {
 	private int containerId;
-	// Default is 20.0C (not on journey)
-	private double temperature = 20.0;
-	// Default is 1 atm (not on journey)
-	private double pressure = 1.0;
-	// Default is 0.5 - 50% (not on journey)
-	private double airHumidity = 0.5;
-	// Default is false
-	private boolean onJourney = false;
-	private boolean owned = false;
-	
+	private double temperature;
+	private double pressure;
+	private double airHumidity;
+	private boolean onJourney;
+	private boolean owned;
+//	<journeyId,clientId>
+	private ArrayList<Pair<Integer,Integer>> journeyHistory;
 	private int clientId;
 	private int journeyId;
 	
+	public void addJourney(int journeyID) {
+		Pair<Integer,Integer> pair = new Pair<Integer,Integer>(journeyID,this.clientId);
+		journeyHistory.add(pair);
+		this.setOnJourney(true);
+		this.setJourneyId(journeyID);
+	}
 	
-	
+	public ArrayList<Pair<Integer,Integer>> getJourneyHistory() {
+		return journeyHistory;
+	}
+
+	public void setJourneyHistory(ArrayList<Pair<Integer,Integer>> journeyHistory) {
+		this.journeyHistory = journeyHistory;
+	}
+
 	public boolean equals(Container container) {
 		return this.getContainerId() == container.getContainerId();
+		
 	}
 	
 	public int hashCode() {
@@ -44,6 +58,12 @@ public class Container {
 	
 	public Container(int containerId) {
 		super();
+		this.airHumidity = 0.5;
+		this.temperature = 20.0;
+		this.onJourney = false;
+		this.pressure = 1.0;
+		this.owned = false;
+		this.journeyHistory = new ArrayList<Pair<Integer,Integer>>();
 		this.containerId = containerId;
 	}
 	
@@ -107,3 +127,4 @@ public class Container {
 	
 	
 }
+

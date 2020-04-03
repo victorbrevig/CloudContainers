@@ -31,11 +31,26 @@ Feature: access data as client
     And a succes for data access is displayed
 
   @tag2
-  Scenario: container is not owned by client
+  Scenario: container does not exist
     Given a logistic company with a journey from "Copenhagen" to "Oslo" with 80 hours to destination
     And a registered client with email "s184469@student.dtu.dk"
  		When client 1 request the data for a container with ID 1010
     Then a error message is returned for data acces
+  @tag3
+  Scenario: container is not owned by client 
+    Given a logistic company with a journey from "Copenhagen" to "Oslo" with 80 hours to destination
+    And a registered client with email "s184469@student.dtu.dk"
+ 		When client 1 request the data for a container with ID 95
+    Then a error message is returned for data acces
+   @tag4
+    Scenario: journey has not started
+    Given a logistic company with a journey from "Copenhagen" to "Oslo" with 80 hours to destination
+    And a registered client with email "s184469@student.dtu.dk"
+    And three containers registered to the client
+ 		And the containers are put on the journey containing "bananas", "milk" and "oranges" respectively
+ 		When client 1 request the data for his container
+    Then a error message is returned for journey has not started
+#
 #
     #Examples: 
       #| name  | value | status  |

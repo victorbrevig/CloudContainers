@@ -515,7 +515,7 @@ public class StepDefinition{
 	    lc.createJourney(string, string2,50);
 	}
 
-	@Given("one container with {string} allocated to a client with email {string} is added to the journey")
+	@Given("one container with {string} allocated to a client with email {string} added to the journey")
 	public void one_container_with_allocated_to_a_client_with_email_is_added_to_the_journey(String string, String string2) {
 	    container = lc.findFreeContainer();
 	    lc.newClient("Jenny",string2,"11-10-1998","female",12345678,"1234");
@@ -555,11 +555,28 @@ public class StepDefinition{
 		assertEquals(response.getErrorMessage(),"No such journey exist");
 	    assertFalse(container.isOnJourney());
 	}
-	
-	// ____________________________runJourney______________________________________________________
+	// ____________________________freeContainer______________________________________________________
 	Container container1;
 	Container container2;
 	Container container3;
+	@Given("one container registered to the client")
+	public void one_container_registered_to_the_client() {
+		container1 = lc.findFreeContainer();
+		lc.allocateContainer(1, container1);
+		
+	}
+
+	@When("logistic company frees one container")
+	public void logistic_company_frees_one_container() {
+	    response = lc.freeContainer(container1.getContainerId());
+	}
+
+	@Then("A succes message is displayed for freeing a container")
+	public void a_succes_message_is_displayed_for_freeing_a_container() {
+	    assertEquals(response.getErrorMessage(),"Container was successfully freed");
+	}
+	// ____________________________runJourney______________________________________________________
+
 	@Given("a logistic company with a journey from {string} to {string}  with {int} hours to destination")
 	public void a_logistic_company_with_a_journey_to_at_time_hours(String string1, String string2,Integer int1) {
 		lc.createJourney(string1, string2,int1);
@@ -664,7 +681,10 @@ public class StepDefinition{
 	public void a_error_message_is_returned_for_data_acces() {
 	    assertEquals(response.getErrorMessage(),"You don't own this container");
 	}
-
+	@Then("a error message is returned for journey has not started")
+	public void a_error_message_is_returned_for_journey_has_not_started() {
+	    assertEquals(response.getErrorMessage(),"Ship's still at harbour");
+	}
 
 	
 }

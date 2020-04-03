@@ -7,7 +7,7 @@ import io.cucumber.junit.Cucumber;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-		features = "src/main/resources/accessData.feature")
+		features = "src/main/resources/freeContainer.feature")
 
 public class CucumberTest {
 

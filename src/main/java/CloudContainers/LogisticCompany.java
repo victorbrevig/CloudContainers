@@ -66,6 +66,7 @@ public class LogisticCompany {
 	public ClientDatabase getClients() {
 		return clients;
 	}
+	
 	public void setClients(ClientDatabase clients) {
 		this.clients = clients;
 	}
@@ -243,6 +244,25 @@ public class LogisticCompany {
 		return response;
 	}
 	
+	public ResponseObject freeContainer(int containerID) {
+		Container container = this.getContainerDatabase().getContainer(containerID);
+		ResponseObject response = new ResponseObject();
+//		container is not on journey
+//		container is owned
+		boolean onJourney = container.isOnJourney();
+		boolean owned = container.isOwned();
+		if (!onJourney) {
+			response.setErrorMessage("This container is on a journey");
+		}else if (!owned) {
+			response.setErrorMessage("This container does not belong to a client");
+		}else {
+			this.getContainerDatabase().getContainer(containerID).setClientId(0);
+			this.getContainerDatabase().getContainer(containerID).setOwned(false);
+			response.setErrorMessage("Container was successfully freed");
+		}
+		return response;
+	}
+	
 	public ResponseObject containerToJourney(int clientID, Container container, int journeyID, String content) {
 		ResponseObject response = new ResponseObject("Container successfully added to journey");
 		// Conditions to check
@@ -254,10 +274,8 @@ public class LogisticCompany {
 		boolean c3 = existJ(journeyID);
 		
 		if (c1 && c2 && c3) {
-			container.setOnJourney(true);
 			container.setContent(content);
-			// update container (key) in containerMap?
-			container.setJourneyId(journeyID);
+			container.addJourney(journeyID);
 		}
 		else if (!c1) {
 			response.setErrorMessage("Client does not exist");
@@ -312,7 +330,9 @@ public class LogisticCompany {
 			if (container.getJourneyId() == journeyID) {
 				container.setJourneyId(0);
 				container.setOnJourney(false);
+				container.setContent("");
 				countFree++;
+				
 
 			}
 		}
