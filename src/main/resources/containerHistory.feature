@@ -20,22 +20,58 @@
 Feature: A container has a history log of its journeys, clients and status data
 
   @tag1
-  Scenario: Title of your scenario
-    Given I want to write a step with precondition
-    And some other precondition
-    When I complete action
-    And some other action
-    And yet another action
-    Then I validate the outcomes
-    And check more outcomes
-
+  Scenario: logistic company wants to see history of container
+  	Given A logistic company
+    And a registered client with email "s184469@student.dtu.dk"
+    And a container registered to the client
+    And the container has been on one journey from "Copenhagen" to "Malmo" and another journey from "Oslo" to "Copenhagen"
+		When container history is requested by logistic company
+		Then an array containing pairs of journeyIDs and clientIDs are returned
+		And response message saying that history of container was successfully retrieved
+    
   @tag2
-  Scenario Outline: Title of your scenario outline
-    Given I want to write a step with <name>
-    When I check for the <value> in step
-    Then I verify the <status> in step
+  Scenario: container does not exist
+  	Given A logistic company
+    And a registered client with email "s184469@student.dtu.dk"
+    And an non-registered container
+		When container history is requested by logistic company
+	  Then response message saying that container does not exist
+    
+  @tag3
+  Scenario: client wants to see history of container owned
+  	Given A logistic company
+    And a registered client with email "s184469@student.dtu.dk"
+    And a container registered to the client
+    And the container has been on one journey from "Copenhagen" to "Malmo" and another journey from "Oslo" to "Copenhagen"
+		When container history is requested by client
+		Then an array containing relevant journeys are returned
+		And response message saying that history of container was successfully retrieved to client
+    
+  @tag4
+  Scenario: client wants to see history of container but container does not exist
+  	Given A logistic company
+    And a registered client with email "s184469@student.dtu.dk"
+		And an non-registered container
+		When container history is requested by client
+		Then response message saying that container does not exist to client
 
-    Examples: 
-      | name  | value | status  |
-      | name1 |     5 | success |
-      | name2 |     7 | Fail    |
+  @tag5
+  Scenario: client wants to see history of container owned with no journeys
+  	Given A logistic company
+    And a registered client with email "s184469@student.dtu.dk"
+    And a container registered to the client
+		When container history is requested by client
+		Then an array containing relevant journeys are returned with size 0
+		And response message saying that history of container was successfully retrieved to client
+
+
+  #@tag2
+  #Scenario Outline: Title of your scenario outline
+    #Given I want to write a step with <name>
+    #When I check for the <value> in step
+    #Then I verify the <status> in step
+#
+    #Examples: 
+      #| name  | value | status  |
+      #| name1 |     5 | success |
+      #| name2 |     7 | Fail    |

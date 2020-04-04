@@ -708,5 +708,75 @@ public class StepDefinition{
 	    assertEquals(response.getErrorMessage(),"Ship's still at harbour");
 	}
 
+	// ________________________________________containerHistory_____________________________________________________________
+	
+	@Given("a container registered to the client")
+	public void a_container_registered_to_the_client() {
+		container = lc.findFreeContainer();
+		lc.allocateContainer(1, container);
+	}
+
+	@Given("the container has been on one journey from {string} to {string} and another journey from {string} to {string}")
+	public void the_container_has_been_on_one_journey_from_to_and_another_journey_from_to(String string, String string2, String string3, String string4) {
+		lc.createJourney(string, string2,10);
+		lc.containerToJourney(1, container, 1, "bananas");
+		lc.progressJourney(1, 10);
+		lc.createJourney(string3, string4, 20);
+		lc.containerToJourney(1, container, 2, "oranges");
+		lc.progressJourney(2, 20);
+		
+	}
+
+	@When("container history is requested by logistic company")
+	public void container_history_is_requested_by_logistic_company() {
+	    response = lc.getHistory(container.getContainerId());
+	}
+
+	@Then("an array containing pairs of journeyIDs and clientIDs are returned")
+	public void an_array_containing_pairs_of_journeyIDs_and_clientIDs_are_returned() {
+	    assertEquals(response.getJourneys().size(), 2);
+	}
+
+	@Then("response message saying that history of container was successfully retrieved")
+	public void response_message_saying_that_history_of_container_was_successfully_retrieved() {
+	    assertEquals(response.getErrorMessage(),"History successfully retrieved");
+	}
+	
+	@Given("an non-registered container")
+	public void an_non_registered_container() {
+	    container = new Container(0);
+	}
+	
+	@Then("response message saying that container does not exist")
+	public void response_message_saying_that_container_does_not_exist() {
+	    assertEquals(response.getErrorMessage(),"Container does not exist");
+	}
+	
+	@When("container history is requested by client")
+	public void container_history_is_requested_by_client() {
+	    response = lc.getHistoryOfContainerForClient(1,container.getContainerId());
+	}
+
+	@Then("an array containing relevant journeys are returned")
+	public void an_array_containing_relevant_journeys_are_returned() {
+	    assertEquals(response.getJourneyHist().size(),2);
+	}
+
+	@Then("response message saying that history of container was successfully retrieved to client")
+	public void response_message_saying_that_history_of_container_was_successfully_retrieved_to_client() {
+	    assertEquals(response.getErrorMessage(),"Your container's history is succesfully retrieved");
+	}
+	
+	@Then("response message saying that container does not exist to client")
+	public void response_message_saying_that_container_does_not_exist_to_client() {
+	    assertEquals(response.getErrorMessage(),"Container does not exist");
+	}
+	
+	@Then("an array containing relevant journeys are returned with size {int}")
+	public void an_array_containing_relevant_journeys_are_returned_with_size(Integer int1) {
+	    assertTrue(response.getJourneyHist().size() == int1);
+	}
+
+	
 	
 }

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="3" failures="0" name="CloudContainers.CucumberTest" time="0.047" errors="0" skipped="1">
+<testsuite tests="5" failures="0" name="CloudContainers.CucumberTest" time="0.046" errors="0" skipped="1">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
-    <property name="java.vm.version" value="13.0.2+8"/>
-    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-13.0.2\bin"/>
-    <property name="maven.multiModuleProjectDirectory" value="C:\Users\Bruger\git\CloudContainers"/>
+    <property name="java.vm.version" value="11+28"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-11\bin"/>
+    <property name="maven.multiModuleProjectDirectory" value="C:\Users\victo\git\CloudContainers"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
-    <property name="java.vendor.url" value="https://java.oracle.com/"/>
+    <property name="java.vendor.url" value="http://java.oracle.com/"/>
     <property name="guice.disable.misplaced.annotation.check" value="true"/>
     <property name="path.separator" value=";"/>
     <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
@@ -15,50 +15,57 @@
     <property name="user.country" value="US"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="user.dir" value="C:\Users\Bruger\git\CloudContainers"/>
+    <property name="user.dir" value="C:\Users\victo\git\CloudContainers"/>
     <property name="java.vm.compressedOopsMode" value="Zero based"/>
-    <property name="java.runtime.version" value="13.0.2+8"/>
+    <property name="java.runtime.version" value="11+28"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
     <property name="os.arch" value="amd64"/>
-    <property name="java.io.tmpdir" value="C:\Users\Bruger\AppData\Local\Temp\"/>
+    <property name="java.io.tmpdir" value="C:\Users\victo\AppData\Local\Temp\"/>
     <property name="line.separator" value="
 "/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="user.variant" value=""/>
     <property name="os.name" value="Windows 10"/>
-    <property name="classworlds.conf" value="C:\Users\Bruger\OneDrive\DTU - General engineering\4. Semester\Agile Object-Oriented Software Development\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf11353856713291403566.tmp"/>
+    <property name="classworlds.conf" value="C:\Users\victo\eclipse-workspace\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf8378651948917021167.tmp"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
-    <property name="java.library.path" value="C:\Program Files\Java\jdk-13.0.2\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Program Files/Java/jdk-13.0.2/bin/server;C:/Program Files/Java/jdk-13.0.2/bin;C:\Program Files\Python37\Scripts\;C:\Program Files\Python37\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\PuTTY\;C:\Program Files\MATLAB\R2019b\bin;C:\Program Files\Git\cmd;C:\Users\Bruger\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\FSharp;C:\Users\Bruger\Desktop;;."/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-11\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Program Files/Java/jdk-11/bin/server;C:/Program Files/Java/jdk-11/bin;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\iCLS\;C:\Program Files\Intel\Intel(R) Management Engine Components\iCLS\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Users\victo\AppData\Local\Programs\Python\Python37-32\Scripts;C:\Program Files\Java\jdk-11\bin;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs\;C:\Program Files\dotnet\;C:\Program Files\MATLAB\R2019b\bin;C:\Users\victo\AppData\Local\Programs\Python\Python37-32\Scripts\;C:\Users\victo\AppData\Local\Programs\Python\Python37-32\;C:\Users\victo\.cargo\bin;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\iCLS\;C:\Program Files\Intel\Intel(R) Management Engine Components\iCLS\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files\Microsoft VS Code\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files;C:\Users\victo\.dotnet\tools;C:\Users\victo\AppData\Local\Microsoft\Wind;C:\WINDOWS\system32;;."/>
     <property name="jdk.debug" value="release"/>
-    <property name="java.class.version" value="57.0"/>
+    <property name="java.class.version" value="55.0"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="os.version" value="10.0"/>
-    <property name="user.home" value="C:\Users\Bruger"/>
-    <property name="user.timezone" value="Europe/Copenhagen"/>
+    <property name="user.home" value="C:\Users\victo"/>
+    <property name="user.timezone" value="Europe/Paris"/>
+    <property name="java.awt.printerjob" value="sun.awt.windows.WPrinterJob"/>
     <property name="file.encoding" value="Cp1252"/>
-    <property name="java.specification.version" value="13"/>
-    <property name="user.name" value="Bruger"/>
-    <property name="java.class.path" value="C:\Users\Bruger\.p2\pool\plugins\org.eclipse.m2e.maven.runtime_1.14.0.20191209-1923\jars\plexus-classworlds-2.6.0.jar"/>
-    <property name="java.vm.specification.version" value="13"/>
+    <property name="java.specification.version" value="11"/>
+    <property name="user.name" value="victo"/>
+    <property name="java.class.path" value="C:\Users\victo\.p2\pool\plugins\org.eclipse.m2e.maven.runtime_1.14.0.20191209-1923\jars\plexus-classworlds-2.6.0.jar"/>
+    <property name="java.vm.specification.version" value="11"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -B test"/>
-    <property name="java.home" value="C:\Program Files\Java\jdk-13.0.2"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk-11"/>
     <property name="user.language" value="en"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
-    <property name="java.vm.info" value="mixed mode, sharing"/>
-    <property name="java.version" value="13.0.2"/>
+    <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.version" value="11"/>
     <property name="java.vendor" value="Oracle Corporation"/>
-    <property name="maven.home" value="C:\Users\Bruger\git\CloudContainers\EMBEDDED"/>
+    <property name="maven.home" value="C:\Users\victo\git\CloudContainers\EMBEDDED"/>
     <property name="file.separator" value="\"/>
-    <property name="java.version.date" value="2020-01-14"/>
-    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.version.date" value="2018-09-25"/>
+    <property name="java.vendor.url.bug" value="http://bugreport.java.com/bugreport/"/>
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="sun.cpu.endian" value="little"/>
+    <property name="java.vendor.version" value="18.9"/>
+    <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="Free a container" name="a container is successfully freed" time="0.041"/>
-  <testcase classname="Free a container" name="container is on journey" time="0.002"/>
-  <testcase classname="Free a container" name="container is not owned" time="0.004">
+  <testcase classname="A container has a history log of its journeys, clients and status data" name="logistic company wants to see history of container" time="0.033"/>
+  <testcase classname="A container has a history log of its journeys, clients and status data" name="container does not exist" time="0"/>
+  <testcase classname="A container has a history log of its journeys, clients and status data" name="client wants to see history of container owned" time="0.002"/>
+  <testcase classname="A container has a history log of its journeys, clients and status data" name="client wants to see history of container but container does not exist" time="0.001"/>
+  <testcase classname="A container has a history log of its journeys, clients and status data" name="client wants to see history of container owned with no journeys" time="0.01">
     <skipped/>
   </testcase>
 </testsuite>

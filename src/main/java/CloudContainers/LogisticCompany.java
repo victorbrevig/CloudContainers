@@ -4,11 +4,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import org.apache.commons.validator.GenericValidator;
+
+import javafx.util.Pair;
 
 public class LogisticCompany {
 	private String name;
@@ -445,6 +449,52 @@ public class LogisticCompany {
 		response.setErrorMessage("This is the current status of your container");
 		return response;}
 
+	}
+
+	public ResponseObject getHistory(int containerId) {
+		Container container = this.getContainerDatabase().getContainer(containerId);
+		ResponseObject response = new ResponseObject();
+		
+		boolean containerExists = this.existCon(containerId);
+		
+		if (!containerExists) {
+			response.setErrorMessage("Container does not exist");
+			return response;
+		}
+		
+		response.setJourneys(container.getJourneyHistory());
+		response.setErrorMessage("History successfully retrieved");
+		return response;
+		
+	}
+	
+	public ResponseObject getHistoryOfContainerForClient (int clientId, int containerId) {
+		ResponseObject response = new ResponseObject();
+		
+		boolean clientExist = this.exist(clientId);
+		boolean containerExist = this.existCon(containerId);
+		
+		if (!clientExist) {
+			response.setErrorMessage("Client does not exist");
+			return response;
+		}
+		else if (!containerExist) {
+			response.setErrorMessage("Container does not exist");
+			return response;
+		}
+		
+		ArrayList<Journey> journeyHist = new ArrayList<Journey>();
+		
+		for (Pair<Integer, Integer> p : this.getHistory(containerId).getJourneys()) {
+			if (p.getValue() == clientId) {
+				journeyHist.add(this.getJourneyDatabase().getJourney(p.getKey()));
+			}
+		}
+		
+		response.setJourneyHist(journeyHist);
+		response.setErrorMessage("Your container's history is succesfully retrieved");
+		return response;
+		
 	}
 
 	
