@@ -73,10 +73,17 @@ public class Journey {
 
 
 	public boolean equals(Journey journey) {
-		return this.getJourneyID() == journey.getJourneyID();
+		if (journey instanceof Journey) {
+			return this.getJourneyID() == journey.getJourneyID();
+		}
+		return false;
 	}
 
-
+	public int hashCode() {
+		int result = 17;
+		result = 31 * result + this.journeyID;
+		return result;
+	}
 
 	public void setPortOfOrigin(String portOfOrigin) {
 		this.portOfOrigin = portOfOrigin;

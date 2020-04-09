@@ -31,13 +31,19 @@ public class Container {
 	}
 
 	public boolean equals(Container container) {
-		return this.getContainerId() == container.getContainerId();
-		
+		if (container instanceof Container) {
+			return this.getContainerId() == container.getContainerId();
+		}
+		return false;	
 	}
 	
 	public int hashCode() {
-		return this.getContainerId() * 7;
+		int result = 17;
+		result = 31 * result + this.containerId;
+		return result;
 	}
+	
+	
 	
 	
 	public int getClientId() {
