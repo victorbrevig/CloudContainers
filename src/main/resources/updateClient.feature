@@ -28,5 +28,11 @@ Feature: Update client information
   @tag2
   Scenario: Client wants to update phone number
     Given A client with phone number 87654321
-    When A client with email "bigstonks123@gmail.com" New phone number entered as 12345678
+    When A client with ID 1 New phone number entered as 12345678
     Then Display phonenumber update success message
+    
+  @tag3
+  Scenario: Client wants to update phone number but it is not correct
+    Given A client with phone number 87654321
+    When A client with ID 1 New phone number entered as 112
+    Then Display error message saying phone number is not correct for 112

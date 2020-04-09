@@ -59,7 +59,7 @@ public class LogisticCompany {
 	}
 	
 	public void addContainer() {
-		this.amountOfContainers++;
+		amountOfContainers++;
 		containers.add(new Container(amountOfContainers));
 	}
 	
@@ -71,9 +71,6 @@ public class LogisticCompany {
 		return clients;
 	}
 	
-	public void setClients(ClientDatabase clients) {
-		this.clients = clients;
-	}
 	
 	public String getName() {
 		return name;
@@ -96,40 +93,41 @@ public class LogisticCompany {
 	}
 	
 	public boolean removeClient(int clientID) {
-		return clients.remove(clients.getClient(clientID));
+		return clients.remove(findClient(clientID));
 	}
 	public boolean removeClient(String email) {
-		return clients.remove(clients.getClient(email));
+		return clients.remove(findClient(email));
 	}
-	// Does not work
-	public boolean exist(Client client) {
-		return clients.contains(client);
-	}
-	public boolean exist(int clientID) {
+
+	
+	
+	public boolean clientExists(int clientID) {
 		return clients.contains(clients.getClient(clientID));
 	}
-	public boolean exist(String email) {
+	public boolean clientExists(String email) {
 		return clients.contains(clients.getClient(email));
 	}
-	public boolean existN(int number) {
+	public boolean numberExists(int number) {
 		return clients.contains(clients.getClient(number));
 	}
-	public boolean existCon(int containerID) {
+	public boolean containerExists(int containerID) {
 		return containers.contains(containers.getContainer(containerID));
 	}
-	public boolean existJ(int journeyID) {
+	public boolean journeyExists(int journeyID) {
 		return journeys.contains(journeys.getJourney(journeyID));
 	}
 	
+	
+	public Container getContainer(int containerID) {
+		return getContainerDatabase().getContainer(containerID);
+	}
 
 	
-	public void validBirthdate(String birthdate) throws invalidBirthdateException {
-		if (!GenericValidator.isDate(birthdate, "dd-MM-yyyy", true)) {
-			throw new invalidBirthdateException(birthdate + " is not a valid birthdate");
-		}
+	public boolean validBirthdate(String birthdate) {
+		return GenericValidator.isDate(birthdate, "dd-MM-yyyy", true);
 	}
 	
-	public boolean correctEmail(String email) {
+	public boolean validEmail(String email) {
 		   boolean result = true;
 		   try {
 		      InternetAddress emailAddr = new InternetAddress(email);
@@ -140,42 +138,46 @@ public class LogisticCompany {
 		   return result;
 		}
 	
-	public void validEmail(String email) throws invalidEmailException {
-		if (!correctEmail(email)) {
-			throw new invalidEmailException(email + " is not a valid email");
-		}
-	}
 	
-	public void validParameters(String name, String email, String birthdate, String gender, int number) 
-			throws invalidParameterException{
-		if (    (name=="") 
+	public boolean validParameters(String name, String email, String birthdate, String gender, int number) {
+		return !(   (name=="") 
 				|| (birthdate=="") 
 				|| (email == "")			
 				|| (gender=="") 
-				|| (number==0)) {
-			throw new invalidParameterException("There is a missing parameter");
-		}
+				|| (number==0)   );
 	}
 	
+	
+	public boolean validNumber(int number) {
+		int length = String.valueOf(number).length();
+		return (length == 8);
+	}
+	
+	
 	public ResponseObject validInput(String name, String email, String birthdate, String gender, int number) {
-		ResponseObject response;
-		try {
-			validParameters(name,email,birthdate,gender,number);
-			validEmail(email);
-			validBirthdate(birthdate);
-			if (!this.exist(email)) {
-				response = new ResponseObject("Non-existing client");
-			}else {
-				response = new ResponseObject("existing client");
-			}
-		}catch(invalidEmailException err){
-			response = new ResponseObject(err.getMessage());
+		ResponseObject response = new ResponseObject();
 		
-		}catch(invalidBirthdateException err){
-			response = new ResponseObject(err.getMessage());
-			
-		}catch(invalidParameterException err){
-			response = new ResponseObject(err.getMessage());
+		if (!validParameters(name,email,birthdate,gender,number)) {
+			response = new ResponseObject("There is a missing parameter");
+			return response;
+		}
+		else if (!validEmail(email)) {
+			response = new ResponseObject(email + " is not a valid email");
+			return response;
+		}
+		else if (!validBirthdate(birthdate)) {
+			response = new ResponseObject(birthdate + " is not a valid birthdate");
+			return response;
+		}
+		else if (!validNumber(number)) {
+			response = new ResponseObject(number + " is not a valid phone number");
+			return response;
+		}
+		
+		if (!clientExists(email)) {
+			response = new ResponseObject("Non-existing client");
+		}else {
+			response = new ResponseObject("Existing client");
 		}
 		return response;
 		
@@ -184,34 +186,49 @@ public class LogisticCompany {
 
 	
 	public ResponseObject newClient(String name, String email, String birthdate, String gender, int number, String password) {
-			ResponseObject response;
-			response = validInput(name,email,birthdate,gender,number);
-			if (response.getErrorMessage().equals("Non-existing client")) {
-				int clientID = this.clientIDgen++;
-				Client client = new Client(name,clientID,email,birthdate,gender,number,this.name, password);
-				this.clients.add(client);
-				response.setErrorMessage("Client was successfully added");
-			}return response;
+		ResponseObject response;
+		response = validInput(name,email,birthdate,gender,number);
+		if (response.getErrorMessage().equals("Non-existing client")) {
+			int clientID = clientIDgen++;
+			Client client = new Client(name,clientID,email,birthdate,gender,number,this.name, password);
+			clients.add(client);
+			response.setErrorMessage("Client was successfully added");
+		}
+		return response;
 	}
 	
-	public ResponseObject updateClient(String oldEmail,String email) {
+	public ResponseObject updateClient(int clientID,String email) {
 		ResponseObject response = new ResponseObject();
-		Client c = this.findClient(oldEmail);
+		Client c = findClient(clientID);
+		// Valid new email
 		response = validInput(c.getName(),email,c.getBirthdate(),c.getGender(),c.getNumber());
+		// Check if new email belongs to a client already
 		if (response.getErrorMessage().equals("Non-existing client")) {
-			this.findClient(oldEmail).setEmail(email);
-			response.setErrorMessage("Email has been updated");}
-		return response;}
+			findClient(clientID).setEmail(email);
+			response.setErrorMessage("Email has been updated");
+			}
+		return response;
+	}
 	
-	public ResponseObject updateClient(String oldEmail,int number) {
+	public ResponseObject updateClient(int clientID,int number) {
 		ResponseObject response = new ResponseObject();
-		if (!this.existN(number)) {
-			this.findClient(oldEmail).setNumber(number);
-			response.setErrorMessage("Phone number has been updated");
-		}else {
-			response.setErrorMessage("existing client");
+		Client c = findClient(clientID);
+		// Valid new email
+		response = validInput(c.getName(),c.getEmail(),c.getBirthdate(),c.getGender(),number);
+		// Check if new email belongs to a client already
+		
+		if (!validNumber(number)) {
+			return response;
 		}
-		return response;}
+		if (!numberExists(number)) {
+			findClient(clientID).setNumber(number);
+			response.setErrorMessage("Phone number has been updated");
+		}
+		else {
+			response.setErrorMessage("Existing client");
+		}
+		return response;
+	}
 
 	public Container findFreeContainer() {
 //		Container 0, is returned if no vacant containers are available
@@ -221,14 +238,15 @@ public class LogisticCompany {
 			if (!c.isOwned()) {
 				return c;
 			}
-		}return container;
+		}
+		return container;
 	}
 
 	
 	public ResponseObject allocateContainer(int clientId,Container container) {
 		ResponseObject response = new ResponseObject("Container succesfully allocated");
-		boolean existClient = this.exist(clientId);
-		boolean existContainer = this.existCon(container.getContainerId());
+		boolean existClient = clientExists(clientId);
+		boolean existContainer = containerExists(container.getContainerId());
 		boolean owned = container.isOwned();
 		
 		if(!existClient) {
@@ -243,13 +261,12 @@ public class LogisticCompany {
 		else {
 			container.setOwned(true);
 			container.setClientId(clientId);
-			
 		}
 		return response;
 	}
 	
 	public ResponseObject freeContainer(int containerID) {
-		Container container = this.getContainerDatabase().getContainer(containerID);
+		Container container = getContainerDatabase().getContainer(containerID);
 		ResponseObject response = new ResponseObject();
 //		container is not on journey
 //		container is owned
@@ -260,8 +277,8 @@ public class LogisticCompany {
 		}else if (!owned) {
 			response.setErrorMessage("This container does not belong to a client");
 		}else {
-			this.getContainerDatabase().getContainer(containerID).setClientId(0);
-			this.getContainerDatabase().getContainer(containerID).setOwned(false);
+			getContainer(containerID).setClientId(0);
+			getContainer(containerID).setOwned(false);
 			response.setErrorMessage("Container was successfully freed");
 		}
 		return response;
@@ -270,33 +287,35 @@ public class LogisticCompany {
 	public ResponseObject containerToJourney(int clientID, Container container, int journeyID, String content) {
 		ResponseObject response = new ResponseObject("Container successfully added to journey");
 		// Conditions to check
-		// Client exists OR clients.contains(client);
-		boolean c1 = exist(clientID);
+		// Client exists
+		boolean existingClient = clientExists(clientID);
 		// Container belongs to client
-		boolean c2 = container.getClientId() == clientID;
+		boolean belongsToClient = container.getClientId() == clientID;
 		// Journey exists
-		boolean c3 = existJ(journeyID);
+		boolean existingJourney = journeyExists(journeyID);
 		
-		if (c1 && c2 && c3) {
-			container.setContent(content);
-			container.addJourney(journeyID);
-		}
-		else if (!c1) {
+		if (!existingClient) {
 			response.setErrorMessage("Client does not exist");
+			return response;
 		}
-		else if (!c2) {
+		else if (!belongsToClient) {
 			response.setErrorMessage("Container does not belong to client");
+			return response;
 		}
-		else if (!c3) {
+		else if (!existingJourney) {
 			response.setErrorMessage("Journey does not exist");
+			return response;
 		}
+		
+		container.setContent(content);
+		container.addJourney(journeyID);
 		
 		return response;
 	}
 	
 	public ResponseObject updateJourneyPortOfOrigin(int journeyID, String newPortOfOrigin) {
 		ResponseObject response = new ResponseObject();
-		if (existJ(journeyID)) {
+		if (journeyExists(journeyID)) {
 			journeys.getJourney(journeyID).setPortOfOrigin(newPortOfOrigin);
 			response.setErrorMessage(newPortOfOrigin + " successfully updated as port of origin");
 		}
@@ -308,7 +327,7 @@ public class LogisticCompany {
 	
 	public ResponseObject updateJourneyDestination(int journeyID, String newDestination) {
 		ResponseObject response = new ResponseObject();
-		if (existJ(journeyID)) {
+		if (journeyExists(journeyID)) {
 			journeys.getJourney(journeyID).setDestination(newDestination);
 			response.setErrorMessage(newDestination + " successfully updated as destination");
 		}
@@ -321,7 +340,7 @@ public class LogisticCompany {
 	public ResponseObject endJourney(int journeyID) {
 		ResponseObject response = new ResponseObject();
 		
-		if (!existJ(journeyID)) {
+		if (!journeyExists(journeyID)) {
 			response.setErrorMessage("No such journey exist");
 			return response;
 		}
@@ -330,19 +349,24 @@ public class LogisticCompany {
 		
 		journeys.getJourney(journeyID).setStarted(false);
 		
+
+		countFree = updateContainers(journeyID, countFree);
+		
+		response.setErrorMessage("Journey successfully ended. " + countFree + " containers were set free.");
+		
+		return response;
+	}
+
+	private int updateContainers(int journeyID, int countFree) {
 		for (Container container : containers) {
 			if (container.getJourneyId() == journeyID) {
 				container.setJourneyId(0);
 				container.setOnJourney(false);
 				container.setContent("");
 				countFree++;
-				
-
 			}
 		}
-		response.setErrorMessage("Journey successfully ended. " + countFree + " containers were set free.");
-		
-		return response;
+		return countFree;
 	}
 	
 	public ResponseObject progressJourney(int journeyID, int timeIncrement) {
@@ -359,7 +383,7 @@ public class LogisticCompany {
 		boolean existingContainer = false;
 		
 		
-		if (!this.existJ(journeyID)) {
+		if (!journeyExists(journeyID)) {
 			response.setErrorMessage("Journey does not exist");
 			return response;
 		}else if (timeIncrement <= 0) {
@@ -371,7 +395,7 @@ public class LogisticCompany {
 		for (int i = 1; i<=timeIncrement;i++) {
 //			Checking if the journey has ended
 			if (timeToDestination == 0) {
-				this.endJourney(journeyID);
+				endJourney(journeyID);
 				break;
 			} 
 			
@@ -420,7 +444,7 @@ public class LogisticCompany {
 
 	
 	public boolean ownedContainer(int clientID, int containerID) {
-		return this.getContainerDatabase().getContainer(containerID).getClientId() == clientID;
+		return getContainerDatabase().getContainer(containerID).getClientId() == clientID;
 	}
 	
 	public ResponseObject accessStatus(Integer clientID, Integer containerID) {
@@ -428,7 +452,7 @@ public class LogisticCompany {
 		Container container = containers.getContainer(containerID);
 		Journey journey = journeys.getJourney(container.getJourneyId());
 //		Container exists
-		boolean c1 = this.existCon(containerID);
+		boolean c1 = containerExists(containerID);
 //		Container owned
 		boolean c2 = ownedContainer(clientID,containerID);
 //		Journey is started, and data exists
@@ -452,10 +476,10 @@ public class LogisticCompany {
 	}
 
 	public ResponseObject getHistory(int containerId) {
-		Container container = this.getContainerDatabase().getContainer(containerId);
+		Container container = getContainerDatabase().getContainer(containerId);
 		ResponseObject response = new ResponseObject();
 		
-		boolean containerExists = this.existCon(containerId);
+		boolean containerExists = containerExists(containerId);
 		
 		if (!containerExists) {
 			response.setErrorMessage("Container does not exist");
@@ -471,8 +495,8 @@ public class LogisticCompany {
 	public ResponseObject getHistoryOfContainerForClient (int clientId, int containerId) {
 		ResponseObject response = new ResponseObject();
 		
-		boolean clientExist = this.exist(clientId);
-		boolean containerExist = this.existCon(containerId);
+		boolean clientExist = clientExists(clientId);
+		boolean containerExist = containerExists(containerId);
 		
 		if (!clientExist) {
 			response.setErrorMessage("Client does not exist");
@@ -485,9 +509,9 @@ public class LogisticCompany {
 		
 		ArrayList<Journey> journeyHist = new ArrayList<Journey>();
 		
-		for (Pair<Integer, Integer> p : this.getHistory(containerId).getJourneys()) {
+		for (Pair<Integer, Integer> p : getHistory(containerId).getJourneys()) {
 			if (p.getValue() == clientId) {
-				journeyHist.add(this.getJourneyDatabase().getJourney(p.getKey()));
+				journeyHist.add(getJourneyDatabase().getJourney(p.getKey()));
 			}
 		}
 		
@@ -499,27 +523,6 @@ public class LogisticCompany {
 
 	
 
-}
-
-
-
-class invalidEmailException extends Exception { 
-    public invalidEmailException(String errorMessage) {
-        super(errorMessage);
-    }
-    
-}
-
-class invalidBirthdateException extends Exception { 
-    public invalidBirthdateException(String errorMessage) {
-        super(errorMessage);
-    }
-}
-
-class invalidParameterException extends Exception { 
-    public invalidParameterException(String errorMessage) {
-        super(errorMessage);
-    }
 }
 
 

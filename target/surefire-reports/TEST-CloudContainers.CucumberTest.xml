@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="5" failures="0" name="CloudContainers.CucumberTest" time="0.046" errors="0" skipped="1">
+<testsuite tests="48" failures="23" name="CloudContainers.CucumberTest" time="0.089" errors="5" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="11+28"/>
@@ -26,9 +26,9 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="user.variant" value=""/>
     <property name="os.name" value="Windows 10"/>
-    <property name="classworlds.conf" value="C:\Users\victo\eclipse-workspace\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf8378651948917021167.tmp"/>
+    <property name="classworlds.conf" value="C:\Users\victo\eclipse-workspace\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf3527951382261937809.tmp"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
-    <property name="java.library.path" value="C:\Program Files\Java\jdk-11\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Program Files/Java/jdk-11/bin/server;C:/Program Files/Java/jdk-11/bin;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\iCLS\;C:\Program Files\Intel\Intel(R) Management Engine Components\iCLS\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Users\victo\AppData\Local\Programs\Python\Python37-32\Scripts;C:\Program Files\Java\jdk-11\bin;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs\;C:\Program Files\dotnet\;C:\Program Files\MATLAB\R2019b\bin;C:\Users\victo\AppData\Local\Programs\Python\Python37-32\Scripts\;C:\Users\victo\AppData\Local\Programs\Python\Python37-32\;C:\Users\victo\.cargo\bin;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\iCLS\;C:\Program Files\Intel\Intel(R) Management Engine Components\iCLS\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files\Microsoft VS Code\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files;C:\Users\victo\.dotnet\tools;C:\Users\victo\AppData\Local\Microsoft\Wind;C:\WINDOWS\system32;;."/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-11\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Users/victo/Downloads/processing-3.5.3-windows64/processing-3.5.3/java/bin/server;C:/Users/victo/Downloads/processing-3.5.3-windows64/processing-3.5.3/java/bin;C:/Users/victo/Downloads/processing-3.5.3-windows64/processing-3.5.3/java/lib/amd64;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Users\victo\AppData\Local\Programs\Python\Python37-32;C:\Users\victo\AppData\Local\Programs\Python\Python37-32\Scripts;C:\Program Files\heroku\bin;C:\Program Files\Git\bin;C:\Users\victo\Downloads\processing-3.5.3-windows64\processing-3.5.3\java\bin;C:\Users\victo\AppData\Local\Programs\Python\Python37-32;C:\WINDOWS\system32;;."/>
     <property name="jdk.debug" value="release"/>
     <property name="java.class.version" value="55.0"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
@@ -61,11 +61,265 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="A container has a history log of its journeys, clients and status data" name="logistic company wants to see history of container" time="0.033"/>
-  <testcase classname="A container has a history log of its journeys, clients and status data" name="container does not exist" time="0"/>
-  <testcase classname="A container has a history log of its journeys, clients and status data" name="client wants to see history of container owned" time="0.002"/>
-  <testcase classname="A container has a history log of its journeys, clients and status data" name="client wants to see history of container but container does not exist" time="0.001"/>
-  <testcase classname="A container has a history log of its journeys, clients and status data" name="client wants to see history of container owned with no journeys" time="0.01">
-    <skipped/>
+  <testcase classname="Adding a client to register" name="New client succesfully added" time="0.012">
+    <failure type="java.lang.AssertionError">java.lang.AssertionError
+	at org.junit.Assert.fail(Assert.java:86)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at org.junit.Assert.assertTrue(Assert.java:52)
+	at CloudContainers.StepDefinition.display_success_message(StepDefinition.java:38)
+	at ✽.display success message(file:src/main/resources/AddClient.feature:26)
+</failure>
+    <system-err>Apr 09, 2020 3:06:38 PM cucumber.runtime.java.ObjectFactoryLoader loadSingleObjectFactory
+INFO: Loading ObjectFactory via service loader: io.cucumber.picocontainer.PicoFactory
+</system-err>
   </testcase>
+  <testcase classname="Adding a client to register" name="Client already exists" time="0">
+    <failure type="java.lang.AssertionError">java.lang.AssertionError
+	at org.junit.Assert.fail(Assert.java:86)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at org.junit.Assert.assertTrue(Assert.java:52)
+	at CloudContainers.StepDefinition.existing_client(StepDefinition.java:45)
+	at ✽.existing client(file:src/main/resources/AddClient.feature:31)
+</failure>
+  </testcase>
+  <testcase classname="Adding a client to register" name="Missing parameter" time="0.027">
+    <failure message="expected:&lt;[Client was successfully added]&gt; but was:&lt;[There is a missing parameter]&gt;" type="org.junit.ComparisonFailure">org.junit.ComparisonFailure: expected:&lt;[Client was successfully added]&gt; but was:&lt;[There is a missing parameter]&gt;
+	at org.junit.Assert.assertEquals(Assert.java:115)
+	at org.junit.Assert.assertEquals(Assert.java:144)
+	at CloudContainers.StepDefinition.missing_parameter_error_message_is_thrown(StepDefinition.java:66)
+	at ✽.missing parameter error message is thrown(file:src/main/resources/AddClient.feature:39)
+</failure>
+  </testcase>
+  <testcase classname="Adding a client to register" name="Email is invalid" time="0.001">
+    <failure message="expected:&lt;[There is a missing parameter]&gt; but was:&lt;[wrongEmail is not a valid email]&gt;" type="org.junit.ComparisonFailure">org.junit.ComparisonFailure: expected:&lt;[There is a missing parameter]&gt; but was:&lt;[wrongEmail is not a valid email]&gt;
+	at org.junit.Assert.assertEquals(Assert.java:115)
+	at org.junit.Assert.assertEquals(Assert.java:144)
+	at CloudContainers.StepDefinition.invalid_email_error_is_displayed_for(StepDefinition.java:82)
+	at ✽.invalid email error is displayed for &quot;wrongEmail&quot;(file:src/main/resources/AddClient.feature:45)
+</failure>
+  </testcase>
+  <testcase classname="Adding a client to register" name="Birthdate is invalid" time="0.001">
+    <failure message="expected:&lt;[There is a missing parameter]&gt; but was:&lt;[111-02-1992 is not a valid birthdate]&gt;" type="org.junit.ComparisonFailure">org.junit.ComparisonFailure: expected:&lt;[There is a missing parameter]&gt; but was:&lt;[111-02-1992 is not a valid birthdate]&gt;
+	at org.junit.Assert.assertEquals(Assert.java:115)
+	at org.junit.Assert.assertEquals(Assert.java:144)
+	at CloudContainers.StepDefinition.invalid_birtdate_error_is_displayed_for(StepDefinition.java:92)
+	at ✽.invalid birtdate error is displayed for &quot;111-02-1992&quot;(file:src/main/resources/AddClient.feature:51)
+</failure>
+  </testcase>
+  <testcase classname="access data as client" name="access existing data" time="0.015">
+    <error type="java.lang.NullPointerException">java.lang.NullPointerException
+	at CloudContainers.StepDefinition.the_status_of_the_container_is_returned(StepDefinition.java:689)
+	at ✽.the status of the container is returned(file:src/main/resources/accessData.feature:30)
+</error>
+  </testcase>
+  <testcase classname="access data as client" name="container does not exist" time="0.001"/>
+  <testcase classname="access data as client" name="container is not owned by client" time="0"/>
+  <testcase classname="access data as client" name="journey has not started" time="0.001">
+    <failure message="expected:&lt;[You don&apos;t own this containe]r&gt; but was:&lt;[Ship&apos;s still at harbou]r&gt;" type="org.junit.ComparisonFailure">org.junit.ComparisonFailure: expected:&lt;[You don&apos;t own this containe]r&gt; but was:&lt;[Ship&apos;s still at harbou]r&gt;
+	at org.junit.Assert.assertEquals(Assert.java:115)
+	at org.junit.Assert.assertEquals(Assert.java:144)
+	at CloudContainers.StepDefinition.a_error_message_is_returned_for_journey_has_not_started(StepDefinition.java:708)
+	at ✽.a error message is returned for journey has not started(file:src/main/resources/accessData.feature:52)
+</failure>
+  </testcase>
+  <testcase classname="A container has a history log of its journeys, clients and status data" name="logistic company wants to see history of container" time="0.003">
+    <failure message="expected:&lt;0&gt; but was:&lt;2&gt;" type="java.lang.AssertionError">java.lang.AssertionError: expected:&lt;0&gt; but was:&lt;2&gt;
+	at org.junit.Assert.fail(Assert.java:88)
+	at org.junit.Assert.failNotEquals(Assert.java:834)
+	at org.junit.Assert.assertEquals(Assert.java:645)
+	at org.junit.Assert.assertEquals(Assert.java:631)
+	at CloudContainers.StepDefinition.an_array_containing_pairs_of_journeyIDs_and_clientIDs_are_returned(StepDefinition.java:737)
+	at ✽.an array containing pairs of journeyIDs and clientIDs are returned(file:src/main/resources/containerHistory.feature:29)
+</failure>
+  </testcase>
+  <testcase classname="A container has a history log of its journeys, clients and status data" name="container does not exist" time="0"/>
+  <testcase classname="A container has a history log of its journeys, clients and status data" name="client wants to see history of container owned" time="0.002">
+    <error type="java.lang.NullPointerException">java.lang.NullPointerException
+	at CloudContainers.StepDefinition.an_array_containing_relevant_journeys_are_returned(StepDefinition.java:762)
+	at ✽.an array containing relevant journeys are returned(file:src/main/resources/containerHistory.feature:47)
+</error>
+  </testcase>
+  <testcase classname="A container has a history log of its journeys, clients and status data" name="client wants to see history of container but container does not exist" time="0.001">
+    <failure message="expected:&lt;C[lient] does not exist&gt; but was:&lt;C[ontainer] does not exist&gt;" type="org.junit.ComparisonFailure">org.junit.ComparisonFailure: expected:&lt;C[lient] does not exist&gt; but was:&lt;C[ontainer] does not exist&gt;
+	at org.junit.Assert.assertEquals(Assert.java:115)
+	at org.junit.Assert.assertEquals(Assert.java:144)
+	at CloudContainers.StepDefinition.response_message_saying_that_container_does_not_exist_to_client(StepDefinition.java:772)
+	at ✽.response message saying that container does not exist to client(file:src/main/resources/containerHistory.feature:56)
+</failure>
+  </testcase>
+  <testcase classname="A container has a history log of its journeys, clients and status data" name="client wants to see history of container owned with no journeys" time="0.001">
+    <error type="java.lang.NullPointerException">java.lang.NullPointerException
+	at CloudContainers.StepDefinition.an_array_containing_relevant_journeys_are_returned_with_size(StepDefinition.java:777)
+	at ✽.an array containing relevant journeys are returned with size 0(file:src/main/resources/containerHistory.feature:64)
+</error>
+  </testcase>
+  <testcase classname="Add container to journey" name="Successfully add a container to journey" time="0.001">
+    <failure type="java.lang.AssertionError">java.lang.AssertionError
+	at org.junit.Assert.fail(Assert.java:86)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at org.junit.Assert.assertTrue(Assert.java:52)
+	at CloudContainers.StepDefinition.a_logistic_company_with_a_registered_client(StepDefinition.java:356)
+	at ✽.a logistic company with a registered client(file:src/main/resources/containerOnJourney.feature:24)
+</failure>
+  </testcase>
+  <testcase classname="Add container to journey" name="Client does not exist" time="0"/>
+  <testcase classname="Add container to journey" name="Container does not exist" time="0">
+    <failure type="java.lang.AssertionError">java.lang.AssertionError
+	at org.junit.Assert.fail(Assert.java:86)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at org.junit.Assert.assertTrue(Assert.java:52)
+	at CloudContainers.StepDefinition.a_logistic_company_with_a_registered_client(StepDefinition.java:356)
+	at ✽.a logistic company with a registered client(file:src/main/resources/containerOnJourney.feature:40)
+</failure>
+  </testcase>
+  <testcase classname="Add container to journey" name="Journey does not exist" time="0.001">
+    <failure type="java.lang.AssertionError">java.lang.AssertionError
+	at org.junit.Assert.fail(Assert.java:86)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at org.junit.Assert.assertTrue(Assert.java:52)
+	at CloudContainers.StepDefinition.a_logistic_company_with_a_registered_client(StepDefinition.java:356)
+	at ✽.a logistic company with a registered client(file:src/main/resources/containerOnJourney.feature:48)
+</failure>
+  </testcase>
+  <testcase classname="Allocate a container to a client" name="succesfull allocation" time="0.001">
+    <failure type="java.lang.AssertionError">java.lang.AssertionError
+	at org.junit.Assert.fail(Assert.java:86)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at org.junit.Assert.assertTrue(Assert.java:52)
+	at CloudContainers.StepDefinition.a_logistic_company_with_a_client(StepDefinition.java:267)
+	at ✽.a logistic company with a client(file:src/main/resources/containerToClient.feature:24)
+</failure>
+  </testcase>
+  <testcase classname="Allocate a container to a client" name="container already owned" time="0.001">
+    <failure type="java.lang.AssertionError">java.lang.AssertionError
+	at org.junit.Assert.fail(Assert.java:86)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at org.junit.Assert.assertTrue(Assert.java:52)
+	at CloudContainers.StepDefinition.a_logistic_company_with_another_client(StepDefinition.java:299)
+	at ✽.a logistic company with another client(file:src/main/resources/containerToClient.feature:31)
+</failure>
+  </testcase>
+  <testcase classname="Allocate a container to a client" name="container does not exist" time="0.001">
+    <failure type="java.lang.AssertionError">java.lang.AssertionError
+	at org.junit.Assert.fail(Assert.java:86)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at org.junit.Assert.assertTrue(Assert.java:52)
+	at CloudContainers.StepDefinition.a_logistic_company_with_a_client(StepDefinition.java:267)
+	at ✽.a logistic company with a client(file:src/main/resources/containerToClient.feature:38)
+</failure>
+  </testcase>
+  <testcase classname="Allocate a container to a client" name="client does not exist" time="0"/>
+  <testcase classname="End a journey" name="a journey successfully ended" time="0.001">
+    <failure message="expected:&lt;...successfully ended. [0] containers were set...&gt; but was:&lt;...successfully ended. [1] containers were set...&gt;" type="org.junit.ComparisonFailure">org.junit.ComparisonFailure: expected:&lt;...successfully ended. [0] containers were set...&gt; but was:&lt;...successfully ended. [1] containers were set...&gt;
+	at org.junit.Assert.assertEquals(Assert.java:115)
+	at org.junit.Assert.assertEquals(Assert.java:144)
+	at CloudContainers.StepDefinition.message_displayed_saying_journey_successfully_ended_for_containers(StepDefinition.java:533)
+	at ✽.message displayed saying journey successfully ended for 1 containers(file:src/main/resources/endJourney.feature:27)
+</failure>
+  </testcase>
+  <testcase classname="End a journey" name="journey does not exist" time="0.001">
+    <failure message="expected:&lt;[Client] does not exist&gt; but was:&lt;[Journey] does not exist&gt;" type="org.junit.ComparisonFailure">org.junit.ComparisonFailure: expected:&lt;[Client] does not exist&gt; but was:&lt;[Journey] does not exist&gt;
+	at org.junit.Assert.assertEquals(Assert.java:115)
+	at org.junit.Assert.assertEquals(Assert.java:144)
+	at CloudContainers.StepDefinition.a_container_allocated_to_a_client_is_added_to_the_journey_pt2(StepDefinition.java:550)
+	at ✽.a container allocated to a client is added to the journey pt2(file:src/main/resources/endJourney.feature:32)
+</failure>
+  </testcase>
+  <testcase classname="Client wish to filter journey" name="client wish to filter journeys after port of origin" time="0.002"/>
+  <testcase classname="Client wish to filter journey" name="client wish to filter journeys after destination" time="0.001"/>
+  <testcase classname="Client wish to filter journey" name="no journey matching port of destination given by input" time="0.001"/>
+  <testcase classname="Client wish to filter journey" name="no journey matching destination given by input" time="0"/>
+  <testcase classname="Free a container" name="a container is successfully freed" time="0.001">
+    <failure message="expected:&lt;[This container does not belong to a client]&gt; but was:&lt;[Container was successfully freed]&gt;" type="org.junit.ComparisonFailure">org.junit.ComparisonFailure: expected:&lt;[This container does not belong to a client]&gt; but was:&lt;[Container was successfully freed]&gt;
+	at org.junit.Assert.assertEquals(Assert.java:115)
+	at org.junit.Assert.assertEquals(Assert.java:144)
+	at CloudContainers.StepDefinition.a_succes_message_is_displayed_for_freeing_a_container(StepDefinition.java:579)
+	at ✽.A succes message is displayed for freeing a container(file:src/main/resources/freeContainer.feature:28)
+</failure>
+  </testcase>
+  <testcase classname="Free a container" name="container is on journey" time="0.001">
+    <failure message="expected:&lt;This container [does not belong to a client]&gt; but was:&lt;This container [is on a journey]&gt;" type="org.junit.ComparisonFailure">org.junit.ComparisonFailure: expected:&lt;This container [does not belong to a client]&gt; but was:&lt;This container [is on a journey]&gt;
+	at org.junit.Assert.assertEquals(Assert.java:115)
+	at org.junit.Assert.assertEquals(Assert.java:144)
+	at CloudContainers.StepDefinition.a_error_message_is_displayed_that_container_is_on_journey(StepDefinition.java:588)
+	at ✽.A error message is displayed that container is on journey(file:src/main/resources/freeContainer.feature:37)
+</failure>
+  </testcase>
+  <testcase classname="Free a container" name="container is not owned" time="0"/>
+  <testcase classname="Remove client" name="A logistic company wants to remove a client" time="0.001">
+    <failure type="java.lang.AssertionError">java.lang.AssertionError
+	at org.junit.Assert.fail(Assert.java:86)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at org.junit.Assert.assertTrue(Assert.java:52)
+	at CloudContainers.StepDefinition.a_logistic_company_with_a_client_with_clientID(StepDefinition.java:210)
+	at ✽.A logistic company that has a client with clientID 1(file:src/main/resources/removeClient.feature:24)
+</failure>
+  </testcase>
+  <testcase classname="Remove client" name="A logistic company wants to remove a client" time="0.001">
+    <failure type="java.lang.AssertionError">java.lang.AssertionError
+	at org.junit.Assert.fail(Assert.java:86)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at org.junit.Assert.assertTrue(Assert.java:52)
+	at CloudContainers.StepDefinition.a_logistic_company_that_has_a_client_with_an_email(StepDefinition.java:221)
+	at ✽.A logistic company that has a client with an email &quot;j1@gmail.com&quot;(file:src/main/resources/removeClient.feature:30)
+</failure>
+  </testcase>
+  <testcase classname="Remove client" name="A logistic company tries to remove a non existing client" time="0"/>
+  <testcase classname="Remove client" name="A logistic company tries to remove a non existing client" time="0"/>
+  <testcase classname="elapse time for journey" name="Elapse time of journey for ten hours" time="0.002">
+    <error message="Index -1 out of bounds for length 0" type="java.lang.IndexOutOfBoundsException">java.lang.IndexOutOfBoundsException: Index -1 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:458)
+	at CloudContainers.StepDefinition.data_has_been_collected_up_till_hours(StepDefinition.java:645)
+	at ✽.data has been collected up till 10 hours(file:src/main/resources/runJourney.feature:30)
+</error>
+  </testcase>
+  <testcase classname="elapse time for journey" name="journey ends" time="0.001">
+    <error message="Index -1 out of bounds for length 0" type="java.lang.IndexOutOfBoundsException">java.lang.IndexOutOfBoundsException: Index -1 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:458)
+	at CloudContainers.StepDefinition.data_has_been_collected_up_till_hours(StepDefinition.java:645)
+	at ✽.data has been collected up till 5 hours(file:src/main/resources/runJourney.feature:41)
+</error>
+  </testcase>
+  <testcase classname="elapse time for journey" name="no container assigned to journey" time="0.001"/>
+  <testcase classname="elapse time for journey" name="time increment is to small" time="0"/>
+  <testcase classname="Logistic company search for client" name="Searching for an existing client" time="0.001">
+    <failure type="java.lang.AssertionError">java.lang.AssertionError
+	at org.junit.Assert.fail(Assert.java:86)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at org.junit.Assert.assertTrue(Assert.java:52)
+	at CloudContainers.StepDefinition.the_client_is_returned_for_and_a_succes_message_is_displayed(StepDefinition.java:151)
+	at ✽.The client is returned for &quot;email123@mail.dk&quot; and a succes message is displayed(file:src/main/resources/searchClient.feature:26)
+</failure>
+  </testcase>
+  <testcase classname="Logistic company search for client" name="Searching for an existing client" time="0">
+    <failure type="java.lang.AssertionError">java.lang.AssertionError
+	at org.junit.Assert.fail(Assert.java:86)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at org.junit.Assert.assertTrue(Assert.java:52)
+	at CloudContainers.StepDefinition.the_client_is_returned_for_and_a_succes_message_is_displayed(StepDefinition.java:171)
+	at ✽.The client is returned for 1 and a succes message is displayed(file:src/main/resources/searchClient.feature:33)
+</failure>
+  </testcase>
+  <testcase classname="Logistic company search for client" name="Searching for a non existing client" time="0.001"/>
+  <testcase classname="Logistic company search for client" name="Searching for a non existing client" time="0"/>
+  <testcase classname="Update client information" name="Client wants to update email" time="0.002">
+    <failure message="expected:&lt;[Non-existing client]&gt; but was:&lt;[Email has been updated]&gt;" type="org.junit.ComparisonFailure">org.junit.ComparisonFailure: expected:&lt;[Non-existing client]&gt; but was:&lt;[Email has been updated]&gt;
+	at org.junit.Assert.assertEquals(Assert.java:115)
+	at org.junit.Assert.assertEquals(Assert.java:144)
+	at CloudContainers.StepDefinition.display_email_update_success_message(StepDefinition.java:112)
+	at ✽.Display email update success message(file:src/main/resources/updateClient.feature:26)
+</failure>
+  </testcase>
+  <testcase classname="Update client information" name="Client wants to update phone number" time="0.001"/>
+  <testcase classname="Title of your feature" name="Logistic company wants to update the port of origin of a journey" time="0"/>
+  <testcase classname="Title of your feature" name="Logistic company wants to update the destination of a journey" time="0"/>
+  <testcase classname="Title of your feature" name="Journey does not exist" time="0"/>
 </testsuite>

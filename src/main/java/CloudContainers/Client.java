@@ -43,8 +43,19 @@ public class Client {
 	}
 
 	public boolean equals(Client client) {
-		return (this.getEmail()).equals(client.getEmail());
+		if (client instanceof Client) {
+			return (this.getEmail()).equals(client.getEmail());
+		}
+		return false;
 	}
+	
+	public int hashCode() {
+		int result = 17;
+		result = 31 * result + this.clientID;
+		return result;
+	}
+	
+	
 	
 	public String getName() {
 		return name;
@@ -96,28 +107,6 @@ public class Client {
 		
 	}
 	
-	
-//	public ResponseObject registerContainerToJourney(Container container, Journey journey) {
-//		
-//		// journey.getCompany().exist(journey);
-//		// containers.exist(container) ...
-//		ResponseObject response = new ResponseObject();
-//		if (.exist(container) && journey.getCompany().exist(journey)) {
-//			journey.addContainer(container);
-//			response.setErrorMessage("Container successfully added to journey");
-//		}
-//		else if (this.exist(container)) {
-//			response.setErrorMessage("This is not a valid journey");
-//		}else if (journey.getCompany().exist(journey)) {
-//			response.setErrorMessage("This is not your container");
-//		}else {
-//			response.setErrorMessage("Please try another container and journey");
-//		}return response;
-//		
-//	}
-	
-	
-
 
 }
 

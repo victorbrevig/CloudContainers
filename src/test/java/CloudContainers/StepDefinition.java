@@ -24,7 +24,7 @@ public class StepDefinition{
 	
 	@Given("A none existing client")
 	public void a_none_existing_client(){
-	    assertFalse(lc.exist(1));
+	    assertFalse(lc.clientExists(1));
 	}
 	
 	
@@ -35,14 +35,14 @@ public class StepDefinition{
 	@Then("display success message")
 	public void display_success_message() {
 		response = lc.newClient("Bob1","bigman1@dtu.dk","11-02-1994","male",10101010,"1234");
-		assertTrue(lc.exist(1));
+		assertTrue(lc.clientExists(1));
 		assertEquals(response.getErrorMessage(),"Client was successfully added");
 	}
 	
 	@Given("existing client")
 	public void existing_client() {
 		lc.newClient("Bob1","bigman1@dtu.dk","11-04-1995","male",10101010,"1234");
-		assertTrue(lc.exist(1));
+		assertTrue(lc.clientExists(1));
 	}
 	
 	@When("repeated information is entered")
@@ -52,7 +52,7 @@ public class StepDefinition{
 
 	@Then("error message is thrown")
 	public void error_message_is_thrown() {
-		assertEquals(response.getErrorMessage(),"existing client");
+		assertEquals(response.getErrorMessage(),"Existing client");
 		
 	}
 	
@@ -104,7 +104,7 @@ public class StepDefinition{
 	
 	@When("New email entered as {string}")
 	public void new_email_entered_as(String string) {
-		response = lc.updateClient(client1.getEmail(),string);
+		response = lc.updateClient(client1.getClientID(),string);
 	}
 	
 	@Then("Display email update success message")
@@ -117,16 +117,20 @@ public class StepDefinition{
 		lc.newClient("Jenny","bigstonks123@gmail.com","27-10-1987","female",int1,"1234");
 	}
 
-	@When("A client with email {string} New phone number entered as {int}")
-	public void a_client_with_email_new_phone_number_entered_as(String email,Integer int1) {
-		response = lc.updateClient(email, int1);
+	@When("A client with ID {int} New phone number entered as {int}")
+	public void a_client_with_email_new_phone_number_entered_as(Integer clientID,Integer int1) {
+		response = lc.updateClient(clientID, int1);
 	}
 
 	@Then("Display phonenumber update success message")
 	public void display_phonenumber_update_success_message() {
-		System.out.println(response.getErrorMessage());
 		assertEquals(response.getErrorMessage(),"Phone number has been updated");
 		
+	}
+	
+	@Then("Display error message saying phone number is not correct for {int}")
+	public void display_error_message_saying_phone_number_is_not_correct_for(Integer int1) {
+		assertEquals(response.getErrorMessage(), int1 + " is not a valid phone number");
 	}
 	
 	// _________________________________________Search Client________________________________________________
@@ -148,8 +152,7 @@ public class StepDefinition{
 	@Then("The client is returned for {string} and a succes message is displayed")
 	public void the_client_is_returned_for_and_a_succes_message_is_displayed(String string) {
 		Client c = the_logistic_company_searches_for(string);
-		assertTrue(lc.exist(c.getClientID()));
-		c.print();
+		assertTrue(lc.clientExists(c.getClientID()));
 	}
 
 	
@@ -168,8 +171,7 @@ public class StepDefinition{
 	@Then("The client is returned for {int} and a succes message is displayed")
 	public void the_client_is_returned_for_and_a_succes_message_is_displayed(Integer int1) {
 		Client c = the_logistic_company_searches_for(int1);
-		assertTrue(lc.exist(c.getClientID()));
-		c.print();
+		assertTrue(lc.clientExists(c.getClientID()));
 	}
 	
 	@Given("A none existing client for email search")
@@ -207,7 +209,7 @@ public class StepDefinition{
 	@Given("A logistic company that has a client with clientID {int}")
 	public void a_logistic_company_with_a_client_with_clientID(Integer int1) {
 		lc.newClient("Jenny","j1@gmail.com","11-10-1998","female",12345678,"1234");
-		assertTrue(lc.exist(int1));
+		assertTrue(lc.clientExists(int1));
 	}
 
 	@When("the logistic company removes a client with the clientID {int}")
@@ -218,7 +220,7 @@ public class StepDefinition{
 	@Given("A logistic company that has a client with an email {string}")
 	public void a_logistic_company_that_has_a_client_with_an_email(String string) {
 		lc.newClient("Jenny",string,"11-10-1998","female",12345678,"1234");
-		assertTrue(lc.exist(string));
+		assertTrue(lc.clientExists(string));
 	}
 
 	@When("the logistic company removes a client with an email {string}")
@@ -228,12 +230,12 @@ public class StepDefinition{
 
 	@Then("the client is deleted and succes message is displayed clientID {int}")
 	public void the_client_is_deleted_and_succes_message_is_displayed_clientID(Integer int1) {
-	    assertFalse(lc.exist(int1));
+	    assertFalse(lc.clientExists(int1));
 	}
 
 	@Then("the client is deleted and succes message is displayed email {string}")
 	public void the_client_is_deleted_and_succes_message_is_displayed_email(String string) {
-	    assertFalse(lc.exist(string));
+	    assertFalse(lc.clientExists(string));
 	}
 
 
@@ -264,7 +266,7 @@ public class StepDefinition{
 	public void a_logistic_company_with_a_client() {
 		client = new Client("Jenny",1,"email@dtu.dk","11-10-1998","female",12345678,lc.getName(),"1234");
 		lc.newClient("Jenny","email@dtu.dk","11-10-1998","female",12345678,"1234");
-	    assertTrue(lc.exist("email@dtu.dk"));
+	    assertTrue(lc.clientExists("email@dtu.dk"));
 	}
 	
 	@Given("an unowned container")
@@ -296,7 +298,7 @@ public class StepDefinition{
 	public void a_logistic_company_with_another_client() {
 	    client2 = new Client("Bobby",2,"slat@dtu.dk","11-12-1999","male",88888888,lc.getName(),"1234");
 	    lc.newClient("Bobby","slat@dtu.dk","11-12-1999","male",88888888,"1234");
-	    assertTrue(lc.exist("slat@dtu.dk"));
+	    assertTrue(lc.clientExists("slat@dtu.dk"));
 	}
 	
 	@Given("an owned container")
@@ -353,7 +355,7 @@ public class StepDefinition{
 	public void a_logistic_company_with_a_registered_client() {
 		client = new Client("Jenny",1,"email@dtu.dk","11-10-1998","female",12345678,lc.getName(),"1234");
 		lc.newClient("Jenny","email@dtu.dk","11-10-1998","female",12345678,"1234");
-	    assertTrue(lc.exist(client.getEmail()));
+	    assertTrue(lc.clientExists(client.getEmail()));
 	}
 
 	@Given("a container owned by the client")
@@ -454,7 +456,7 @@ public class StepDefinition{
 	@Given("A logistic company with a non-registered journey with destination {string}")
 	public void a_logistic_company_with_a_non_registered_journey_with_destination(String string) {
 	    journey = new Journey(1,"Bahamas",string,"Hellman",0);
-	    assertFalse(lc.existJ(1));
+	    assertFalse(lc.journeyExists(1));
 	}
 
 	@Then("error message is displayed saying journey does not exist")
@@ -538,7 +540,7 @@ public class StepDefinition{
 	@Given("a logistic company with a non-registered journey")
 	public void a_logistic_company_with_a_non_registered_journey() {
 		journey = new Journey(1,"Bahamas","Copenhagen","Hellman",0);
-	    assertFalse(lc.existJ(1));
+	    assertFalse(lc.journeyExists(1));
 	}
 	
 	@Given("a container allocated to a client is added to the journey pt2")
