@@ -23,8 +23,6 @@ public class LogisticCompany {
 	private int clientIDgen = 1;
 	private int amountOfContainers;
 	private Random rand = new Random();
-
-	
 	private int journeyIDgen = 1;
 	
 	public LogisticCompany(String name, int companyID, int amountOfContainers) {
@@ -117,6 +115,9 @@ public class LogisticCompany {
 		return journeys.contains(journeys.getJourney(journeyID));
 	}
 	
+	public boolean ownedContainer(int clientID, int containerID) {
+		return getContainerDatabase().getContainer(containerID).getClientId() == clientID;
+	}
 	
 	public Container getContainer(int containerID) {
 		return getContainerDatabase().getContainer(containerID);
@@ -348,7 +349,6 @@ public class LogisticCompany {
 		int countFree = 0;
 		
 		journeys.getJourney(journeyID).setStarted(false);
-		
 
 		countFree = updateContainers(journeyID, countFree);
 		
@@ -369,18 +369,17 @@ public class LogisticCompany {
 		return countFree;
 	}
 	
+	
 	public ResponseObject progressJourney(int journeyID, int timeIncrement) {
 		
 		ResponseObject response = new ResponseObject();
 		int elapsedTime = journeys.getJourney(journeyID).getElapsedTime();
 		int timeToDestination = journeys.getJourney(journeyID).getTimeToDestination();
+//		Starting journey
 		journeys.getJourney(journeyID).setStarted(true);
-
-		double newTemp = 0;
-		double newPressure = 0;
-		double newAirHum = 0;
-		int timeTraveled = 0;
-		boolean existingContainer = false;
+		
+//		Initializing status variables
+		
 		
 		
 		if (!journeyExists(journeyID)) {
@@ -391,22 +390,32 @@ public class LogisticCompany {
 			return response;
 		}
 		
+		double newTemp = 0;
+		double newPressure = 0;
+		double newAirHum = 0;
+		int timeTraveled = 0;
+		boolean containerExists = false;
 		
-		for (int i = 1; i<=timeIncrement;i++) {
+//		Add status data for each hour in time increment
+		for (int i = 1; i<= timeIncrement;i++) {
 //			Checking if the journey has ended
 			if (timeToDestination == 0) {
 				endJourney(journeyID);
 				break;
 			} 
 			
+//			Generating random values
+			// +- 3 C
 			double randTempIncrement = rand.nextDouble() * (rand.nextBoolean() ? -1 : 1) * 3;
 			// +- 0.1 atm
 			double randPressureIncrement = rand.nextDouble() * (rand.nextBoolean() ? -1 : 1) * 0.1;
 			// +- 0.05
 			double randAirHumIncrement = rand.nextDouble() * (rand.nextBoolean() ? -1 : 1) * 0.05;
+			
+//			Changing status data for containers registered to this journey
 			for (Container container : containers) {
 				if (container.getJourneyId() == journeyID) {
-					existingContainer = existingContainer || true;
+					containerExists = containerExists || true;
 					newTemp = container.getTemperature() + randTempIncrement;
 					container.setTemperature(newTemp);
 					newPressure = container.getPressure() + randPressureIncrement;
@@ -418,60 +427,63 @@ public class LogisticCompany {
 			elapsedTime++;
 			timeToDestination--;
 			timeTraveled++;
-			if (existingContainer) {
+			
+//			Set status data in journey
+			if (containerExists) {
 				statusTrackingObject status = new statusTrackingObject(elapsedTime,newAirHum,newTemp,newPressure);
 				journeys.getJourney(journeyID).addDataPoint(status);
 			}
-//			Increment time
+			
+//			Increment time in journey
 			journeys.getJourney(journeyID).setElapsedTime(elapsedTime);
 			journeys.getJourney(journeyID).setTimeToDestination(timeToDestination);
 			
 		}
-		if(existingContainer && journeys.getJourney(journeyID).isStarted() == true){
-			response.setErrorMessage("Your container on journey " + journeyID + " has traveled " + timeIncrement + " hours.");
+		
+		if(containerExists && journeys.getJourney(journeyID).isStarted() == true){
+			response.setErrorMessage("Your container on journey " + journeyID + " has traveled " + timeTraveled + " hours.");
 			
-		}else if(journeys.getJourney(journeyID).isStarted() == false){
-//			Checking if journey has ended
+		}
+//		Checking if journey has ended
+		else if(journeys.getJourney(journeyID).isStarted() == false){
+
 			response.setErrorMessage("Your container on journey " + journeyID + " has traveled " + timeTraveled + " hours and the journey has ended.");
 		}
 		else {
 			response.setErrorMessage("No containers are on this journey");
 		}
 			
-		
 		return response;
 	}
 
 	
-	public boolean ownedContainer(int clientID, int containerID) {
-		return getContainerDatabase().getContainer(containerID).getClientId() == clientID;
-	}
+	
 	
 	public ResponseObject accessStatus(Integer clientID, Integer containerID) {
 		ResponseObject response = new ResponseObject();
 		Container container = containers.getContainer(containerID);
 		Journey journey = journeys.getJourney(container.getJourneyId());
-//		Container exists
-		boolean c1 = containerExists(containerID);
-//		Container owned
-		boolean c2 = ownedContainer(clientID,containerID);
-//		Journey is started, and data exists
-		boolean c3 = journey.isStarted();
 		
-		if (!c1 || !c2) {
+		boolean containerExists = containerExists(containerID);
+		boolean ownedContainer = ownedContainer(clientID,containerID);
+		boolean journeyIsStarted = journey.isStarted();
+		
+		if (!containerExists || !ownedContainer) {
 			response.setErrorMessage("You don't own this container");
 			return response;
-		} else if (!c3) {
+		} 
+		else if (!journeyIsStarted) {
 			response.setErrorMessage("Ship's still at harbour");
 			return response;
-		} else {
+		} 
+		else {
 //		Getting the status of container
-		ArrayList<statusTrackingObject> list;
-		list = journey.getStatusData();
-		statusTrackingObject status = list.get(list.size()-1);
+		ArrayList<statusTrackingObject> list = journey.getStatusData();
+		statusTrackingObject status = list.get(list.size() - 1);
 		response.setStatus(status);
 		response.setErrorMessage("This is the current status of your container");
-		return response;}
+		return response;
+		}
 
 	}
 
@@ -495,30 +507,35 @@ public class LogisticCompany {
 	public ResponseObject getHistoryOfContainerForClient (int clientId, int containerId) {
 		ResponseObject response = new ResponseObject();
 		
-		boolean clientExist = clientExists(clientId);
-		boolean containerExist = containerExists(containerId);
+		boolean clientExists = clientExists(clientId);
+		boolean containerExists = containerExists(containerId);
 		
-		if (!clientExist) {
+		if (!clientExists) {
 			response.setErrorMessage("Client does not exist");
 			return response;
 		}
-		else if (!containerExist) {
+		else if (!containerExists) {
 			response.setErrorMessage("Container does not exist");
 			return response;
 		}
 		
-		ArrayList<Journey> journeyHist = new ArrayList<Journey>();
-		
-		for (Pair<Integer, Integer> p : getHistory(containerId).getJourneys()) {
-			if (p.getValue() == clientId) {
-				journeyHist.add(getJourneyDatabase().getJourney(p.getKey()));
-			}
-		}
+		ArrayList<Journey> journeyHist = fetchContainerHistory(clientId, containerId);
 		
 		response.setJourneyHist(journeyHist);
 		response.setErrorMessage("Your container's history is succesfully retrieved");
 		return response;
 		
+	}
+
+	private ArrayList<Journey> fetchContainerHistory(int clientId, int containerId) {
+		ArrayList<Journey> journeyHist = new ArrayList<Journey>();
+//		Acquiring all journey data related to the client
+		for (Pair<Integer, Integer> p : getHistory(containerId).getJourneys()) {
+			if (p.getValue() == clientId) {
+				journeyHist.add(getJourneyDatabase().getJourney(p.getKey()));
+			}
+		}
+		return journeyHist;
 	}
 
 	
