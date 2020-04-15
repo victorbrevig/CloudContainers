@@ -96,6 +96,20 @@ public class Client {
 		this.number = number;
 	}
 	
+	
+	public ResponseObject updateClient(String email) {
+		ResponseObject response = new ResponseObject();
+		// Valid new email
+		response = validInput(this.getName(),email,this.getBirthdate(),this.getGender(),this.getNumber());
+		// Check if new email belongs to a client already
+		if (response.getErrorMessage().equals("Non-existing client")) {
+			clients.getClient(clientID).setEmail(email);
+			response.setErrorMessage("Email has been updated");
+			}
+		return response;
+	}
+	
+	
 	public void print() {
 		System.out.println("Name:" + this.getName());
 		System.out.println("Company: " + this.getCompany());

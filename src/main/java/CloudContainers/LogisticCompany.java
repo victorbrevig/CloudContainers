@@ -84,46 +84,32 @@ public class LogisticCompany {
 		return companyID;
 	}
 
-	public Client findClient(int id) {
-		return clients.getClient(id);
-	}
 	
-	public Client findClient(String email) {
-		return clients.getClient(email);
-	}
-	
-	public boolean removeClient(int clientID) {
-		return clients.remove(findClient(clientID));
-	}
-	public boolean removeClient(String email) {
-		return clients.remove(findClient(email));
-	}
 
 	
 	
-	public boolean clientExists(int clientID) {
-		return clients.contains(clients.getClient(clientID));
-	}
-	public boolean clientExists(String email) {
-		return clients.contains(clients.getClient(email));
-	}
-	public boolean numberExists(int number) {
-		return clients.contains(clients.getClient(number));
-	}
-	public boolean containerExists(int containerID) {
-		return containers.contains(containers.getContainer(containerID));
-	}
-	public boolean journeyExists(int journeyID) {
-		return journeys.contains(journeys.getJourney(journeyID));
+//	
+//	public boolean clientExists(int clientID) {
+//		return clients.contains(clients.getClient(clientID));
+//	}
+//	public boolean clientExists(String email) {
+//		return clients.contains(clients.getClient(email));
+//	}
+//	public boolean numberExists(int number) {
+//		return clients.contains(clients.getClient(number));
+//	}
+//	public boolean containerExists(int containerID) {
+//		return containers.contains(containers.getContainer(containerID));
+//	}
+//	public boolean journeyExists(int journeyID) {
+//		return journeys.contains(journeys.getJourney(journeyID));
+//	}
+	
+	public boolean ownedContainer(Container client, Container container) {
+		return container.getClientId() == client.getClientId();
 	}
 	
-	public boolean ownedContainer(int clientID, int containerID) {
-		return getContainerDatabase().getContainer(containerID).getClientId() == clientID;
-	}
-	
-	public Container getContainer(int containerID) {
-		return getContainerDatabase().getContainer(containerID);
-	}
+
 
 	
 	public boolean validBirthdate(String birthdate) {
@@ -158,34 +144,34 @@ public class LogisticCompany {
 	}
 	
 	
-	public ResponseObject validInput(String name, String email, String birthdate, String gender, int number) {
-		ResponseObject response = new ResponseObject();
-		
-		if (!validParameters(name,email,birthdate,gender,number)) {
-			response = new ResponseObject("There is a missing parameter");
-			return response;
-		}
-		else if (!validEmail(email)) {
-			response = new ResponseObject(email + " is not a valid email");
-			return response;
-		}
-		else if (!validBirthdate(birthdate)) {
-			response = new ResponseObject(birthdate + " is not a valid birthdate");
-			return response;
-		}
-		else if (!validNumber(number)) {
-			response = new ResponseObject(number + " is not a valid phone number");
-			return response;
-		}
-		
-		if (!clientExists(email)) {
-			response = new ResponseObject("Non-existing client");
-		}else {
-			response = new ResponseObject("Existing client");
-		}
-		return response;
-		
-	}
+//	public ResponseObject validInput(String name, String email, String birthdate, String gender, int number) {
+//		ResponseObject response = new ResponseObject();
+//		
+//		if (!validParameters(name,email,birthdate,gender,number)) {
+//			response = new ResponseObject("There is a missing parameter");
+//			return response;
+//		}
+//		else if (!validEmail(email)) {
+//			response = new ResponseObject(email + " is not a valid email");
+//			return response;
+//		}
+//		else if (!validBirthdate(birthdate)) {
+//			response = new ResponseObject(birthdate + " is not a valid birthdate");
+//			return response;
+//		}
+//		else if (!validNumber(number)) {
+//			response = new ResponseObject(number + " is not a valid phone number");
+//			return response;
+//		}
+//		
+//		if (!clientExists(email)) {
+//			response = new ResponseObject("Non-existing client");
+//		}else {
+//			response = new ResponseObject("Existing client");
+//		}
+//		return response;
+//		
+//	}
 
 
 	
@@ -201,22 +187,22 @@ public class LogisticCompany {
 		return response;
 	}
 	
-	public ResponseObject updateClient(int clientID,String email) {
-		ResponseObject response = new ResponseObject();
-		Client c = findClient(clientID);
-		// Valid new email
-		response = validInput(c.getName(),email,c.getBirthdate(),c.getGender(),c.getNumber());
-		// Check if new email belongs to a client already
-		if (response.getErrorMessage().equals("Non-existing client")) {
-			findClient(clientID).setEmail(email);
-			response.setErrorMessage("Email has been updated");
-			}
-		return response;
-	}
+//	public ResponseObject updateClient(int clientID,String email) {
+//		ResponseObject response = new ResponseObject();
+//		Client c = clients.getClient(clientID);
+//		// Valid new email
+//		response = validInput(c.getName(),email,c.getBirthdate(),c.getGender(),c.getNumber());
+//		// Check if new email belongs to a client already
+//		if (response.getErrorMessage().equals("Non-existing client")) {
+//			clients.getClient(clientID).setEmail(email);
+//			response.setErrorMessage("Email has been updated");
+//			}
+//		return response;
+//	}
 	
 	public ResponseObject updateClient(int clientID,int number) {
 		ResponseObject response = new ResponseObject();
-		Client c = findClient(clientID);
+		Client c = clients.getClient(clientID);
 		// Valid new email
 		response = validInput(c.getName(),c.getEmail(),c.getBirthdate(),c.getGender(),number);
 		// Check if new email belongs to a client already
@@ -225,7 +211,7 @@ public class LogisticCompany {
 			return response;
 		}
 		if (!numberExists(number)) {
-			findClient(clientID).setNumber(number);
+			clients.getClient(clientID).setNumber(number);
 			response.setErrorMessage("Phone number has been updated");
 		}
 		else {
