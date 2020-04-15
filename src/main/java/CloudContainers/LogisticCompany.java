@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import org.apache.commons.validator.GenericValidator;
+import org.javatuples.Triplet;
 
 import javafx.util.Pair;
 
@@ -141,6 +143,7 @@ public class LogisticCompany {
 	
 	
 	public boolean validParameters(String name, String email, String birthdate, String gender, int number) {
+		// .equals
 		return !(   (name=="") 
 				|| (birthdate=="") 
 				|| (email == "")			
@@ -262,6 +265,7 @@ public class LogisticCompany {
 		else {
 			container.setOwned(true);
 			container.setClientId(clientId);
+			container.grantAccess(clientId);
 		}
 		return response;
 	}
@@ -379,8 +383,11 @@ public class LogisticCompany {
 		journeys.getJourney(journeyID).setStarted(true);
 		
 //		Initializing status variables
-		
-		
+		double newTemp = 0;
+		double newPressure = 0;
+		double newAirHum = 0;
+		int timeTraveled = 0;
+		boolean containerExists = false;
 		
 		if (!journeyExists(journeyID)) {
 			response.setErrorMessage("Journey does not exist");
@@ -390,11 +397,6 @@ public class LogisticCompany {
 			return response;
 		}
 		
-		double newTemp = 0;
-		double newPressure = 0;
-		double newAirHum = 0;
-		int timeTraveled = 0;
-		boolean containerExists = false;
 		
 //		Add status data for each hour in time increment
 		for (int i = 1; i<= timeIncrement;i++) {
@@ -487,7 +489,7 @@ public class LogisticCompany {
 
 	}
 
-	public ResponseObject getHistory(int containerId) {
+	public ResponseObject getFullHistory(int containerId) {
 		Container container = getContainerDatabase().getContainer(containerId);
 		ResponseObject response = new ResponseObject();
 		
@@ -521,7 +523,7 @@ public class LogisticCompany {
 		
 		ArrayList<Journey> journeyHist = fetchContainerHistory(clientId, containerId);
 		
-		response.setJourneyHist(journeyHist);
+		response.setJourneyHistForClient(journeyHist);
 		response.setErrorMessage("Your container's history is succesfully retrieved");
 		return response;
 		
@@ -530,9 +532,10 @@ public class LogisticCompany {
 	private ArrayList<Journey> fetchContainerHistory(int clientId, int containerId) {
 		ArrayList<Journey> journeyHist = new ArrayList<Journey>();
 //		Acquiring all journey data related to the client
-		for (Pair<Integer, Integer> p : getHistory(containerId).getJourneys()) {
-			if (p.getValue() == clientId) {
-				journeyHist.add(getJourneyDatabase().getJourney(p.getKey()));
+		for (Triplet<Integer,Integer,HashSet<Integer>> t : getFullHistory(containerId).getJourneys()) {
+			// if (p.getRight.contains(clientId))
+			if (t.getValue2().contains(clientId)) {
+				journeyHist.add(getJourneyDatabase().getJourney(t.getValue0()));
 			}
 		}
 		return journeyHist;

@@ -1,6 +1,9 @@
 package CloudContainers;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import org.javatuples.Triplet;
+
 import javafx.util.Pair;
 
 public class Container {
@@ -10,23 +13,31 @@ public class Container {
 	private double airHumidity;
 	private boolean onJourney;
 	private boolean owned;
+	private HashSet<Integer> accessClients;
 //	<journeyId,clientId>
-	private ArrayList<Pair<Integer,Integer>> journeyHistory;
+	private ArrayList<Triplet<Integer,Integer,HashSet<Integer>>> journeyHistory;
+	
+	
+	
 	private int clientId;
+	
+
+	
+
 	private int journeyId;
 	
 	public void addJourney(int journeyID) {
-		Pair<Integer,Integer> pair = new Pair<Integer,Integer>(journeyID,this.clientId);
-		journeyHistory.add(pair);
+		Triplet<Integer,Integer,HashSet<Integer>> triplet = new Triplet<Integer,Integer,HashSet<Integer>>(journeyID,this.clientId,accessClients);
+		journeyHistory.add(triplet);
 		this.setOnJourney(true);
 		this.setJourneyId(journeyID);
 	}
 	
-	public ArrayList<Pair<Integer,Integer>> getJourneyHistory() {
+	public ArrayList<Triplet<Integer,Integer,HashSet<Integer>>> getJourneyHistory() {
 		return journeyHistory;
 	}
 
-	public void setJourneyHistory(ArrayList<Pair<Integer,Integer>> journeyHistory) {
+	public void setJourneyHistory(ArrayList<Triplet<Integer,Integer,HashSet<Integer>>> journeyHistory) {
 		this.journeyHistory = journeyHistory;
 	}
 
@@ -43,7 +54,13 @@ public class Container {
 		return result;
 	}
 	
+	public HashSet<Integer> getAccessClients() {
+		return accessClients;
+	}
 	
+	public void grantAccess (int clientID) {
+		accessClients.add(clientID);
+	}
 	
 	
 	public int getClientId() {
@@ -69,8 +86,9 @@ public class Container {
 		this.onJourney = false;
 		this.pressure = 1.0;
 		this.owned = false;
-		this.journeyHistory = new ArrayList<Pair<Integer,Integer>>();
+		this.journeyHistory = new ArrayList<Triplet<Integer,Integer,HashSet<Integer>>>();
 		this.containerId = containerId;
+		this.accessClients = new HashSet<Integer>();
 	}
 	
 	public boolean isOnJourney() {

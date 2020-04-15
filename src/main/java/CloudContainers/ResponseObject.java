@@ -1,26 +1,29 @@
 package CloudContainers;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
-import javafx.util.Pair;
+import org.javatuples.Triplet;
 
 public class ResponseObject {
 	private String errorMessage;
 	private statusTrackingObject status;
-	private ArrayList<Pair<Integer,Integer>> journeys;
-	private ArrayList<Journey> journeyHist;
+	// All journeys
+	private ArrayList<Triplet<Integer,Integer,HashSet<Integer>>> journeyHistory;
+	
+	private ArrayList<Journey> journeyHistForClient;
 	
 	public ArrayList<Journey> getJourneyHist() {
-		return journeyHist;
+		return journeyHistForClient;
 	}
-	public void setJourneyHist(ArrayList<Journey> journeyHist) {
-		this.journeyHist = journeyHist;
+	public void setJourneyHistForClient(ArrayList<Journey> journeyHist) {
+		this.journeyHistForClient = journeyHist;
 	}
-	public ArrayList<Pair<Integer, Integer>> getJourneys() {
-		return journeys;
+	public ArrayList<Triplet<Integer,Integer,HashSet<Integer>>> getJourneys() {
+		return journeyHistory;
 	}
-	public void setJourneys(ArrayList<Pair<Integer, Integer>> journeys) {
-		this.journeys = journeys;
+	public void setJourneys(ArrayList<Triplet<Integer,Integer,HashSet<Integer>>> journeyHistory) {
+		this.journeyHistory = journeyHistory;
 	}
 	public ResponseObject(String errorMessage) {
 		super();

@@ -731,7 +731,7 @@ public class StepDefinition{
 
 	@When("container history is requested by logistic company")
 	public void container_history_is_requested_by_logistic_company() {
-	    response = lc.getHistory(container.getContainerId());
+	    response = lc.getFullHistory(container.getContainerId());
 	}
 
 	@Then("an array containing pairs of journeyIDs and clientIDs are returned")
