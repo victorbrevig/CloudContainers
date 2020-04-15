@@ -21,6 +21,7 @@ Feature: Adding a client to register
 
   @tag1
   Scenario: New client succesfully added
+    Given A logistic company
     Given A none existing client 
     When Informations is entered
     Then display success message
@@ -28,14 +29,16 @@ Feature: Adding a client to register
  
   @tag2
   Scenario: Client already exists
+    Given A logistic company
     Given existing client
     When repeated information is entered
     Then error message is thrown
  
   @tag3
    Scenario: Missing parameter
-    Given A none existing client
-    When information with missing parameters
+    Given A logistic company
+    Given A none existing client with missing information
+    When Informations is entered
     Then missing parameter error message is thrown
  
   @tag4
@@ -47,5 +50,5 @@ Feature: Adding a client to register
   @tag5
    Scenario: Birthdate is invalid
     Given A logistic company
-    When invalid birthdate "111-02-1992" is entered
-    Then invalid birtdate error is displayed for "111-02-1992"
+    When invalid birthdate "111-02-1998" is entered
+    Then invalid birtdate error is displayed for "111-02-1998"

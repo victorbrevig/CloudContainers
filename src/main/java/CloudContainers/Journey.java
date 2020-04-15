@@ -12,9 +12,27 @@ public class Journey {
 	private boolean isStarted;
 	private int timeToDestination;
 	private int elapsedTime;
+
 	private ArrayList<statusTrackingObject> statusData = new ArrayList<statusTrackingObject>();
 	private Random rand = new Random();
 	
+	
+	public Journey(String portOfOrigin, String destination, int timeToDestination) {
+		super();
+		this.portOfOrigin = portOfOrigin;
+		this.destination = destination;
+		this.timeToDestination = timeToDestination;
+		this.elapsedTime = 0;
+	}
+	
+	public void setJourneyID(int journeyID) {
+		this.journeyID = journeyID;
+	}
+
+
+	public void setCompany(LogisticCompany company) {
+		this.company = company;
+	}
 	public int getElapsedTime() {
 		return elapsedTime;
 	}
@@ -64,15 +82,7 @@ public class Journey {
 		return portOfOrigin;
 	}
 	
-	public Journey(int journeyID, String portOfOrigin, String destination, LogisticCompany company,int timeToDestination) {
-		super();
-		this.journeyID = journeyID;
-		this.portOfOrigin = portOfOrigin;
-		this.destination = destination;
-		this.company = company;
-		this.timeToDestination = timeToDestination;
-		this.elapsedTime = 0;
-	}
+
 
 
 	public boolean equals(Journey journey) {

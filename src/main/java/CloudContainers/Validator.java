@@ -6,10 +6,14 @@ import javax.mail.internet.InternetAddress;
 import org.apache.commons.validator.GenericValidator;
 
 public class Validator {
-	
-	
-	
+
 	private LogisticCompany company;
+	
+	
+	public Validator(LogisticCompany company) {
+		super();
+		this.company = company;
+	}
 	
 	public boolean validBirthdate(String birthdate) {
 		return GenericValidator.isDate(birthdate, "dd-MM-yyyy", true);
@@ -60,9 +64,11 @@ public class Validator {
 			return response;
 		}
 		
+		
 		if (!company.clientExists(email)) {
 			response = new ResponseObject("Non-existing client");
-		}else {
+		}
+		else {
 			response = new ResponseObject("Existing client");
 		}
 		return response;

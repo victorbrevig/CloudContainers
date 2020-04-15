@@ -22,15 +22,13 @@ public class ContainerDatabase extends HashSet<Container>{
 		return filtered;	
 	}
 	public Container findFreeContainer() {
-		//Container 0, is returned if no vacant containers are available
-		Container container = new Container(0);
 		
 		for (Container c: this) {
 			if (!c.isOwned()) {
 				return c;
 			}
 		}
-		return container;
+		return null;
 		}
 
 	

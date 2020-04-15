@@ -23,9 +23,8 @@ public class LogisticCompany {
 	private ClientDatabase clients;
 	private ContainerDatabase containers;
 	private JourneyDatabase journeys;
-	private int clientIDgen = 1;
 	private int amountOfContainers;
-	private int journeyIDgen = 1;
+	private Validator validator;
 	
 	public LogisticCompany(String name, int companyID, int amountOfContainers) {
 		super();
@@ -34,7 +33,7 @@ public class LogisticCompany {
 		this.clients = new ClientDatabase();
 		this.journeys = new JourneyDatabase();
 		this.amountOfContainers = amountOfContainers;
-		
+		this.validator = new Validator(this);
 		this.containers = new ContainerDatabase();
 		
 		// Generate existing containers
@@ -56,9 +55,9 @@ public class LogisticCompany {
 		return containers;
 	}
 	
-	public void createJourney(String portOfOrigin, String destination,int timeToDestination) {
-		Journey journey = new Journey(journeyIDgen, portOfOrigin, destination, this,timeToDestination);
-		journeyIDgen++;
+	public void addJourney(Journey journey) {
+		journey.setJourneyID(journeys.size() + 1);
+		journey.setCompany(this);
 		journeys.add(journey);
 		
 	}
@@ -68,9 +67,6 @@ public class LogisticCompany {
 		containers.add(new Container(amountOfContainers));
 	}
 	
-	public int getClientIDgen() {
-		return clientIDgen;
-	}
 	
 	public ClientDatabase getClients() {
 		return clients;
@@ -96,62 +92,19 @@ public class LogisticCompany {
 	}
 
 	
-	public ResponseObject newClient(String name, String email, String birthdate, String gender, int number, String password) {
+	public ResponseObject newClient(Client client) {
 		ResponseObject response = null;
-//		response = validInput(name,email,birthdate,gender,number);
+		response = validator.validInput(client.getName(),client.getEmail(),client.getBirthdate(),client.getGender(),client.getNumber());
 		if (response.getErrorMessage().equals("Non-existing client")) {
-			int clientID = clientIDgen++;
-			Client client = new Client(name,clientID,email,birthdate,gender,number,this.name, password);
+			// Set id
+			client.setClientID(clients.size() + 1);
+			client.setCompany(this);
 			clients.add(client);
 			response.setErrorMessage("Client was successfully added");
 		}
 		return response;
 	}
 	
-//	public ResponseObject updateClient(int clientID,String email) {
-//		ResponseObject response = new ResponseObject();
-//		Client c = clients.getClient(clientID);
-//		// Valid new email
-//		response = validInput(c.getName(),email,c.getBirthdate(),c.getGender(),c.getNumber());
-//		// Check if new email belongs to a client already
-//		if (response.getErrorMessage().equals("Non-existing client")) {
-//			clients.getClient(clientID).setEmail(email);
-//			response.setErrorMessage("Email has been updated");
-//			}
-//		return response;
-//	}
-	
-//	public ResponseObject updateClient(int clientID,int number) {
-//		ResponseObject response = new ResponseObject();
-//		Client c = clients.getClient(clientID);
-//		// Valid new email
-//		response = validInput(c.getName(),c.getEmail(),c.getBirthdate(),c.getGender(),number);
-//		// Check if new email belongs to a client already
-//		
-//		if (!validNumber(number)) {
-//			return response;
-//		}
-//		if (!numberExists(number)) {
-//			clients.getClient(clientID).setNumber(number);
-//			response.setErrorMessage("Phone number has been updated");
-//		}
-//		else {
-//			response.setErrorMessage("Existing client");
-//		}
-//		return response;
-//	}
-
-//	public Container findFreeContainer() {
-////		Container 0, is returned if no vacant containers are available
-//		Container container = new Container(0);
-//		
-//		for (Container c: containers) {
-//			if (!c.isOwned()) {
-//				return c;
-//			}
-//		}
-//		return container;
-//	}
 
 	
 	public ResponseObject allocateContainer(Client client,Container container) {

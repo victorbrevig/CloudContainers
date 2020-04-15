@@ -15,11 +15,26 @@ public class Container{
 	private boolean owned;
 	private String content;
 	private HashSet<Client> accessClients;
-	private ArrayList<Triplet<Journey,Client,HashSet<Client>>> journeyHistory;
+	private ArrayList<ContainerJourneyInfo> journeyHistory;
 //	Create class
 	private Client owner;
 	private Journey currentJourney;
 
+	
+	public Container(int containerId) {
+		super();
+		this.airHumidity = 0.5;
+		this.temperature = 20.0;
+		this.onJourney = false;
+		this.pressure = 1.0;
+		this.owned = false;
+		this.content = "";
+		this.journeyHistory = new ArrayList<ContainerJourneyInfo>();
+		this.containerId = containerId;
+		this.accessClients = new HashSet<Client>();
+	}
+	
+	
 	
 	public Client getOwner() {
 		return owner;
@@ -39,17 +54,17 @@ public class Container{
 	
 	
 	public void addJourney(Journey journey) {
-		Triplet<Journey,Client,HashSet<Client>> triplet = new Triplet<Journey,Client,HashSet<Client>>(journey,this.owner,accessClients);
-		journeyHistory.add(triplet);
+		ContainerJourneyInfo containerJourneyInfo = new ContainerJourneyInfo(journey,this.owner,accessClients);
+		journeyHistory.add(containerJourneyInfo);
 		this.setOnJourney(true);
 		this.setCurrentJourney(journey);
 	}
 	
-	public ArrayList<Triplet<Journey,Client,HashSet<Client>>> getJourneyHistory() {
+	public ArrayList<ContainerJourneyInfo> getJourneyHistory() {
 		return journeyHistory;
 	}
 
-	public void setJourneyHistory(ArrayList<Triplet<Journey,Client,HashSet<Client>>> journeyHistory) {
+	public void setJourneyHistory(ArrayList<ContainerJourneyInfo> journeyHistory) {
 		this.journeyHistory = journeyHistory;
 	}
 
@@ -74,20 +89,6 @@ public class Container{
 		accessClients.add(client);
 	}
 	
-	
-	
-	public Container(int containerId) {
-		super();
-		this.airHumidity = 0.5;
-		this.temperature = 20.0;
-		this.onJourney = false;
-		this.pressure = 1.0;
-		this.owned = false;
-		this.content = "";
-		this.journeyHistory = new ArrayList<Triplet<Journey,Client,HashSet<Client>>>();
-		this.containerId = containerId;
-		this.accessClients = new HashSet<Client>();
-	}
 	
 	public boolean isOnJourney() {
 		return onJourney;
@@ -177,10 +178,10 @@ public class Container{
 	private ArrayList<Journey> fetchContainerHistory(Client client) {
 		ArrayList<Journey> journeyHist = new ArrayList<Journey>();
 //		Acquiring all journey data related to the client
-		for (Triplet<Journey,Client,HashSet<Client>> t : getJourneyHistory()) {
+		for (ContainerJourneyInfo i : getJourneyHistory()) {
 			// if (p.getRight.contains(clientId))
-			if (t.getValue2().contains(client)) {
-				journeyHist.add(t.getValue0());
+			if (i.getClients().contains(client)) {
+				journeyHist.add(i.getJourney());
 			}
 		}
 		return journeyHist;

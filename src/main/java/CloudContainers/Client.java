@@ -14,8 +14,9 @@ public class Client {
 	private String birthdate;
 	private String gender;
 	private int number;
-	private String company;
+	private LogisticCompany company;
 	private String password;
+	private Validator validator;
 	
 	public String getPassword() {
 		return password;
@@ -25,23 +26,22 @@ public class Client {
 		this.password = password;
 	}
 
-	public Client(String name, int clientID, String email, String birthdate, String gender, int number, String company, String password) {
+	public Client(String name, String email, String birthdate, String gender, int number, String password) {
 		super();
 		this.name = name;
-		this.clientID = clientID;
 		this.email = email;
 		this.birthdate = birthdate;
 		this.gender = gender;
 		this.number = number;
-		this.company = company;
 		this.password = password;
+		this.validator = new Validator(company);
 	}
 	
-	public String getCompany() {
+	public LogisticCompany getCompany() {
 		return company;
 	}
 
-	public void setCompany(String company) {
+	public void setCompany(LogisticCompany company) {
 		this.company = company;
 	}
 
@@ -103,7 +103,7 @@ public class Client {
 	public ResponseObject updateClient(String email) {
 		ResponseObject response = new ResponseObject();
 		// Valid new email
-//		response = validInput(this.getName(),email,this.getBirthdate(),this.getGender(),this.getNumber());
+		response = validator.validInput(this.getName(),email,this.getBirthdate(),this.getGender(),this.getNumber());
 		// Check if new email belongs to a client already
 		if (response.getErrorMessage().equals("Non-existing client")) {
 			this.setEmail(email);

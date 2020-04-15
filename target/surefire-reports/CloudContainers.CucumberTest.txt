@@ -1,0 +1,16 @@
+-------------------------------------------------------------------------------
+Test set: CloudContainers.CucumberTest
+-------------------------------------------------------------------------------
+Tests run: 9, Failures: 0, Errors: 2, Skipped: 7, Time elapsed: 0.561 sec <<< FAILURE!
+New client succesfully added(Adding a client to register)  Time elapsed: 0.01 sec  <<< ERROR!
+java.lang.NullPointerException
+	at CloudContainers.LogisticCompany.newClient(LogisticCompany.java:97)
+	at CloudContainers.StepDefinition.informations_is_entered(StepDefinition.java:34)
+	at ?.Informations is entered(file:src/main/resources/AddClient.feature:25)
+
+Client already exists(Adding a client to register)  Time elapsed: 0 sec  <<< ERROR!
+java.lang.NullPointerException
+	at CloudContainers.LogisticCompany.newClient(LogisticCompany.java:97)
+	at CloudContainers.StepDefinition.existing_client(StepDefinition.java:47)
+	at ?.existing client(file:src/main/resources/AddClient.feature:31)
+
