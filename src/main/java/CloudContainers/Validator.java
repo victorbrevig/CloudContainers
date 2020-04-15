@@ -36,5 +36,33 @@ public class Validator {
 		int length = String.valueOf(number).length();
 		return (length == 8);
 	}
+	public ResponseObject validInput(String name, String email, String birthdate, String gender, int number) {
+	ResponseObject response = new ResponseObject();
+	
+		if (!validParameters(name,email,birthdate,gender,number)) {
+			response = new ResponseObject("There is a missing parameter");
+			return response;
+		}
+		else if (!validEmail(email)) {
+			response = new ResponseObject(email + " is not a valid email");
+			return response;
+		}
+		else if (!validBirthdate(birthdate)) {
+			response = new ResponseObject(birthdate + " is not a valid birthdate");
+			return response;
+		}
+		else if (!validNumber(number)) {
+			response = new ResponseObject(number + " is not a valid phone number");
+			return response;
+		}
+		
+		if (!clientExists(email)) {
+			response = new ResponseObject("Non-existing client");
+		}else {
+			response = new ResponseObject("Existing client");
+		}
+		return response;
+	
+}
 	
 }

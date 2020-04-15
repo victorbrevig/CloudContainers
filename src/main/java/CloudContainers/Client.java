@@ -1,6 +1,9 @@
 package CloudContainers;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+
+import org.javatuples.Triplet;
 
 // New version
 public class Client {
@@ -100,14 +103,34 @@ public class Client {
 	public ResponseObject updateClient(String email) {
 		ResponseObject response = new ResponseObject();
 		// Valid new email
-		response = validInput(this.getName(),email,this.getBirthdate(),this.getGender(),this.getNumber());
+//		response = validInput(this.getName(),email,this.getBirthdate(),this.getGender(),this.getNumber());
 		// Check if new email belongs to a client already
 		if (response.getErrorMessage().equals("Non-existing client")) {
-			clients.getClient(clientID).setEmail(email);
+			this.setEmail(email);
 			response.setErrorMessage("Email has been updated");
 			}
 		return response;
 	}
+	
+	public ResponseObject containerToJourney(Container container, Journey journey, String content) {
+		ResponseObject response = new ResponseObject("Container successfully added to journey");
+		// Conditions to check
+
+		boolean belongsToClient = container.getOwner().equals(this);
+		
+		if (!belongsToClient) {
+			response.setErrorMessage("Container does not belong to client");
+			return response;
+		}
+		
+		container.setContent(content);
+		container.addJourney(journey);
+		
+		return response;
+	}
+	
+	
+
 	
 	
 	public void print() {

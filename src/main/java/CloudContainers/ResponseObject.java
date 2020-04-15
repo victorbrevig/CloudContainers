@@ -9,7 +9,7 @@ public class ResponseObject {
 	private String errorMessage;
 	private statusTrackingObject status;
 	// All journeys
-	private ArrayList<Triplet<Integer,Integer,HashSet<Integer>>> journeyHistory;
+	private ArrayList<Triplet<Journey,Client,HashSet<Client>>> journeyHistory;
 	
 	private ArrayList<Journey> journeyHistForClient;
 	
@@ -19,10 +19,10 @@ public class ResponseObject {
 	public void setJourneyHistForClient(ArrayList<Journey> journeyHist) {
 		this.journeyHistForClient = journeyHist;
 	}
-	public ArrayList<Triplet<Integer,Integer,HashSet<Integer>>> getJourneys() {
+	public ArrayList<Triplet<Journey,Client,HashSet<Client>>> getJourneys() {
 		return journeyHistory;
 	}
-	public void setJourneys(ArrayList<Triplet<Integer,Integer,HashSet<Integer>>> journeyHistory) {
+	public void setJourneys(ArrayList<Triplet<Journey,Client,HashSet<Client>>> journeyHistory) {
 		this.journeyHistory = journeyHistory;
 	}
 	public ResponseObject(String errorMessage) {
