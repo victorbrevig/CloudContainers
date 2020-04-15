@@ -2,12 +2,13 @@ package CloudContainers;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Set;
 
 public class Journey {
 	private int journeyID;
 	private String portOfOrigin;
 	private String destination;
-	private String company;
+	private LogisticCompany company;
 	private boolean isStarted;
 	private int timeToDestination;
 	private int elapsedTime;
@@ -53,7 +54,7 @@ public class Journey {
 	public void setStarted(boolean isStarted) {
 		this.isStarted = isStarted;
 	}
-	public String getCompany() {
+	public LogisticCompany getCompany() {
 		return company;
 	}
 	public int getJourneyID() {
@@ -63,7 +64,7 @@ public class Journey {
 		return portOfOrigin;
 	}
 	
-	public Journey(int journeyID, String portOfOrigin, String destination, String company,int timeToDestination) {
+	public Journey(int journeyID, String portOfOrigin, String destination, LogisticCompany company,int timeToDestination) {
 		super();
 		this.journeyID = journeyID;
 		this.portOfOrigin = portOfOrigin;
@@ -112,17 +113,15 @@ public class Journey {
 	}
 //	Database problem
 	private int updateContainers( int countFree) {
-		for (Container container : containers) {
-			if (container.getCurrentJourney().equals(this)) {
+		for (Container container : company.getContainersForJourney(this)) {
 				container.setCurrentJourney(null);
 				container.setOnJourney(false);
 				container.setContent("");
 				countFree++;
-			}
 		}
 		return countFree;
 	}
-	
+
 	public ResponseObject progressJourney( int timeIncrement) {
 		
 		ResponseObject response = new ResponseObject();
@@ -161,9 +160,8 @@ public class Journey {
 			double randAirHumIncrement = rand.nextDouble() * (rand.nextBoolean() ? -1 : 1) * 0.05;
 			
 //			Changing status data for containers registered to this journey
-			for (Container container : containers) {
-				
-				if (container.getCurrentJourney().equals(this)) {
+			for (Container container : company.getContainersForJourney(this)) {
+			
 					oneContainerOnJourney = oneContainerOnJourney || true;
 					newTemp = container.getTemperature() + randTempIncrement;
 					container.setTemperature(newTemp);
@@ -171,7 +169,6 @@ public class Journey {
 					container.setPressure(newPressure);
 					newAirHum = container.getAirHumidity() + randAirHumIncrement;
 					container.setAirHumidity(newAirHum);
-				}
 			}
 			elapsedTime++;
 			timeToDestination--;

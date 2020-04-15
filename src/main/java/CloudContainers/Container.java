@@ -6,7 +6,7 @@ import org.javatuples.Triplet;
 
 import javafx.util.Pair;
 
-public class Container {
+public class Container{
 	private int containerId;
 	private double temperature;
 	private double pressure;
@@ -16,6 +16,7 @@ public class Container {
 	private String content;
 	private HashSet<Client> accessClients;
 	private ArrayList<Triplet<Journey,Client,HashSet<Client>>> journeyHistory;
+//	Create class
 	private Client owner;
 	private Journey currentJourney;
 

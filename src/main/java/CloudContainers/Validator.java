@@ -7,6 +7,10 @@ import org.apache.commons.validator.GenericValidator;
 
 public class Validator {
 	
+	
+	
+	private LogisticCompany company;
+	
 	public boolean validBirthdate(String birthdate) {
 		return GenericValidator.isDate(birthdate, "dd-MM-yyyy", true);
 	}
@@ -56,7 +60,7 @@ public class Validator {
 			return response;
 		}
 		
-		if (!clientExists(email)) {
+		if (!company.clientExists(email)) {
 			response = new ResponseObject("Non-existing client");
 		}else {
 			response = new ResponseObject("Existing client");

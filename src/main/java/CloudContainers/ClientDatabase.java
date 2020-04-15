@@ -6,13 +6,13 @@ import java.util.Iterator;
 
 public class ClientDatabase extends HashSet<Client> {
 		
-		Client emptyClient = new Client("",0,"","","",0,"","");
+		
 		public Client getClient(int clientID) {
 			for (Client c :this) {
 				if (c.getClientID() == clientID) {
 					return c;
 				}
-			} return emptyClient;
+			} return null;
 		}
 		
 		public Client getClient(String email) {
@@ -21,7 +21,7 @@ public class ClientDatabase extends HashSet<Client> {
 				if ((c.getEmail()).equals(email)) {
 					return c;
 				}
-			} return emptyClient;
+			} return null;
 		}	
 		public Client getClientN(int number) {
 			
@@ -29,7 +29,7 @@ public class ClientDatabase extends HashSet<Client> {
 				if (c.getNumber()==number) {
 					return c;
 				}
-			} return emptyClient;
+			} return null;
 		}
 	
 		

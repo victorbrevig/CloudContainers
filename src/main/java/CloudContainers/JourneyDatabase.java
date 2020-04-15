@@ -9,15 +9,13 @@ import java.util.stream.Collectors;
 public class JourneyDatabase extends HashSet<Journey> {
 	
 	
-	Journey emptyJourney = new Journey(0,"","","",0);
-
 	
 	public Journey getJourney(int journeyID) {
 		for (Journey j : this) {
 			if (j.getJourneyID() == journeyID) {
 				return j;
 			}
-		} return emptyJourney;
+		} return null;
 	}
 	
 	public Set<Journey> filterPortOfOrigin(String portOfOrigin) {

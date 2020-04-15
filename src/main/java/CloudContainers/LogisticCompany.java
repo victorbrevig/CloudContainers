@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.mail.internet.AddressException;
@@ -43,6 +44,10 @@ public class LogisticCompany {
 		
 	}
 	
+	public Set<Container> getContainersForJourney(Journey journey){
+		return containers.filterJourney(journey);
+	}
+	
 	public JourneyDatabase getJourneyDatabase() {
 		return journeys;
 	}
@@ -52,9 +57,10 @@ public class LogisticCompany {
 	}
 	
 	public void createJourney(String portOfOrigin, String destination,int timeToDestination) {
-		Journey journey = new Journey(journeyIDgen, portOfOrigin, destination, this.name,timeToDestination);
+		Journey journey = new Journey(journeyIDgen, portOfOrigin, destination, this,timeToDestination);
 		journeyIDgen++;
 		journeys.add(journey);
+		
 	}
 	
 	public void addContainer() {
@@ -91,8 +97,8 @@ public class LogisticCompany {
 
 	
 	public ResponseObject newClient(String name, String email, String birthdate, String gender, int number, String password) {
-		ResponseObject response;
-		response = validInput(name,email,birthdate,gender,number);
+		ResponseObject response = null;
+//		response = validInput(name,email,birthdate,gender,number);
 		if (response.getErrorMessage().equals("Non-existing client")) {
 			int clientID = clientIDgen++;
 			Client client = new Client(name,clientID,email,birthdate,gender,number,this.name, password);
@@ -181,17 +187,15 @@ public class LogisticCompany {
 	}
 	
 	
-//	public void updateJourneyPortOfOrigin(Journey journey, String newPortOfOrigin) {
-//		journey.setPortOfOrigin(newPortOfOrigin);
-////		Overwrites the old journey, as equals works on journeyId, and journeys is a hashSet
-//		journeys.add(journey);
-//	}
-//	
-//	public void updateJourneyDestination(Journey journey, String newDestination) {
-//		journey.setDestination(newDestination);
-////		Overwrites the old journey, as equals works on journeyId, and journeys is a hashSet
-//		journeys.add(journey);
-//	}
+	public void updateJourneyPortOfOrigin(Journey journey, String newPortOfOrigin) {
+		journey.setPortOfOrigin(newPortOfOrigin);
+	}
+	
+	public void updateJourneyDestination(Journey journey, String newDestination) {
+		journey.setDestination(newDestination);
+//		Overwrites the old journey, as equals works on journeyId, and journeys is a hashSet
+		journeys.add(journey);
+	}
 	
 	
 	
@@ -201,6 +205,10 @@ public class LogisticCompany {
 		response.setErrorMessage("History successfully retrieved");
 		return response;
 		
+	}
+
+	public boolean clientExists(String email) {
+		return clients.stream().anyMatch(c -> c.getEmail().equals(email));
 	}
 	
 	
