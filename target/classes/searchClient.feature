@@ -21,25 +21,29 @@ Feature: Logistic company search for client
 
   @tag1
   Scenario: Searching for an existing client
+    Given A logistic company
     Given A client with the email "email123@mail.dk"
     When The logistic company searches for "email123@mail.dk"
-    Then The client is returned for "email123@mail.dk" and a succes message is displayed
+    Then The client is returned for "email123@mail.dk"
     
 
   @tag2
   Scenario: Searching for an existing client
+    Given A logistic company
     Given A client with the clientID 1
     When The logistic company searches for 1
-    Then The client is returned for 1 and a succes message is displayed
-
+    Then The client is returned for 1 
+    
 	@tag3
   Scenario: Searching for a non existing client
-    Given A none existing client for email search
-    When The logistic company searches "e"
-    Then A failure message is returned for "e"
+    Given A logistic company
+    Given A none existing client
+    When The logistic company searches for "e"
+    Then no client with email "e" exists
  
   @tag4
   Scenario: Searching for a non existing client
-    Given A none existing client for ID search
-    When The logistic company searches 10
-    Then A failure message is returned for 10
+    Given A logistic company
+    Given A none existing client
+    When The logistic company searches for 10
+    Then no client with Id 10 exists

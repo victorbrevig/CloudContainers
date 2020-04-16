@@ -21,35 +21,23 @@ Feature: Add container to journey
 
   @tag1
   Scenario: Successfully add a container to journey
-    Given a logistic company with a registered client
+  	Given A logistic company
+    Given existing client
     And a container owned by the client
     And a valid journey
     When logistic company tries to put container on journey
     Then success message is displayed
 	
-	@tag2
-  Scenario: Client does not exist
-    Given a logistic company with a non-registered client
-    And an available container
+  @tag2
+  Scenario: Container does not belong to client
+    Given A logistic company
+    Given existing client
+    And an owned container
     And a valid journey
     When logistic company tries to put container on journey
-    Then error message displayed saying that client does not exist
+    Then error message displayed saying that container does not belong to client
     
-  @tag3
-  Scenario: Container does not exist
-    Given a logistic company with a registered client
-    And an available container not owned by client
-    And a valid journey
-    When logistic company tries to put container on journey
-    Then error message displayed saying that container does not exist
-    
-  @tag4
-  Scenario: Journey does not exist
-    Given a logistic company with a registered client
-    And a container owned by the client
-    And a non-registered journey
-    When logistic company tries to put container on journey
-    Then error message displayed saying that journey does not exist
+
 	
   #@tag2
   #Scenario Outline: Title of your scenario outline

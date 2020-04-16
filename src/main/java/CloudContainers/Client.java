@@ -34,7 +34,6 @@ public class Client {
 		this.gender = gender;
 		this.number = number;
 		this.password = password;
-		this.validator = new Validator(company);
 	}
 	
 	public LogisticCompany getCompany() {
@@ -43,6 +42,7 @@ public class Client {
 
 	public void setCompany(LogisticCompany company) {
 		this.company = company;
+		this.validator = new Validator(company);
 	}
 
 	public boolean equals(Client client) {
@@ -103,12 +103,25 @@ public class Client {
 	public ResponseObject updateClient(String email) {
 		ResponseObject response = new ResponseObject();
 		// Valid new email
-		response = validator.validInput(this.getName(),email,this.getBirthdate(),this.getGender(),this.getNumber());
+		response = validator.validInput(getName(),email,getBirthdate(),getGender(),getNumber());
 		// Check if new email belongs to a client already
 		if (response.getErrorMessage().equals("Non-existing client")) {
 			this.setEmail(email);
 			response.setErrorMessage("Email has been updated");
 			}
+		return response;
+	}
+	public ResponseObject updateClient(int number) {
+		ResponseObject response = new ResponseObject();
+		// Valid new phone number
+		boolean validNumber = validator.validNumber(number);
+		if (validNumber) {
+			this.setNumber(number);
+			response.setErrorMessage("Phone number has been updated");
+			}
+		else {
+			response.setErrorMessage(number + " is not a valid phone number");
+		}
 		return response;
 	}
 	

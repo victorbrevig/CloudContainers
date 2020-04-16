@@ -22,25 +22,26 @@ Feature: Free a container
   @tag1
   Scenario: a container is successfully freed
   	Given A logistic company
-    And a registered client with email "s184469@student.dtu.dk"
-    And one container registered to the client
+    And existing client
+    And an unowned container
+    And a container is allocated
     When logistic company frees one container
     Then A succes message is displayed for freeing a container
 
   @tag2
   Scenario: container is on journey
-  	Given a logistic company with a journey from "Copenhagen" to "Oslo" with 80 hours to destination
-    And a registered client with email "s184469@student.dtu.dk"
-    And one container registered to the client
-    And the container is put on the journey containing "bananas"
+  	Given A logistic company
+    And existing client
+    And an unowned container
+    And a container is allocated
+    And a valid journey
+    And logistic company tries to put container on journey
     When logistic company frees one container
     Then A error message is displayed that container is on journey
 
   @tag3
   Scenario: container is not owned
-  	Given A logistic company
-    And a registered client with email "s184469@student.dtu.dk"
-    And one container
+    Given an unowned container
     When logistic company frees one container
     Then A error message is displayed as container is not owned
 

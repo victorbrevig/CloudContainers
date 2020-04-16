@@ -121,34 +121,18 @@ public class LogisticCompany {
 		return response;
 	}
 	
-	public ResponseObject freeContainer(Container container) {
-		ResponseObject response = new ResponseObject();
-//		container is not on journey
-//		container is owned
-		boolean onJourney = container.isOnJourney();
-		boolean owned = container.isOwned();
-		if (onJourney) {
-			response.setErrorMessage("This container is on a journey");
-		}else if (!owned) {
-			response.setErrorMessage("This container does not belong to a client");
-		}else {
-			container.setOwner(null);
-			container.setOwned(false);
-			response.setErrorMessage("Container was successfully freed");
-		}
-		return response;
-	}
 	
 	
-	public void updateJourneyPortOfOrigin(Journey journey, String newPortOfOrigin) {
-		journey.setPortOfOrigin(newPortOfOrigin);
-	}
 	
-	public void updateJourneyDestination(Journey journey, String newDestination) {
-		journey.setDestination(newDestination);
-//		Overwrites the old journey, as equals works on journeyId, and journeys is a hashSet
-		journeys.add(journey);
-	}
+//	public void updateJourneyPortOfOrigin(Journey journey, String newPortOfOrigin) {
+//		journey.setPortOfOrigin(newPortOfOrigin);
+//	}
+//	
+//	public void updateJourneyDestination(Journey journey, String newDestination) {
+//		journey.setDestination(newDestination);
+////		Overwrites the old journey, as equals works on journeyId, and journeys is a hashSet
+//		journeys.add(journey);
+//	}
 	
 	
 	
@@ -163,6 +147,7 @@ public class LogisticCompany {
 	public boolean clientExists(String email) {
 		return clients.stream().anyMatch(c -> c.getEmail().equals(email));
 	}
+	
 	
 	
 	

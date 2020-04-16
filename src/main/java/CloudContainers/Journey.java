@@ -121,8 +121,9 @@ public class Journey {
 		
 		return response;
 	}
-//	Database problem
+	
 	private int updateContainers( int countFree) {
+//		The filter returns null
 		for (Container container : company.getContainersForJourney(this)) {
 				container.setCurrentJourney(null);
 				container.setOnJourney(false);

@@ -22,21 +22,19 @@ Feature: Title of your feature
 
   @tag1
   Scenario: Logistic company wants to update the port of origin of a journey
-    Given A logistic company with a registered journey with PoO of "Texas"
+  	Given A logistic company
+    Given a registered journey with PoO of "Texas"
     When the logistic company tries to update port of origin to "Cape Town"
-    Then success message is displayed for port of origin "Cape Town"
+    Then poO is updated to "Cape Town"
     
   @tag2
   Scenario: Logistic company wants to update the destination of a journey
-    Given A logistic company with a registered journey with destination of "Copenhagen"
+    Given A logistic company
+    Given a registered journey with destination of "Copenhagen"
     When the logistic company tries to update destination to "Tokyo"
     Then success message is displayed for destination "Tokyo"
     
-  @tag3
-  Scenario: Journey does not exist
-    Given A logistic company with a non-registered journey with destination "Tokyo"
-    When the logistic company tries to update destination to "Medina"
-    Then error message is displayed saying journey does not exist
+  
 
   #@tag2
   #Scenario Outline: Title of your scenario outline

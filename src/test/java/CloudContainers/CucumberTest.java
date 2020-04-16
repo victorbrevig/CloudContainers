@@ -7,7 +7,7 @@ import io.cucumber.junit.Cucumber;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-		features = "src/main/resources/updateClient.feature")
+		features = "src/main/resources/endJourney.feature")
 
 public class CucumberTest {
 

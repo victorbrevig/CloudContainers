@@ -15,6 +15,14 @@ public class Validator {
 		this.company = company;
 	}
 	
+	public LogisticCompany getCompany() {
+		return company;
+	}
+
+	public void setCompany(LogisticCompany company) {
+		this.company = company;
+	}
+
 	public boolean validBirthdate(String birthdate) {
 		return GenericValidator.isDate(birthdate, "dd-MM-yyyy", true);
 	}

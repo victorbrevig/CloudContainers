@@ -186,6 +186,23 @@ public class Container{
 		}
 		return journeyHist;
 	}
+	public ResponseObject freeContainer() {
+		ResponseObject response = new ResponseObject();
+//		container is not on journey
+//		container is owned
+		boolean onJourney = isOnJourney();
+		boolean owned = isOwned();
+		if (onJourney) {
+			response.setErrorMessage("This container is on a journey");
+		}else if (!owned) {
+			response.setErrorMessage("This container does not belong to a client");
+		}else {
+			setOwner(null);
+			setOwned(false);
+			response.setErrorMessage("Container was successfully freed");
+		}
+		return response;
+	}
 	
 	public void print() {
 		System.out.println(this.getContainerId());
