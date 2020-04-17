@@ -17,7 +17,7 @@ public class ContainerDatabase extends HashSet<Container>{
 	
 	public Set<Container> filterJourney(Journey journey) {
 		Set<Container> filtered = this.stream()
-				.filter(container -> container.getCurrentJourney().equals(journey))
+				.filter(container -> journey.equals(container.getCurrentJourney()))
 				.collect(Collectors.toSet());
 		return filtered;	
 	}

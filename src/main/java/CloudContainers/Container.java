@@ -56,8 +56,8 @@ public class Container{
 	public void addJourney(Journey journey) {
 		ContainerJourneyInfo containerJourneyInfo = new ContainerJourneyInfo(journey,this.owner,accessClients);
 		journeyHistory.add(containerJourneyInfo);
-		this.setOnJourney(true);
-		this.setCurrentJourney(journey);
+		setOnJourney(true);
+		setCurrentJourney(journey);
 	}
 	
 	public ArrayList<ContainerJourneyInfo> getJourneyHistory() {
@@ -142,13 +142,14 @@ public class Container{
 		Journey journey = getCurrentJourney();
 		
 		boolean accessToDataContainer = accessClients.contains(client);
-		boolean journeyIsStarted = journey.isStarted();
+		
 		
 		if (!accessToDataContainer) {
 			response.setErrorMessage("You don't have access to this container");
 			return response;
 		} 
-		else if (!journeyIsStarted) {
+		boolean journeyIsStarted = journey.isStarted();
+		if (!journeyIsStarted) {
 			response.setErrorMessage("Ship's still at harbour");
 			return response;
 		} 

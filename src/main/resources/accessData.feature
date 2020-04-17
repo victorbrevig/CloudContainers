@@ -21,34 +21,33 @@ Feature: access data as client
 
   @tag1
   Scenario: access existing data
-    Given a logistic company with a journey from "Copenhagen" to "Oslo" with 80 hours to destination
-    And a registered client with email "s184469@student.dtu.dk"
+  	Given A logistic company
+    And a journey from "Copenhagen" to "Oslo" with 80 hours to destination
+    And existing client
     And three containers registered to the client
  		And the containers are put on the journey containing "bananas", "milk" and "oranges" respectively
  		And journey is started and run for 10 hours
- 		When client 1 request the data for his container
+ 		When client request the data for his container
     Then the status of the container is returned
     And a succes for data access is displayed
 
+
   @tag2
-  Scenario: container does not exist
-    Given a logistic company with a journey from "Copenhagen" to "Oslo" with 80 hours to destination
-    And a registered client with email "s184469@student.dtu.dk"
- 		When client 1 request the data for a container with ID 1010
-    Then a error message is returned for data acces
-  @tag3
   Scenario: container is not owned by client 
-    Given a logistic company with a journey from "Copenhagen" to "Oslo" with 80 hours to destination
-    And a registered client with email "s184469@student.dtu.dk"
- 		When client 1 request the data for a container with ID 95
-    Then a error message is returned for data acces
-   @tag4
+    Given A logistic company
+    And a journey from "Copenhagen" to "Oslo" with 80 hours to destination
+    And existing client
+    And an unowned container
+ 		When client request the data for a container he does not own
+    Then a error message is returned for data access
+   @tag3
     Scenario: journey has not started
-    Given a logistic company with a journey from "Copenhagen" to "Oslo" with 80 hours to destination
-    And a registered client with email "s184469@student.dtu.dk"
+    Given A logistic company
+    And a journey from "Copenhagen" to "Oslo" with 80 hours to destination
+    And existing client
     And three containers registered to the client
  		And the containers are put on the journey containing "bananas", "milk" and "oranges" respectively
- 		When client 1 request the data for his container
+ 		When client request the data for his container
     Then a error message is returned for journey has not started
 #
 #

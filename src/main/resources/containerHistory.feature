@@ -22,44 +22,31 @@ Feature: A container has a history log of its journeys, clients and status data
   @tag1
   Scenario: logistic company wants to see history of container
   	Given A logistic company
-    And a registered client with email "s184469@student.dtu.dk"
-    And a container registered to the client
+    And existing client
+    And an unowned container
+    And a container is allocated
     And the container has been on one journey from "Copenhagen" to "Malmo" and another journey from "Oslo" to "Copenhagen"
 		When container history is requested by logistic company
-		Then an array containing pairs of journeyIDs and clientIDs are returned
+		Then an array containing container journey information is returned
 		And response message saying that history of container was successfully retrieved
-    
+ 
   @tag2
-  Scenario: container does not exist
-  	Given A logistic company
-    And a registered client with email "s184469@student.dtu.dk"
-    And an non-registered container
-		When container history is requested by logistic company
-	  Then response message saying that container does not exist
-    
-  @tag3
   Scenario: client wants to see history of container owned
   	Given A logistic company
-    And a registered client with email "s184469@student.dtu.dk"
-    And a container registered to the client
+    And existing client
+    And an unowned container
+    And a container is allocated
     And the container has been on one journey from "Copenhagen" to "Malmo" and another journey from "Oslo" to "Copenhagen"
 		When container history is requested by client
 		Then an array containing relevant journeys are returned
 		And response message saying that history of container was successfully retrieved to client
     
-  @tag4
-  Scenario: client wants to see history of container but container does not exist
-  	Given A logistic company
-    And a registered client with email "s184469@student.dtu.dk"
-		And an non-registered container
-		When container history is requested by client
-		Then response message saying that container does not exist to client
-
-  @tag5
+  @tag3
   Scenario: client wants to see history of container owned with no journeys
   	Given A logistic company
-    And a registered client with email "s184469@student.dtu.dk"
-    And a container registered to the client
+    And existing client
+    And an unowned container
+    And a container is allocated
 		When container history is requested by client
 		Then an array containing relevant journeys are returned with size 0
 		And response message saying that history of container was successfully retrieved to client

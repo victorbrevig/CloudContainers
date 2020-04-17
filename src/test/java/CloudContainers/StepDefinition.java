@@ -155,7 +155,7 @@ public class StepDefinition{
 	    return lc.getClients().getClient(string);
 	}
 
-	@Then("The client is returned for {string} ")
+	@Then("The client is returned for {string}")
 	public void the_client_is_returned_for(String string) {
 		Client c = the_logistic_company_searches_for(string);
 		assertTrue(lc.getClients().contains(c));
@@ -451,185 +451,166 @@ public class StepDefinition{
 		assertEquals(response.getErrorMessage(),"This container does not belong to a client");
 	}
 	
-//	// ____________________________runJourney______________________________________________________
-//
-//	@Given("a logistic company with a journey from {string} to {string}  with {int} hours to destination")
-//	public void a_logistic_company_with_a_journey_to_at_time_hours(String string1, String string2,Integer int1) {
-//		lc.createJourney(string1, string2,int1);
-//	}
-//
-//	@Given("a registered client with email {string}")
-//	public void a_registered_client_with_email(String string1) {
-//		
-//		lc.newClient("Jenny",string1,"11-10-1998","female",12345678,"1234");
-//	}
-//
-//	@Given("three containers registered to the client")
-//	public void three_containers_registered_to_the_client() {
-//		container1 = lc.findFreeContainer();
-//		lc.allocateContainer(1, container1);
-//		container2 = lc.findFreeContainer();
-//		lc.allocateContainer(1, container2);
-//		container3 = lc.findFreeContainer();
-//		lc.allocateContainer(1, container3);
-//	}
-//	@Given("the containers are put on the journey containing {string}, {string} and {string} respectively")
-//	public void the_containers_are_put_on_the_journey_containing_and_respectively(String string, String string2, String string3) {
-//		lc.containerToJourney(1, container1, 1, string);
-//	    lc.containerToJourney(1, container2, 1, string2);
-//	    lc.containerToJourney(1, container3, 1, string3);
-//	}
-//	
-//	
-//	@When("journey is started and run for {int} hours")
-//	public void journey_is_started_and_run_for_hours(Integer int1) {
-//	    response = lc.progressJourney(1,int1);
-//	}
-//	
-//	@Then("journey elapsed time is updated to {int} hours")
-//	public void journey_elapsed_time_is_updated_to_hours(Integer int1) {
-//	    assertTrue(lc.getJourneyDatabase().getJourney(1).getElapsedTime()==int1);
-//	    
-//	}
-//
-//	@Then("data has been collected up till {int} hours")
-//	public void data_has_been_collected_up_till_hours(Integer int1) {
-//		ArrayList<statusTrackingObject> list;
-//		list = lc.getJourneyDatabase().getJourney(1).getStatusData();
-//		assertTrue(list.get(list.size()-1).getTime() == int1);
-//	}
-//
-//	@Then("a succes response is given for journey {int} elapsed time {int}")
-//	public void a_succes_response_is_given_for_journey_elapsed_time(Integer int1, Integer int2) {
-//	    assertEquals(response.getErrorMessage(),"Your container on journey " + int1 + " has traveled " + int2 + " hours.");
-//	}
-//	@Given("a logistic company with a journey from {string} to {string} with {int} hours to destination")
-//	public void a_logistic_company_with_a_journey_from_to_with_hours_to_destination(String string, String string2, Integer int1) {
-//		lc.createJourney(string, string2,int1);
-//	}
-//	@Then("a response is returned that the journey has ended for journey {int} after {int} hours")
-//	public void a_response_is_returned_that_the_journey_has_ended_for_journey_after_hours(Integer int1, Integer int2) {
-//	    assertEquals(response.getErrorMessage(),"Your container on journey " + int1 + " has traveled " + int2 + " hours and the journey has ended.");
-//	}
-//	
-//	@Then("no data has been collected")
-//	public void no_data_has_been_collected() {
-//		ArrayList<statusTrackingObject> list;
-//		list = lc.getJourneyDatabase().getJourney(1).getStatusData();
-//		assertTrue(list.size() == 0);
-//	}
-//
-//	@Then("a response is returned that the journey has no containers")
-//	public void a_response_is_returned_that_the_journey_has_no_containers() {
-//		assertEquals(response.getErrorMessage(),"No containers are on this journey");
-//	}
-//	
-//	
-//	
-//	@Then("a response is given for travel time too low")
-//	public void a_response_is_given_for_travel_time_too_low() {
-//	    assertEquals(response.getErrorMessage(), "Travel time has to be a more than 0");
-//	}
-//	
-//	// ____________________________accessData______________________________________________________
-//	
-//	@When("client {int} request the data for his container")
-//	public void client_request_the_data_for_his_container(Integer clientID) {
-//	    response = lc.accessStatus(clientID,container1.getContainerId());
-//	}
-//
-//	@Then("the status of the container is returned")
-//	public void the_status_of_the_container_is_returned() {
-//	    assertTrue(response.getStatus().getTime() != 0);
-//	}
-//
-//	@Then("a succes for data access is displayed")
-//	public void a_succes_for_data_access_is_displayed() {
-//	    assertEquals(response.getErrorMessage(),"This is the current status of your container");
-//	}
-//	
-//	@When("client {int} request the data for a container with ID {int}")
-//	public void client_request_the_data_for_a_container_with_ID(Integer int1, Integer int2) {
-//	    response = lc.accessStatus(int1, int2);
-//	}
-//
-//	@Then("a error message is returned for data acces")
-//	public void a_error_message_is_returned_for_data_acces() {
-//	    assertEquals(response.getErrorMessage(),"You don't own this container");
-//	}
-//	@Then("a error message is returned for journey has not started")
-//	public void a_error_message_is_returned_for_journey_has_not_started() {
-//	    assertEquals(response.getErrorMessage(),"Ship's still at harbour");
-//	}
-//
-//	// ________________________________________containerHistory_____________________________________________________________
-//	
-//	@Given("a container registered to the client")
-//	public void a_container_registered_to_the_client() {
-//		container = lc.findFreeContainer();
-//		lc.allocateContainer(1, container);
-//	}
-//
-//	@Given("the container has been on one journey from {string} to {string} and another journey from {string} to {string}")
-//	public void the_container_has_been_on_one_journey_from_to_and_another_journey_from_to(String string, String string2, String string3, String string4) {
-//		lc.createJourney(string, string2,10);
-//		lc.containerToJourney(1, container, 1, "bananas");
-//		lc.progressJourney(1, 10);
-//		lc.createJourney(string3, string4, 20);
-//		lc.containerToJourney(1, container, 2, "oranges");
-//		lc.progressJourney(2, 20);
-//		
-//	}
-//
-//	@When("container history is requested by logistic company")
-//	public void container_history_is_requested_by_logistic_company() {
-//	    response = lc.getFullHistory(container.getContainerId());
-//	}
-//
-//	@Then("an array containing pairs of journeyIDs and clientIDs are returned")
-//	public void an_array_containing_pairs_of_journeyIDs_and_clientIDs_are_returned() {
-//	    assertEquals(response.getJourneys().size(), 2);
-//	}
-//
-//	@Then("response message saying that history of container was successfully retrieved")
-//	public void response_message_saying_that_history_of_container_was_successfully_retrieved() {
-//	    assertEquals(response.getErrorMessage(),"History successfully retrieved");
-//	}
-//	
-//	@Given("an non-registered container")
-//	public void an_non_registered_container() {
-//	    container = new Container(0);
-//	}
-//	
-//	@Then("response message saying that container does not exist")
-//	public void response_message_saying_that_container_does_not_exist() {
-//	    assertEquals(response.getErrorMessage(),"Container does not exist");
-//	}
-//	
-//	@When("container history is requested by client")
-//	public void container_history_is_requested_by_client() {
-//	    response = lc.getHistoryOfContainerForClient(1,container.getContainerId());
-//	}
-//
-//	@Then("an array containing relevant journeys are returned")
-//	public void an_array_containing_relevant_journeys_are_returned() {
-//	    assertEquals(response.getJourneyHist().size(),2);
-//	}
-//
-//	@Then("response message saying that history of container was successfully retrieved to client")
-//	public void response_message_saying_that_history_of_container_was_successfully_retrieved_to_client() {
-//	    assertEquals(response.getErrorMessage(),"Your container's history is succesfully retrieved");
-//	}
-//	
-//	@Then("response message saying that container does not exist to client")
-//	public void response_message_saying_that_container_does_not_exist_to_client() {
-//	    assertEquals(response.getErrorMessage(),"Container does not exist");
-//	}
-//	
-//	@Then("an array containing relevant journeys are returned with size {int}")
-//	public void an_array_containing_relevant_journeys_are_returned_with_size(Integer int1) {
-//	    assertTrue(response.getJourneyHist().size() == int1);
-//	}
+	// ____________________________runJourney______________________________________________________
+
+	
+	@Given("a journey from {string} to {string} with {int} hours to destination")
+	public void a_journey_from_to_with_hours_to_destination(String string, String string2, Integer int1) {
+		journey = new Journey(string, string2,int1);
+	    lc.addJourney(journey);
+	}
+
+	@Given("three containers registered to the client")
+	public void three_containers_registered_to_the_client() {
+		container1 = lc.getContainerDatabase().findFreeContainer();
+		lc.allocateContainer(client1, container1);
+		container2 = lc.getContainerDatabase().findFreeContainer();
+		lc.allocateContainer(client1, container2);
+		container3 = lc.getContainerDatabase().findFreeContainer();
+		lc.allocateContainer(client1, container3);
+	}
+	@Given("the containers are put on the journey containing {string}, {string} and {string} respectively")
+	public void the_containers_are_put_on_the_journey_containing_and_respectively(String string, String string2, String string3) {
+		client1.containerToJourney(container1, journey, string);
+	    client1.containerToJourney(container2, journey, string2);
+	    client1.containerToJourney(container3, journey, string3);
+	}
+	
+	
+	@When("journey is started and run for {int} hours")
+	public void journey_is_started_and_run_for_hours(Integer int1) {
+	    response = journey.progressJourney(int1);
+	}
+	
+	@Then("journey elapsed time is updated to {int} hours")
+	public void journey_elapsed_time_is_updated_to_hours(Integer int1) {
+	    assertTrue(journey.getElapsedTime()==int1);
+	    
+	}
+
+	@Then("data has been collected up till {int} hours")
+	public void data_has_been_collected_up_till_hours(Integer int1) {
+		ArrayList<statusTrackingObject> list;
+		list = journey.getStatusData();
+		assertTrue(list.get(list.size()-1).getTime() == int1);
+	}
+
+	@Then("a succes response is given for journey {int} elapsed time {int}")
+	public void a_succes_response_is_given_for_journey_elapsed_time(Integer int1, Integer int2) {
+	    assertEquals(response.getErrorMessage(),"Your container on journey " + int1 + " has traveled " + int2 + " hours.");
+	}
+	
+	@Then("a response is returned that the journey has ended for journey {int} after {int} hours")
+	public void a_response_is_returned_that_the_journey_has_ended_for_journey_after_hours(Integer int1, Integer int2) {
+	    assertEquals(response.getErrorMessage(),"Your container on journey " + int1 + " has traveled " + int2 + " hours and the journey has ended.");
+	}
+	
+	@Then("no data has been collected")
+	public void no_data_has_been_collected() {
+		ArrayList<statusTrackingObject> list;
+		list = journey.getStatusData();
+		assertTrue(list.size() == 0);
+	}
+
+	@Then("a response is returned that the journey has no containers")
+	public void a_response_is_returned_that_the_journey_has_no_containers() {
+		assertEquals(response.getErrorMessage(),"No containers are on this journey");
+	}
+	
+	
+	
+	@Then("a response is given for travel time too low")
+	public void a_response_is_given_for_travel_time_too_low() {
+	    assertEquals(response.getErrorMessage(), "Travel time has to be a more than 0");
+	}
+	
+	// ____________________________accessData______________________________________________________
+	
+	@When("client request the data for his container")
+	public void client_request_the_data_for_his_container() {
+	    response = container1.accessStatus(client1);
+	}
+	@When("client request the data for a container he does not own")
+	public void client_request_the_data_for_a_container_he_does_not_own() {
+	    response = container.accessStatus(client1);
+	}
+
+	@Then("the status of the container is returned")
+	public void the_status_of_the_container_is_returned() {
+	    assertTrue(response.getStatus().getTime() != 0);
+	}
+
+	@Then("a succes for data access is displayed")
+	public void a_succes_for_data_access_is_displayed() {
+	    assertEquals(response.getErrorMessage(),"This is the current status of your container");
+	}
+
+	@Then("a error message is returned for data access")
+	public void a_error_message_is_returned_for_data_access() {
+	    assertEquals(response.getErrorMessage(),"You don't have access to this container");
+	}
+	@Then("a error message is returned for journey has not started")
+	public void a_error_message_is_returned_for_journey_has_not_started() {
+	    assertEquals(response.getErrorMessage(),"Ship's still at harbour");
+	}
+
+	// ________________________________________containerHistory_____________________________________________________________
+	
+
+	@Given("the container has been on one journey from {string} to {string} and another journey from {string} to {string}")
+	public void the_container_has_been_on_one_journey_from_to_and_another_journey_from_to(String string, String string2, String string3, String string4) {
+		journey1 = new Journey(string, string2,10);
+	    lc.addJourney(journey1);
+	    client1.containerToJourney(container, journey1, "Chocolate");
+		journey1.progressJourney(10);
+		
+		journey2 = new Journey(string3, string4,20);
+	    lc.addJourney(journey2);
+	    client1.containerToJourney(container, journey2, "Banana");
+		journey2.progressJourney(20);
+		
+	}
+
+	@When("container history is requested by logistic company")
+	public void container_history_is_requested_by_logistic_company() {
+	    response = lc.getFullHistory(container);
+	}
+
+	@Then("an array containing container journey information is returned")
+	public void an_array_containing_container_journey_information_is_returned() {
+	    assertEquals(response.getJourneys().size(), 2);
+	}
+
+	@Then("response message saying that history of container was successfully retrieved")
+	public void response_message_saying_that_history_of_container_was_successfully_retrieved() {
+	    assertEquals(response.getErrorMessage(),"History successfully retrieved");
+	}
+	
+	@Given("an non-registered container")
+	public void an_non_registered_container() {
+	    container = new Container(0);
+	}
+	
+	@When("container history is requested by client")
+	public void container_history_is_requested_by_client() {
+	    response = container.getHistoryOfContainerForClient(client1);
+	}
+
+	@Then("an array containing relevant journeys are returned")
+	public void an_array_containing_relevant_journeys_are_returned() {
+	    assertEquals(response.getJourneyHist().size(),2);
+	}
+
+	@Then("response message saying that history of container was successfully retrieved to client")
+	public void response_message_saying_that_history_of_container_was_successfully_retrieved_to_client() {
+	    assertEquals(response.getErrorMessage(),"Your container's history is succesfully retrieved");
+	}
+
+	
+	@Then("an array containing relevant journeys are returned with size {int}")
+	public void an_array_containing_relevant_journeys_are_returned_with_size(Integer int1) {
+	    assertTrue(response.getJourneyHist().size() == int1);
+	}
 
 	
 	

@@ -41,7 +41,9 @@ Feature: Free a container
 
   @tag3
   Scenario: container is not owned
-    Given an unowned container
+  	Given A logistic company
+    And existing client
+    And an unowned container
     When logistic company frees one container
     Then A error message is displayed as container is not owned
 

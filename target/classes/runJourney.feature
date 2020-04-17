@@ -21,8 +21,9 @@ Feature: elapse time for journey
 
   @tag1
   Scenario: Elapse time of journey for ten hours
-    Given a logistic company with a journey from "Copenhagen" to "Oslo" with 80 hours to destination
-    And a registered client with email "s184469@student.dtu.dk"
+  	Given A logistic company
+    Given a journey from "Copenhagen" to "Oslo" with 80 hours to destination
+    And existing client
     And three containers registered to the client
  		And the containers are put on the journey containing "bananas", "milk" and "oranges" respectively
     When journey is started and run for 10 hours
@@ -32,8 +33,9 @@ Feature: elapse time for journey
 
   @tag2
   Scenario: journey ends
-    Given a logistic company with a journey from "Copenhagen" to "Oslo" with 5 hours to destination
-    And a registered client with email "s184469@student.dtu.dk"
+  	Given A logistic company
+    Given a journey from "Copenhagen" to "Oslo" with 5 hours to destination
+    And existing client
     And three containers registered to the client
  		And the containers are put on the journey containing "bananas", "milk" and "oranges" respectively
     When journey is started and run for 10 hours
@@ -43,7 +45,9 @@ Feature: elapse time for journey
     
   @tag3
   Scenario: no container assigned to journey
-    Given a logistic company with a journey from "Copenhagen" to "Oslo" with 80 hours to destination
+    Given A logistic company
+    Given a journey from "Copenhagen" to "Oslo" with 80 hours to destination
+    And existing client
     When journey is started and run for 10 hours
     Then journey elapsed time is updated to 10 hours
     And no data has been collected
@@ -51,8 +55,9 @@ Feature: elapse time for journey
     
    @tag4
   Scenario: time increment is to small
-    Given a logistic company with a journey from "Copenhagen" to "Oslo" with 80 hours to destination
-    And a registered client with email "s184469@student.dtu.dk"
+  	Given A logistic company
+    Given a journey from "Copenhagen" to "Oslo" with 80 hours to destination
+    And existing client
     And three containers registered to the client
  		And the containers are put on the journey containing "bananas", "milk" and "oranges" respectively
     When journey is started and run for 0 hours
