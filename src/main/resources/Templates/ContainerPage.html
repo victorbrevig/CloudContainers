@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1" />
+<title>Container</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+<script>
+    $(function () {
+            $('#container1').highcharts({
+                title: {
+                    text: 'Temperature',
+                    style: {
+                        fontWeight: 'bold',
+                        fontSize: "200%"
+                    }
+                },
+                xAxis: {
+                    accessibility: {
+                      rangeDescription: 'Range: 0 to 100 hours'
+                    }
+                  },
+                yAxis: {
+                    title: {
+                        text: 'Temperature (C)'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f} C</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    series: {
+                      label: {
+                        connectorAllowed: false
+                      },
+                      pointStart: 0
+                    }
+                  },
+                series: [{
+                    name: 'Temperature',
+                    data: [49.9, 71.5, 106.4, 129.2, 144.0]
+                }],
+                
+                colors: ['#FF6500'],
+                
+                chart: {
+                    backgroundColor: {
+                        linearGradient: [0, 0, 500, 500],
+                        stops: [
+                            [0, 'rgb(255, 255, 255)'],
+                            [1, 'rgb(240, 240, 255)']
+                        ]
+                    },
+                },
+                
+                responsive: {
+                    rules: [{
+                      condition: {
+                        maxWidth: 500
+                      },
+                      chartOptions: {
+                        legend: {
+                          layout: 'horizontal',
+                          align: 'center',
+                          verticalAlign: 'bottom'
+                        }
+                      }
+                    }]
+                  }
+            });
+        });
+</script>
+<script>
+    $(function () {
+            $('#container2').highcharts({
+                title: {
+                    text: 'Air Humidity',
+                    style: {
+                        fontWeight: 'bold',
+                        fontSize: "200%"
+                    }
+                },
+                xAxis: {
+                    accessibility: {
+                      rangeDescription: 'Range: 0 to 100 hours'
+                    }
+                  },
+                yAxis: {
+                    title: {
+                        text: 'Air humidity (%)'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f} %</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    series: {
+                      label: {
+                        connectorAllowed: false
+                      },
+                      pointStart: 0
+                    }
+                  },
+                series: [{
+                    name: 'Air Humidity',
+                    data: [49.9, 71.5, 106.4, 129.2, 144.0]
+                }],
+                
+                colors: ['#058DC7'],
+                
+                chart: {
+                    backgroundColor: {
+                        linearGradient: [0, 0, 500, 500],
+                        stops: [
+                            [0, 'rgb(255, 255, 255)'],
+                            [1, 'rgb(240, 240, 255)']
+                        ]
+                    },
+                },
+                
+                responsive: {
+                    rules: [{
+                      condition: {
+                        maxWidth: 500
+                      },
+                      chartOptions: {
+                        legend: {
+                          layout: 'horizontal',
+                          align: 'center',
+                          verticalAlign: 'bottom'
+                        }
+                      }
+                    }]
+                  }
+            });
+        });
+</script>
+<script>
+    $(function () {
+            $('#container3').highcharts({
+                title: {
+                    text: 'Pressure',
+                    style: {
+                        fontWeight: 'bold',
+                        fontSize: "200%"
+                    }
+                },
+                xAxis: {
+                    accessibility: {
+                      rangeDescription: 'Range: 0 to 100 hours'
+                    }
+                  },
+                yAxis: {
+                    title: {
+                        text: 'Pressure (atm)'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f} atm</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    series: {
+                      label: {
+                        connectorAllowed: false
+                      },
+                      pointStart: 0
+                    }
+                  },
+                series: [{
+                    name: 'Pressure',
+                    data: [49.9, 71.5, 106.4, 129.2, 144.0]
+                }],
+                
+                colors: ['#008C00'],
+                
+                chart: {
+                    backgroundColor: {
+                        linearGradient: [0, 0, 500, 500],
+                        stops: [
+                            [0, 'rgb(255, 255, 255)'],
+                            [1, 'rgb(240, 240, 255)']
+                        ]
+                    },
+                },
+                
+                responsive: {
+                    rules: [{
+                      condition: {
+                        maxWidth: 500
+                      },
+                      chartOptions: {
+                        legend: {
+                          layout: 'horizontal',
+                          align: 'center',
+                          verticalAlign: 'bottom'
+                        }
+                      }
+                    }]
+                  }
+            });
+        });
+</script>
+</head>
+<body>
+	<h1 style="text-align:center">Status</h1>
+
+	<h1 style="text-align:center">Information Charts</h1>
+	<div id="container1" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+	<div id="container2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+	<div id="container3" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+	
+</body>
+</html>
