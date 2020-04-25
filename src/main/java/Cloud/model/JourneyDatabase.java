@@ -28,7 +28,7 @@ public class JourneyDatabase extends HashSet<Journey> {
 		Set<Journey> filtered = this.stream()
 				.filter(journey -> journey.getPortOfOrigin().equals(portOfOrigin))
 				.collect(Collectors.toSet());
-		return filtered;		
+		return filtered;
 	}
 	
 	/** This method fetches all journeys in the database with destination as requested.
