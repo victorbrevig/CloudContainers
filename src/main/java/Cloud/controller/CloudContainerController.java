@@ -14,13 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import net.bytebuddy.matcher.ModifierMatcher.Mode;
 
 @Controller
-
 public class CloudContainerController {
 @GetMapping("/")
-	
 	public String mainpage(Model model) {
 		return "MainPage";
-	
+		
 	
 }
 }
