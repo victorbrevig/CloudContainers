@@ -493,8 +493,8 @@ public class StepDefinition{
 		assertTrue(list.get(list.size()-1).getTime() == int1);
 	}
 
-	@Then("a succes response is given for journey {int} elapsed time {int}")
-	public void a_succes_response_is_given_for_journey_elapsed_time(Integer int1, Integer int2) {
+	@Then("a succes response is given for journey with id {int} and elapsed time {int}")
+	public void a_succes_response_is_given_for_journey_with_id_and_elapsed_time(Integer int1, Integer int2) {
 	    assertEquals(response.getErrorMessage(),"Your container on journey " + int1 + " has traveled " + int2 + " hours.");
 	}
 	

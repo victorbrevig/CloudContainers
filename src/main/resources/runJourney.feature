@@ -3,7 +3,7 @@
 Feature: elapse time for journey
 
 
-  Scenario: Elapse time of journey for ten hours
+  Scenario: Elapse time of journey by ten hours
   	Given A logistic company
     Given a journey from "Copenhagen" to "Oslo" with 80 hours to destination
     And existing client
@@ -12,7 +12,7 @@ Feature: elapse time for journey
     When journey is started and run for 10 hours
     Then journey elapsed time is updated to 10 hours
     And data has been collected up till 10 hours
-    And a succes response is given for journey 1 elapsed time 10
+    And a succes response is given for journey with id 1 and elapsed time 10
 
 
   Scenario: journey ends
