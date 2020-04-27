@@ -22,8 +22,12 @@ import Cloud.model.Client;
 import Cloud.model.ClientDatabase; 
 
 public class JSONWriter{ 
-	 String locClients = "C:\\Users\\Bruger\\Desktop\\4.th Semester\\Agile Object Oriented Programming\\YeetContainer2\\Y.json";
-	 String locLoggedin = "C:\\Users\\Bruger\\Desktop\\4.th Semester\\Agile Object Oriented Programming\\YeetContainer2\\Loggedin.json";
+
+	// Victor path
+	String locClients = "C:\\Users\\victo\\git\\CloudContainers\\Y.json";
+	String locLoggedin = "C:\\Users\\victo\\git\\CloudContainers\\Loggedin.json";
+	
+	
 	
  public JSONWriter() throws IOException {
 //	 Gson gson = new Gson();
@@ -36,7 +40,7 @@ public class JSONWriter{
 	 Reader reader = new FileReader(locClients);
 	 ClientDatabase db = gson.fromJson(reader, ClientDatabase.class);
 	 Writer fw = new FileWriter(locClients);
-	 HashSet<Client> database = db ;
+	 HashSet<Client> database = db;
      gson.toJson(database, fw);
      fw.flush();
      fw.close();

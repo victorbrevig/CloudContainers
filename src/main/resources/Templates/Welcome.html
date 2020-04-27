@@ -67,6 +67,9 @@ body {
 .dropdown:hover .dropdown-content {
   display: block;
 }
+​
+
+
 </style>
 </head>
 <body>
@@ -90,6 +93,35 @@ body {
 
 <h3>Dropdown Menu inside a Navigation Bar</h3>
 <p>Hover over the "Dropdown" link to see the dropdown menu.</p>
+
+
+<div style="text-align:center">
+<h1 th:text="${'Hello ' + client.getName() + '!'}" th:unless="${client == null}">Test</h1>
+</div>
+
+
+<table style="width:70%;margin-left:auto;margin-right:auto">
+  <tr>
+    <th>Container ID</th>
+    <th>Content</th>
+    <th>Port of Origin</th>
+    <th>Destination</th>
+    <th>Time to Destination</th>
+    <th>Status Data</th>
+  </tr>
+  <tr th:each="container: ${clientContainers}">
+    <td th:text="${container.getContainerID()}" />
+    <td th:text="${container.getContent()}" />
+    <td th:text="${container.getCurrentJourney().getPortOfOrigin()}" />
+    <td th:text="${container.getCurrentJourney().getDestination()}" />
+    <td th:text="${container.getCurrentJourney().getTimeToDestination()}" />
+    <td th:text="${container.getCurrentJourney().getTimeToDestination()}" />
+	</tr>
+</table>
+
+
+
+</div>
 
 </body>
 </html>

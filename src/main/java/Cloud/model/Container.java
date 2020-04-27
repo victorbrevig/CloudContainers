@@ -32,6 +32,7 @@ public class Container{
 	@NotBlank
 	@Column
 	private String content;
+
 	private HashSet<Client> accessClients;
 	private ArrayList<ContainerJourneyInfo> journeyHistory;
 	private Client owner;
@@ -140,6 +141,16 @@ public class Container{
 	public void setContent(String content) {
 		this.content = content;
 	}
+	
+	/** Gets content of container
+	 * 
+	 * @return content
+	 */
+	public String getContent() {
+		return content;
+	}
+	
+	
 	
 	/**Gets containerID
 	 * 

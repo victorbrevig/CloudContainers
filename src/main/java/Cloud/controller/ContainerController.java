@@ -43,7 +43,7 @@ public class ContainerController extends HttpServlet {
 		
 	}
 	@PostMapping("/ClientLogin")
-	public String add(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public String add(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
 		
 		 response.setContentType("text/html");  
 		    PrintWriter out = response.getWriter();  
@@ -59,8 +59,8 @@ public class ContainerController extends HttpServlet {
 		         RequestDispatcher rd=request.getRequestDispatcher("/Welcome.html");  
 		         System.out.println("Hola");
 
-			
-			return "Welcome";
+		model.addAttribute("client",client);
+		return "Welcome";
 		}
 		    System.out.println("No good");
 		return "ClientLogin";}
@@ -121,6 +121,7 @@ public class ContainerController extends HttpServlet {
 		}
 		@PostMapping("/Register")
 		public String Register(HttpServletRequest request, HttpServletResponse response) throws IOException {
+			
 			response.setContentType("text/html");  
 		    PrintWriter out = response.getWriter();  
 		    String n=request.getParameter("userName");  
@@ -135,6 +136,15 @@ public class ContainerController extends HttpServlet {
 	        return "ClientLogin";
 			
 		}
+		
+		@GetMapping("/container/{id}")
+		public String containerPage(@PathVariable("id") int id, Container container,Model model) {
+			
+			
+			return "ContainerPage";
+			
+		}
+		
 		
 	
 }
