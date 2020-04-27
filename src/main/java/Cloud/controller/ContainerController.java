@@ -24,6 +24,7 @@ import Cloud.model.*;
 import net.bytebuddy.matcher.ModifierMatcher.Mode;
 import Cloud.model.Container;
 import Cloud.model.JSONWriter;
+import Cloud.model.Client;
 
 
 @Controller
@@ -77,5 +78,63 @@ public class ContainerController extends HttpServlet {
 			return "ContainerPage";
 			
 		}
+		@GetMapping("/UpdateInfo")
+		public String updateinfo(Model model) {
+			return "ClientUpdate";
+			
+		}
+		@PostMapping("/UpdateInfo")
+		public String updateinfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
+			  response.setContentType("text/html");  
+			    PrintWriter out = response.getWriter();  
+			          
+			    String n=request.getParameter("userMail");  
+			    int pn= Integer.parseInt(request.getParameter("userNumber"));  
+			    JSONWriter jw = new JSONWriter();   
+			    	  	
+			    	
+			    	 Client client2 = jw.getClient();
+			    	 jw.Remove(client2.getEmail());
+
+
+			    	 
+			    	 if (n!= "") {
+			    		  client2.setEmail(n);
+			    	 }
+			    	 if(pn!=0) {
+			        	 client2.setNumber(pn);
+
+			    		 
+			    	 }
+			    	 jw.addClient2(client2);
+			    	 jw.addClient(client2);
+			    	 return "Welcome";
+			    	 
+			    	 
+			    	
+			        		
+		}
+		@GetMapping("/Register")
+		public String Register()  {
+			return "Register";
+			
+		}
+		@PostMapping("/Register")
+		public String Register(HttpServletRequest request, HttpServletResponse response) throws IOException {
+			response.setContentType("text/html");  
+		    PrintWriter out = response.getWriter();  
+		    String n=request.getParameter("userName");  
+		    String m=request.getParameter("userMail"); 
+		    String a=request.getParameter("userAge");  
+		    String g=request.getParameter("userGender"); 
+		    int pn= Integer.parseInt(request.getParameter("userNumber"));  
+		    String p=request.getParameter("userPass"); 
+		    Client client = new Client(n,m,a,g,pn,p);
+		    JSONWriter jw = new JSONWriter();
+	        jw.addClient(client);
+	        return "ClientLogin";
+			
+		}
+		
 	
 }

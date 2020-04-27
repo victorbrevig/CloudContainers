@@ -79,17 +79,34 @@ body {
       <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-content">
-      <a href="/container">Search container</a>
-      <a href="/UpdateInfo">Update information</a>
-      <a href="#">Register container for a journey</a>
+      <a href="/YeetContainer2/ClientLogin.html">Search container</a>
+      <a href="/YeetContainer2/CompanyLogin.html">Update information</a>
+      <a href="#">Register container</a>
       <a href="/YeetContainer2/DropDownThotiana.html">Log out</a>
       
     </div>
   </div> 
 </div>
 
-<h3>Dropdown Menu inside a Navigation Bar</h3>
-<p>Hover over the "Dropdown" link to see the dropdown menu.</p>
+<h3>UpdateClient info</h3>
 
+<div id="id01" class="modal">
+  
+  <form class="modal-content animate" action="/UpdateInfo" method="post">
+
+    <div class="container">
+      <label for="uname"><b>New Email</b></label>
+      <input type="text" placeholder="Enter Email" name="userMail" required>
+
+      <label for="psw"><b>New Phone Number</b></label>
+      <input type="text" placeholder="Enter new Phone Number" name="userNumber" required>
+        
+      <button type="submit">Confirm Changes</button>
+      <label>
+        <input type="checkbox" checked="checked" name="remember"> Remember me
+      </label>
+    </div>
+  </form>
+</div>
 </body>
 </html>

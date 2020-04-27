@@ -5,6 +5,66 @@
 <style>
 body {font-family: Arial, Helvetica, sans-serif;}
 
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  font-size: 16px;  
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: red;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
 /* Full-width input fields */
 input[type=text], input[type=password] {
   width: 100%;
@@ -127,13 +187,13 @@ span.psw {
 </head>
 <body>
 
-<h2>CloudContainers Login</h2>
+<h2>Register journey</h2>
 
-<button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
+<button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Register Here!</button>
 
 <div id="id01" class="modal">
   
-s<form class="modal-content animate" action = "/ClientLogin" method = "post"  >
+  <form class="modal-content animate" action="/Register" method="post">
     <div class="imgcontainer">
       <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
       <img src="C:\Users\Bruger\Desktop\download.png" alt="Avatar" class="avatar">
@@ -145,8 +205,24 @@ s<form class="modal-content animate" action = "/ClientLogin" method = "post"  >
 
       <label for="psw"><b>Password</b></label>
       <input type="password" placeholder="Enter Password" name="userPass" required>
+       <label for="uname"><b>Email</b></label>
+      <input type="text" placeholder="Enter Email" name="userMail" required>
+		<input list="Gender" name="userGender">
+  <datalist id="Gender">
+    <option value="Male">
+    <option value="Female">
+    <option value="Haram">
+  </datalist>
+  <input type="submit">
+
+    <br/>
+       <label for="uname"><b>Age</b></label>
+      <input type="text" placeholder="Enter Username" name="userAge" required>
+
+      <label for="psw"><b>Phone Number</b></label>
+      <input type="text" placeholder="Enter Phone number" name="userNumber" required>
         
-      <button type="submit" onclick="add(HttpServletRequest request, HttpServletResponse response)">>Login</button>
+      <button type="submit">Register</button>
       <label>
         <input type="checkbox" checked="checked" name="remember"> Remember me
       </label>
@@ -154,7 +230,6 @@ s<form class="modal-content animate" action = "/ClientLogin" method = "post"  >
 
     <div class="container" style="background-color:#f1f1f1">
       <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-      <span class="psw">Sign <a href="/Register">up</a></span>
     </div>
   </form>
 </div>
