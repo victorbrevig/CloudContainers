@@ -9,14 +9,6 @@ Feature: Adding a client to register
     When Informations is entered
     Then display success message
  
- 
-
-  Scenario: Client already exists
-    Given A logistic company
-    Given existing client
-    When repeated information is entered
-    Then error message is thrown
- 
 
    Scenario: Missing parameter
     Given A logistic company

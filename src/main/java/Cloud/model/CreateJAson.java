@@ -22,7 +22,7 @@ public class CreateJAson {
      System.out.println("yeet");
 
      
-     ObjectMapper objectMapper = new ObjectMapper();
+     //ObjectMapper objectMapper = new ObjectMapper();
      
      
      
@@ -41,16 +41,16 @@ public class CreateJAson {
 
 	 company.newClient(cli);
 	 
-	 objectMapper.writeValue(Paths.get("company2.json").toFile(), company);
+	 //objectMapper.writeValue(Paths.get("company2.json").toFile(), company);
 	 
 	 
 	 
 	 //LogisticCompany company2 = objectMapper.readValue(new File("C:\\Users\\victo\\git\\CloudContainers\\company2.json"), LogisticCompany.class);
 	 
-	 //System.out.println(company2.getCompanyID());
+	 gson.toJson(company, lw);
 	 
 	 
-     gson.toJson(database, fw);
+     gson.toJson(database, lw);
      gson.toJson(database,aw);
      //gson.toJson(company,lw);
  	 Client client = new Client("mo","JegErMO","12","male",28381812,"12");

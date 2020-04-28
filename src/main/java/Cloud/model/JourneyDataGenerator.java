@@ -50,7 +50,7 @@ public class JourneyDataGenerator {
 			double randAirHumIncrement = rand.nextDouble() * (rand.nextBoolean() ? -1 : 1) * 0.05;
 			
 //			Changing status data for containers registered to this journey
-			for (Container container : journey.getCompany().getContainersForJourney(journey)) {
+			for (Container container : journey.getContainerDB().getContainersForJourney(journey)) {
 			
 					oneContainerOnJourney = true;
 					newTemp = container.getTemperature() + randTempIncrement;

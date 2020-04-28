@@ -22,6 +22,7 @@ import Cloud.model.ResponseObject;
 import Cloud.model.Validator;
 
 
+
 /**Represents a client entity
  * @Author: Victor
  * @Author Gustav
@@ -42,12 +43,11 @@ public class Client {
 
 	private int number;
 
-	@JsonManagedReference
-	private LogisticCompany company;
 
 	private String password;
 
-	private Validator validator; 
+
+
 	
 	
 	
@@ -86,22 +86,8 @@ public class Client {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	/** Gets clients logistic company
-	 * 
-	 * @return LogisticCompany
-	 */
-	public LogisticCompany getCompany() {
-		return company;
-	}
-	/**Sets clients logistic company, and instantiates a validator object 
-	 * 
-	 * @param company
-	 */
 
-	public void setCompany(LogisticCompany company) {
-		this.company = company;
-		this.validator = new Validator(company);
-	}
+
 	
 	/**Gets clients name
 	 * 
@@ -218,9 +204,9 @@ public class Client {
 	public ResponseObject updateClient(String email) {
 		ResponseObject response = new ResponseObject();
 		// Valid new email
-		response = validator.validInput(getName(),email,getBirthdate(),getGender(),getNumber());
+		response = Validator.validInput(getName(),email,getBirthdate(),getGender(),getNumber());
 		// Check if new email belongs to a client already
-		if (response.getErrorMessage().equals("Non-existing client")) {
+		if (response.getErrorMessage().equals("Valid")) {
 			this.setEmail(email);
 			response.setErrorMessage("Email has been updated");
 			}
@@ -236,7 +222,7 @@ public class Client {
 	public ResponseObject updateClient(int number) {
 		ResponseObject response = new ResponseObject();
 		// Valid new phone number
-		boolean validNumber = validator.validPhoneNumber(number);
+		boolean validNumber = Validator.validPhoneNumber(number);
 		if (validNumber) {
 			this.setNumber(number);
 			response.setErrorMessage("Phone number has been updated");

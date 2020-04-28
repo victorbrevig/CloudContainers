@@ -19,33 +19,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
  */
 public class Validator {
 
-	
-	private LogisticCompany company;
-	
-	/** Creates a new validator object belonging to a company.
-	 * 
-	 * @param company
-	 */
-	public Validator(LogisticCompany company) {
-		super();
-		this.company = company;
-	}
-	
-	/** This method fetches the company that the validator belongs to.
-	 * 
-	 * @return logistic company - type LogisticCompany
-	 */
-	public LogisticCompany getCompany() {
-		return company;
-	}
-
-	/** This method sets the company that the validator belongs to.
-	 * 
-	 * @param company - type LogisticCompany
-	 */
-	public void setCompany(LogisticCompany company) {
-		this.company = company;
-	}
 
 	/** Static method to check if birth date has correct format
 	 * 
@@ -108,7 +81,7 @@ public class Validator {
 	 * @param number
 	 * @return response - type ResponseObject
 	 */
-	public ResponseObject validInput(String name, String email, String birthdate, String gender, int number) {
+	public static ResponseObject validInput(String name, String email, String birthdate, String gender, int number) {
 	ResponseObject response = new ResponseObject();
 	
 		if (!emptyParameters(name,email,birthdate,gender,number)) {
@@ -128,13 +101,7 @@ public class Validator {
 			return response;
 		}
 		
-		
-		if (!company.clientExists(email)) {
-			response = new ResponseObject("Non-existing client");
-		}
-		else {
-			response = new ResponseObject("Existing client");
-		}
+		response.setErrorMessage("Valid");
 		return response;
 	
 	}

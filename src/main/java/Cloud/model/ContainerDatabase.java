@@ -39,6 +39,18 @@ public class ContainerDatabase extends HashSet<Container>{
 		return filtered;	
 	}
 	
+	
+	/** This method retrieves a set of containers on a specific journey.
+	 * 
+	 * @param journey
+	 * @return A set of containers
+	 */
+	public Set<Container> getContainersForJourney(Journey journey){
+		return this.filterJourney(journey);
+	}
+	
+	
+	
 	/**Finds a free container in container database
 	 * 
 	 * @return container

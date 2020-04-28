@@ -61,11 +61,6 @@ public class StepDefinition{
 		response = lc.newClient(client1);
 	}
 
-	@Then("error message is thrown")
-	public void error_message_is_thrown() {
-		assertEquals(response.getErrorMessage(),"Existing client");
-		
-	}
 	
 	@Given("A none existing client with missing information")
 	public void a_none_existing_client_with_missing_information(){

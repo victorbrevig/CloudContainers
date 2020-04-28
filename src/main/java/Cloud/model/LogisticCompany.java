@@ -31,15 +31,13 @@ public class LogisticCompany {
 	private String password;
 	
 	private ClientDatabase clients; //Should be list of object
-	@JsonBackReference
+
 	private ContainerDatabase containers;
-	@JsonBackReference
+
 	private JourneyDatabase journeys;
 
 	private int amountOfContainers;
 
-
-	private Validator validator;
 	
 	
 	
@@ -56,7 +54,6 @@ public class LogisticCompany {
 		this.clients = new ClientDatabase();
 		this.journeys = new JourneyDatabase();
 		this.amountOfContainers = amountOfContainers;
-		this.validator = new Validator(this);
 		this.containers = new ContainerDatabase();
 		this.password = password;
 		
@@ -71,7 +68,7 @@ public class LogisticCompany {
 	 */
 	private void generateExistingContainers(int amountOfContainers) {
 		for (int i=1; i<=amountOfContainers;i++) {
-			containers.add(new Container(i,this));
+			containers.add(new Container(i));
 		}
 	}
 
@@ -83,14 +80,6 @@ public class LogisticCompany {
 		return companyID;
 	}
 	
-	/** This method retrieves a set of containers on a specific journey.
-	 * 
-	 * @param journey
-	 * @return A set of containers
-	 */
-	public Set<Container> getContainersForJourney(Journey journey){
-		return containers.filterJourney(journey);
-	}
 	
 	/** This method fetches the client database of the company
 	 * 
@@ -122,7 +111,7 @@ public class LogisticCompany {
 	 */
 	public void registerJourney(Journey journey) {
 		journey.setJourneyID(journeys.size() + 1);
-		journey.setCompany(this);
+		journey.setContainerDB(containers);
 		journeys.add(journey);
 		
 	}
@@ -167,11 +156,10 @@ public class LogisticCompany {
 	 */
 	public ResponseObject newClient(Client client) {
 		ResponseObject response = null;
-		response = validator.validInput(client.getName(),client.getEmail(),client.getBirthdate(),client.getGender(),client.getNumber());
-		if (response.getErrorMessage().equals("Non-existing client")) {
+		response = Validator.validInput(client.getName(),client.getEmail(),client.getBirthdate(),client.getGender(),client.getNumber());
+		if (response.getErrorMessage().equals("Valid")) {
 			// Set id
 			client.setClientID(clients.size() + 1);
-			client.setCompany(this);
 			clients.add(client);
 			response.setErrorMessage("Client was successfully added");
 		}

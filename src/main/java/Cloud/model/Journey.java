@@ -17,8 +17,9 @@ public class Journey {
 	private int journeyID;
 	private String portOfOrigin;
 	private String destination;
-	@JsonManagedReference
-	private LogisticCompany company;
+	
+	private ContainerDatabase containerDB;
+	
 	private boolean isStarted;
 	private int timeToDestination;
 	private int elapsedTime;
@@ -47,12 +48,12 @@ public class Journey {
 		this.journeyID = journeyID;
 	}
 
-	/** This method sets the company that the journey belongs to
+	/** This method sets the container database
 	 * 
-	 * @param company
+	 * @param containerDB
 	 */
-	public void setCompany(LogisticCompany company) {
-		this.company = company;
+	public void setContainerDB(ContainerDatabase containerDB) {
+		this.containerDB = containerDB;
 	}
 	
 	/** This method gets the amount of hours that journey has been underway for
@@ -131,12 +132,12 @@ public class Journey {
 		this.isStarted = isStarted;
 	}
 	
-	/** This method gets the company that has this journey
+	/** This method gets the container database
 	 * 
-	 * @return company - type LogisticCompany
+	 * @return containerDB - type ContainerDatabase
 	 */
-	public LogisticCompany getCompany() {
-		return company;
+	public ContainerDatabase getContainerDB() {
+		return containerDB;
 	}
 	
 	/** This method fetches the ID of this journey
@@ -230,7 +231,7 @@ public class Journey {
 	 */
 	private int freeUpContainers(int countFree) {
 //		The filter returns null
-		for (Container container : company.getContainersForJourney(this)) {
+		for (Container container : containerDB.getContainersForJourney(this)) {
 				container.setCurrentJourney(null);
 				container.setOnJourney(false);
 				container.setContent("");

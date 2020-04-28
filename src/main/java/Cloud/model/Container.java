@@ -45,7 +45,7 @@ public class Container{
 	
 	public Container() {
 	}
-	public Container(int containerID, LogisticCompany company) {
+	public Container(int containerID) {
 		super();
 		this.airHumidity = 0.5;
 		this.temperature = 20.0;
@@ -271,18 +271,11 @@ public class Container{
 	public ResponseObject grantAccess (Client client) {
 //		Container
 		ResponseObject response = new ResponseObject();
-
-		boolean sameCompany = client.getCompany().equals(getOwner().getCompany());
 		
-		if (sameCompany) {
-			getAccessClients().add(client);
-			response.setErrorMessage("Access succesfully granted");
-			return response;
-		}
-		
-		response.setErrorMessage("You do not share company");
-		
+		getAccessClients().add(client);
+		response.setErrorMessage("Access succesfully granted");
 		return response;
+
 	}
 	
 	/**Accesses status of container
