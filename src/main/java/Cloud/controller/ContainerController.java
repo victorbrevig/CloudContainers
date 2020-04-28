@@ -34,7 +34,7 @@ public class ContainerController extends HttpServlet {
 	@GetMapping("/")
 	
 	public String mainpage(Model model) {
-		return "MainPage";
+		return "Welcome";
 		
 	}
 	@GetMapping("/ClientLogin")
@@ -84,35 +84,32 @@ public class ContainerController extends HttpServlet {
 			
 		}
 		@PostMapping("/UpdateInfo")
-		public String updateinfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
-			  response.setContentType("text/html");  
-			    PrintWriter out = response.getWriter();  
+		public String updateinfo(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+			response.setContentType("text/html");  
+			PrintWriter out = response.getWriter();  
 			          
-			    String n=request.getParameter("userMail");  
-			    int pn= Integer.parseInt(request.getParameter("userNumber"));  
-			    JSONWriter jw = new JSONWriter();   
+			String n=request.getParameter("userMail");  
+			int pn= Integer.parseInt(request.getParameter("userNumber"));  
+			JSONWriter jw = new JSONWriter();   
 			    	  	
 			    	
-			    	 Client client2 = jw.getClient();
-			    	 jw.Remove(client2.getEmail());
-
-
-			    	 
-			    	 if (n!= "") {
-			    		  client2.setEmail(n);
-			    	 }
-			    	 if(pn!=0) {
-			        	 client2.setNumber(pn);
-
-			    		 
-			    	 }
-			    	 jw.addClient2(client2);
-			    	 jw.addClient(client2);
-			    	 return "Welcome";
-			    	 
-			    	 
-			    	
-			        		
+	    	Client client2 = jw.getClient();
+	    	jw.Remove(client2.getEmail());
+	
+	    	 
+	    	if (n!= "") {
+	    	  client2.setEmail(n);
+	    	}
+	    	if(pn!=0) {
+	       	 client2.setNumber(pn);
+	
+	    		 
+	    	}
+	    	jw.addClient2(client2);
+	    	jw.addClient(client2);
+	    	model.addAttribute("client",client2);
+	    	return "Welcome";
+	    	       		
 		}
 		@GetMapping("/Register")
 		public String Register()  {
