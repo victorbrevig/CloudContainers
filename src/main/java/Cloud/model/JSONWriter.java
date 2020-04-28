@@ -24,26 +24,30 @@ import Cloud.model.ClientDatabase;
 public class JSONWriter{ 
 
 	// Victor path
-	String locClients = "C:\\Users\\victo\\git\\CloudContainers\\Y.json";
-	String locLoggedin = "C:\\Users\\victo\\git\\CloudContainers\\Loggedin.json";
+	static String locClients = "C:\\Users\\victo\\git\\CloudContainers\\Y.json";
+	static String locLoggedin = "C:\\Users\\victo\\git\\CloudContainers\\Loggedin.json";
 	
+	static String company = "C:\\Users\\victo\\git\\CloudContainers\\company.json";
 	
 	
  public JSONWriter() throws IOException {
-//	 Gson gson = new Gson();
-//	 Writer fww = new FileWriter("Y.json");
-//	 HashSet <Client> database2 = new HashSet <Client>();
-//	 gson.toJson(database2, fww);
-//     fww.flush();
-//     fww.close();
-     Gson gson = new Gson();
-	 Reader reader = new FileReader(locClients);
-	 ClientDatabase db = gson.fromJson(reader, ClientDatabase.class);
-	 Writer fw = new FileWriter(locClients);
-	 HashSet<Client> database = db;
-     gson.toJson(database, fw);
-     fw.flush();
-     fw.close();
+	 Gson gson = new Gson();
+	 Writer fww = new FileWriter("Y.json");
+	 HashSet <Client> database2 = new HashSet <Client>();
+	 gson.toJson(database2, fww);
+     fww.flush();
+     fww.close();
+
+
+     
+//     Gson gson = new Gson();
+//	 Reader reader = new FileReader(locClients);
+//	 ClientDatabase db = gson.fromJson(reader, ClientDatabase.class);
+//	 Writer fw = new FileWriter(locClients);
+//	 HashSet<Client> database = db;
+//     gson.toJson(database, fw);
+//     fw.flush();
+//     fw.close();
  }
  public void addClient(Client client) throws IOException{
 	 Gson gson = new Gson();
@@ -57,6 +61,7 @@ public class JSONWriter{
      fw.flush();
      fw.close();
  }
+ 
  public void addClient2(Client client2) throws IOException{
 	 Gson gson = new Gson();
 	 Writer fw = new FileWriter(locLoggedin);
@@ -91,7 +96,18 @@ public class JSONWriter{
 	 Reader reader = new FileReader(locClients);
 	 ClientDatabase db = gson.fromJson(reader, ClientDatabase.class);
 	 db.remove(client);
+
 	 return db;
+	 
+ }
+ 
+ public static void clearLoggedIn() throws IOException {
+	 Gson gson = new Gson();
+	 Writer fw = new FileWriter(locLoggedin);
+	 
+	 HashSet<Client> database = new HashSet<Client>();
+
+	 gson.toJson(database, fw);
 	 
  }
 // public static void main(String[] args) throws IOException {

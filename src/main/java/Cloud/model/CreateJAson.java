@@ -21,17 +21,26 @@ public class CreateJAson {
 	 Gson gson = new Gson();
 	 Writer fw = new FileWriter("Y.json");
 	 Writer aw = new FileWriter("Loggedin.json");
+	 Writer lw = new FileWriter("company.json");
+	 
 	 HashSet <Client> database = new HashSet <Client> ();
+//	 HashSet<LogisticCompany> companies = new HashSet<LogisticCompany>();
+	 LogisticCompany company = new LogisticCompany("Maersk",1,100,"bigstonks");
+	 
+	 
      gson.toJson(database, fw);
      gson.toJson(database,aw);
+     //gson.toJson(company,lw);
  	 Client client = new Client("mo","JegErMO","12","male",28381812,"12");
      JSONWriter jw = new JSONWriter();   
-     jw.addClient(client);
+     //jw.addClient(client);
 
      fw.flush();
      fw.close();
      aw.flush();
      aw.close();
+     lw.flush();
+     lw.close();
      System.out.println("yeet");
 }
 

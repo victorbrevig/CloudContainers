@@ -10,31 +10,36 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+
+
 
 /** This class represents a logistic company.
  * 
  * @author Gustav Als
  * @author Victor Brevig
  */
-@Entity
+
 public class LogisticCompany {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO) 
-	@Column
+
 	private int companyID;
-	@NotBlank
-	@Column
 	private String name;
-	@Transient
+
+	private String password;
+	
+	@JsonBackReference
 	private ClientDatabase clients; //Should be list of object
-	@Transient
+	@JsonBackReference
 	private ContainerDatabase containers;
-	@Transient
+	@JsonBackReference
 	private JourneyDatabase journeys;
-	@NotBlank
-	@Column
+
 	private int amountOfContainers;
-	@Transient
+
+	@JsonIgnore
 	private Validator validator;
 	
 	
@@ -45,7 +50,7 @@ public class LogisticCompany {
 	 * @param companyID
 	 * @param amountOfContainers
 	 */
-	public LogisticCompany(String name, int companyID, int amountOfContainers) {
+	public LogisticCompany(String name, int companyID, int amountOfContainers, String password) {
 		super();
 		this.name = name;
 		this.companyID = companyID;
@@ -54,6 +59,7 @@ public class LogisticCompany {
 		this.amountOfContainers = amountOfContainers;
 		this.validator = new Validator(this);
 		this.containers = new ContainerDatabase();
+		this.password = password;
 		
 		// Generate existing containers
 		generateExistingContainers(amountOfContainers);

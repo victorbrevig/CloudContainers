@@ -32,11 +32,13 @@ import Cloud.model.Client;
 public class ContainerController extends HttpServlet {
 		
 	@GetMapping("/")
-	
 	public String mainpage(Model model) {
-		return "Welcome";
+		
+		
+		return "MainPage";
 		
 	}
+	
 	@GetMapping("/ClientLogin")
 	public String add(Container container,Model model) {
 		return "ClientLogin";
@@ -139,6 +141,15 @@ public class ContainerController extends HttpServlet {
 			
 			
 			return "ContainerPage";
+			
+		}
+		
+		@GetMapping("/logout")
+		public String logout(Model model, Client client) throws IOException {
+			
+			JSONWriter.clearLoggedIn();
+			
+			return "MainPage";
 			
 		}
 		

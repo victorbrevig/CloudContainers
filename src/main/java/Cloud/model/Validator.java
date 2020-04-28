@@ -5,6 +5,11 @@ import javax.mail.internet.InternetAddress;
 import javax.persistence.Entity;
 
 import org.apache.commons.validator.GenericValidator;
+import org.codehaus.jackson.annotate.JsonIgnore;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 /**
@@ -14,6 +19,7 @@ import org.apache.commons.validator.GenericValidator;
  */
 public class Validator {
 
+	@JsonIgnore
 	private LogisticCompany company;
 	
 	/** Creates a new validator object belonging to a company.

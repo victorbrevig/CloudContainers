@@ -2,6 +2,9 @@ package Cloud.model;
 
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 
 /** Class to respresent a journey
@@ -14,6 +17,7 @@ public class Journey {
 	private int journeyID;
 	private String portOfOrigin;
 	private String destination;
+	@JsonManagedReference
 	private LogisticCompany company;
 	private boolean isStarted;
 	private int timeToDestination;

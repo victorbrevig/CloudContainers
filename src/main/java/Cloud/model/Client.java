@@ -12,6 +12,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import Cloud.model.Client;
 import Cloud.model.Container;
 import Cloud.model.Journey;
@@ -27,33 +29,24 @@ import Cloud.model.Validator;
 // New version
 @Entity
 public class Client {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO) 
-	@Column
+
 	private int clientID;
-	@NotBlank
-	@Column
+
 	private String name;
-	@NotBlank
-	@Column
+
 	private String email;
-	@NotBlank
-	@Column
+
 	private String birthdate;
-	@NotBlank
-	@Column
+
 	private String gender;
-	@NotBlank
-	@Column
+
 	private int number;
-    //Only works when transient annotation
-	//Should work from JPA point of view
-	@ManyToOne
+
+	@JsonManagedReference
 	private LogisticCompany company;
-	@NotBlank
-	@Column
+
 	private String password;
-	@Transient
+
 	private Validator validator; 
 	
 	

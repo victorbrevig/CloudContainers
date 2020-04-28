@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import Cloud.model.ContainerJourneyInfo;
 import Cloud.model.Client;
@@ -37,6 +38,7 @@ public class Container{
 	private ArrayList<ContainerJourneyInfo> journeyHistory;
 	private Client owner;
 	private Journey currentJourney;
+	@JsonIgnore
 	private Validator validator;
 	/**Creates a container
 	 * 
