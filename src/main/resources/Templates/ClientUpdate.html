@@ -97,10 +97,16 @@ body {
     <div class="container">
       <label for="uname"><b>New Email</b></label>
       <input type="text" placeholder="Enter Email" name="userMail" required>
-
+      <br>
+      <div style="text-align:center">
+		<h1 th:text="${responseEmail.getErrorMessage()}" th:unless="${responseEmail == null}">Test</h1>
+	  </div>
       <label for="psw"><b>New Phone Number</b></label>
       <input type="text" placeholder="Enter new Phone Number" name="userNumber" required>
-        
+      <br>
+      <div style="text-align:center">
+		<h1 th:text="${responseNumber.getErrorMessage()}" th:unless="${responseNumber == null}">Test</h1>
+	  </div>
       <button type="submit">Confirm Changes</button>
       <label>
         <input type="checkbox" checked="checked" name="remember"> Remember me

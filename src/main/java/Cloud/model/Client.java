@@ -178,7 +178,7 @@ public class Client {
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Client) {
-			return (this.getEmail()).equals(((Client) o).getEmail());
+			return (this.getClientID() == ((Client) o).getClientID());
 		}
 		return false;
 	}

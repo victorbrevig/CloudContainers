@@ -13,10 +13,12 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import Cloud.model.*;
 
@@ -26,7 +28,9 @@ import net.bytebuddy.matcher.ModifierMatcher.Mode;
 @Controller
 
 public class ContainerController extends HttpServlet {
-		
+	ResponseObject responseObject1 = new ResponseObject();
+	ResponseObject responseObject2 = new ResponseObject();
+	
 	@GetMapping("/")
 	public String mainpage(Model model) {
 		
@@ -77,7 +81,7 @@ public class ContainerController extends HttpServlet {
 	return "CompanyLogin";}
 		
 	@GetMapping("/Welcome" )
-	public String welcome() {
+	public String welcome(ModelMap model) {
 		return "Welcome";
 			
 
@@ -90,33 +94,48 @@ public class ContainerController extends HttpServlet {
 			
 		}
 		@GetMapping("/UpdateInfo")
-		public String updateinfo(Model model) {
+		public String updateinfo(ModelMap model,Client client) {
+			model.addAttribute("client",client);
 			return "ClientUpdate";
 			
 		}
 		@PostMapping("/UpdateInfo")
-		public String updateinfo(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+		public ModelAndView updateinfo(Client client,HttpServletRequest request, HttpServletResponse response, ModelMap model) throws IOException {
+			
 			response.setContentType("text/html");  
 			PrintWriter out = response.getWriter();  
 			          
-			String n=request.getParameter("userMail");  
-			int pn= Integer.parseInt(request.getParameter("userNumber"));  
-			JSONWriter jw = new JSONWriter();   
-			LogisticCompany company = jw.getCompany();
-			   	
-	    	ClientDatabase ClientDB = company.getClients();
-//	    	ClientDB.getClient(email)
-//	    	
-//	    	jw.Remove(client2.getEmail());
-//	    	client2.updateClient(pn);
-//	    	client2.updateClient(n);
-//	
-//	    	jw.addClient2(client2);
-//	    	jw.addClient(client2);
+			String email = request.getParameter("userMail");  
+			int number = Integer.parseInt(request.getParameter("userNumber"));  
+			
+			LogisticCompany company = JSONWriter.getCompany();
+			ClientDatabase clients = company.getClients();
+			responseObject1 = client.updateClient(email);
+			responseObject2 = client.updateClient(number);
+			
+			if (!company.clientExists(email)) {
+				clients.add(client);
+				company.setClients(clients);
+				JSONWriter.saveCompany(company);
+				model.addAttribute("client",client);
+				return new ModelAndView("redirect:/Welcome",model);
+			}
+			else if (company.clientExists(email)){
+				responseObject1.setErrorMessage("This email is already in use");
+			}
+			
+			model.addAttribute("responseEmail", responseObject1);
+			model.addAttribute("responseNumber", responseObject2);
+			model.addAttribute("client",client);
+	        return new ModelAndView("redirect:/UpdateInfo", model);
+			
+			}
+	    	
+
 //	    	model.addAttribute("client",client2);
-	    	return "Welcome";
+	
 	    	       		
-		}
+		
 		@GetMapping("/Register")
 		public String Register()  {
 			return "Register";
