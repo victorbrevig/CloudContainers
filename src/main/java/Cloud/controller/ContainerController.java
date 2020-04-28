@@ -97,16 +97,9 @@ public class ContainerController extends HttpServlet {
 			    	
 	    	Client client2 = jw.getClient();
 	    	jw.Remove(client2.getEmail());
+	    	client2.updateClient(pn);
+	    	client2.updateClient(n);
 	
-	    	 
-	    	if (n!= "") {
-	    	  client2.setEmail(n);
-	    	}
-	    	if(pn!=0) {
-	       	 client2.setNumber(pn);
-	
-	    		 
-	    	}
 	    	jw.addClient2(client2);
 	    	jw.addClient(client2);
 	    	model.addAttribute("client",client2);
@@ -120,6 +113,7 @@ public class ContainerController extends HttpServlet {
 		}
 		@PostMapping("/Register")
 		public String Register(HttpServletRequest request, HttpServletResponse response) throws IOException {
+			 
 			
 			response.setContentType("text/html");  
 		    PrintWriter out = response.getWriter();  
@@ -130,9 +124,16 @@ public class ContainerController extends HttpServlet {
 		    int pn= Integer.parseInt(request.getParameter("userNumber"));  
 		    String p=request.getParameter("userPass"); 
 		    Client client = new Client(n,m,a,g,pn,p);
+		    
 		    JSONWriter jw = new JSONWriter();
-	        jw.addClient(client);
-	        return "ClientLogin";
+		    ResponseObject Response = new ResponseObject();
+		    Validator.validInput(n,m,a,g,pn);
+		    if(Response.getErrorMessage().equals("Valid")) {
+		    	jw.addClient(client);
+		        return "ClientLogin";
+		    }
+	        
+	        return "Register";
 			
 		}
 		
