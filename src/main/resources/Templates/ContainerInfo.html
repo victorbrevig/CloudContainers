@@ -81,7 +81,7 @@ body {
       <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-content">
-      <a href="/ContainerI">Update container information</a>
+      <a href="/container">Update container information</a>
       <a href="/UpdateInfo">Client information</a>
       <a href="#">Register container for a journey</a>
       <a href="/logout">Log out</a>
@@ -101,26 +101,19 @@ body {
 
 <table style="width:70%;margin-left:auto;margin-right:auto">
   <tr>
-    <th>Container ID</th>
-    <th>Content</th>
-    <th>Port of Origin</th>
-    <th>Destination</th>
-    <th>Time to Destination</th>
-    <th>Status Data</th>
-    <th> Owner </th>
+    <th>free containers</th>
+    
   </tr>
-  <th:block  th:each="container: ${clientContainers}">
-  <tr>
+  <tr th:each="container: ${clientContainers}">
     <td th:text="${container.getContainerID()}" />
     <td th:text="${container.getContent()}" />
     <td th:text="${container.getCurrentJourney().getPortOfOrigin()}" />
     <td th:text="${container.getCurrentJourney().getDestination()}" />
     <td th:text="${container.getCurrentJourney().getTimeToDestination()}" />
     <td th:text="${container.getCurrentJourney().getTimeToDestination()}" />
-    <td th:text="${container.getOwner())}" />
+    <td th:text="${container.isOwned())}" />
     
 	</tr>
-	</th:block>
 </table>
 
 

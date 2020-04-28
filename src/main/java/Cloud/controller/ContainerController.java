@@ -1,5 +1,6 @@
 package Cloud.controller;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Optional;
@@ -75,6 +76,15 @@ public class ContainerController extends HttpServlet {
 			return "WelcomeC";
 	    }    
 	return "CompanyLogin";}
+	
+	@GetMapping("/WelcomeC")
+	public String WelcomeCompany(Model model) throws IOException {
+	    LogisticCompany company = JSONWriter.getCompany();
+	    model.addAttribute("clientContainers", company.getContainerDatabase());
+	    
+	    return "WelcomeC";
+
+	}
 		
 	@GetMapping("/Welcome" )
 	public String welcome() {
@@ -89,11 +99,21 @@ public class ContainerController extends HttpServlet {
 			return "ContainerPage";
 			
 		}
+		
 		@GetMapping("/UpdateInfo")
 		public String updateinfo(Model model) {
 			return "ClientUpdate";
 			
 		}
+		@GetMapping("/ContainerInfo")
+		public String containerInfo(Model model) {
+			return "ContainerInfo";
+		}
+//		@PostMapping("/ContainerInfo")
+//		public String containerInfo(HttpServletRequest request, HttpServletResponse response,Model model) throws IOException   {
+//		    
+//	
+//		}
 		@PostMapping("/UpdateInfo")
 		public String updateinfo(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
 			response.setContentType("text/html");  
