@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
  */
 public class Validator {
 
-	@JsonIgnore
+	
 	private LogisticCompany company;
 	
 	/** Creates a new validator object belonging to a company.
@@ -94,7 +94,7 @@ public class Validator {
 	 * @param number
 	 * @return boolean
 	 */
-	public boolean validPhoneNumber(int number) {
+	public static boolean validPhoneNumber(int number) {
 		int length = String.valueOf(number).length();
 		return (length == 8);
 	}
@@ -145,7 +145,7 @@ public class Validator {
 	 * @param container
 	 * @return boolean
 	 */
-	public boolean clientHasAccess(Client client, Container container) {
+	public static boolean clientHasAccess(Client client, Container container) {
 		return container.getAccessClients().stream().anyMatch(c -> c.equals(client));
 	}
 	

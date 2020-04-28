@@ -30,7 +30,6 @@ public class LogisticCompany {
 
 	private String password;
 	
-	@JsonBackReference
 	private ClientDatabase clients; //Should be list of object
 	@JsonBackReference
 	private ContainerDatabase containers;
@@ -39,7 +38,7 @@ public class LogisticCompany {
 
 	private int amountOfContainers;
 
-	@JsonIgnore
+
 	private Validator validator;
 	
 	

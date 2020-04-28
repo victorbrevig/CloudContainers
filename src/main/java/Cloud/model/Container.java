@@ -18,28 +18,25 @@ import Cloud.model.Container;
 import Cloud.model.Journey;
 import Cloud.model.LogisticCompany;
 import Cloud.model.ResponseObject;
-import Cloud.model.Validator;
+
 
 
 public class Container{
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO) 
-	@Column
+
 	private int containerID;
 	private double temperature;
 	private double pressure;
 	private double airHumidity;
 	private boolean onJourney;
-	@NotBlank
-	@Column
+
 	private String content;
 
 	private HashSet<Client> accessClients;
 	private ArrayList<ContainerJourneyInfo> journeyHistory;
 	private Client owner;
 	private Journey currentJourney;
-	@JsonIgnore
-	private Validator validator;
+	
+
 	/**Creates a container
 	 * 
 	 * @param containerId
@@ -58,7 +55,6 @@ public class Container{
 		this.journeyHistory = new ArrayList<ContainerJourneyInfo>();
 		this.containerID = containerID;
 		this.accessClients = new HashSet<Client>();
-		this.validator = new Validator(company);
 		
 	}
 	
@@ -330,7 +326,7 @@ public class Container{
 	public ResponseObject getHistoryOfContainerForClient (Client client) {
 		ResponseObject response = new ResponseObject();
 		
-		boolean clientHasAccess = validator.clientHasAccess(client, this);
+		boolean clientHasAccess = Validator.clientHasAccess(client, this);
 		
 		if (clientHasAccess) {
 			ArrayList<Journey> journeyHist = fetchContainerHistory(client);
