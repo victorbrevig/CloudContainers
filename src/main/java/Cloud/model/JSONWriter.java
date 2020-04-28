@@ -22,134 +22,44 @@ import Cloud.model.Client;
 import Cloud.model.ClientDatabase; 
 
 public class JSONWriter{ 
-
-	// Victor path
-	static String locClients = "C:\\Users\\victo\\git\\CloudContainers\\Y.json";
-	static String locLoggedin = "C:\\Users\\victo\\git\\CloudContainers\\Loggedin.json";
-	
-	static String company = "C:\\Users\\victo\\git\\CloudContainers\\company.json";
-	
+	// Mo Path
+	String filepath = "lc.json";
 	
  public JSONWriter() throws IOException {
 	 Gson gson = new Gson();
-	 Writer fww = new FileWriter("Y.json");
-	 HashSet <Client> database2 = new HashSet <Client>();
-	 gson.toJson(database2, fww);
-     fww.flush();
-     fww.close();
-
-
-     
-//     Gson gson = new Gson();
-//	 Reader reader = new FileReader(locClients);
-//	 ClientDatabase db = gson.fromJson(reader, ClientDatabase.class);
-//	 Writer fw = new FileWriter(locClients);
-//	 HashSet<Client> database = db;
-//     gson.toJson(database, fw);
-//     fw.flush();
-//     fw.close();
- }
- public void addClient(Client client) throws IOException{
-	 Gson gson = new Gson();
-	 Reader reader = new FileReader(locClients);
-	 
-	 ClientDatabase db = gson.fromJson(reader, ClientDatabase.class);
-	 Writer fw = new FileWriter(locClients);
-	 HashSet<Client> database = db ;
-	 database.add(client);
-     gson.toJson(database, fw);
+	 Writer fw = new FileWriter("lc.json");
+	 LogisticCompany company = new LogisticCompany("Maersk",1,2,"bigstonks");
+	 gson.toJson(company, fw);
      fw.flush();
      fw.close();
  }
  
- public void addClient2(Client client2) throws IOException{
+ public LogisticCompany getCompany() throws FileNotFoundException {
 	 Gson gson = new Gson();
-	 Writer fw = new FileWriter(locLoggedin);
-	 HashSet <Client> database = new HashSet<Client>();
-	 database.add(client2);
-     gson.toJson(database, fw);
-     fw.flush();
-     fw.close();
- }
- public boolean checkPass(String user, String pass) throws IOException{
-	 Gson gson = new Gson();
-	 Reader reader = new FileReader(locClients);
-	 ClientDatabase db = gson.fromJson(reader, ClientDatabase.class);
-	 for (Client client : db) {
-	        if (client.getEmail().equals(user)) {
-	        	if (client.getPassword().equals(pass)) {
-	        		return true;
-	        	}
-	        }	  
-	 }
-	return false; 
- }
- public ClientDatabase dbReturner() throws FileNotFoundException {
-	 Gson gson = new Gson();
-	 Reader reader = new FileReader(locClients);
-	 ClientDatabase db = gson.fromJson(reader, ClientDatabase.class);
-	 return db;
-	 
- }
- public ClientDatabase pop(Client client) throws FileNotFoundException {
-	 Gson gson = new Gson();
-	 Reader reader = new FileReader(locClients);
-	 ClientDatabase db = gson.fromJson(reader, ClientDatabase.class);
-	 db.remove(client);
-
-	 return db;
+	 Reader reader = new FileReader(filepath);
+	 LogisticCompany company = gson.fromJson(reader, LogisticCompany.class);
+	 return company;
 	 
  }
  
- public static void clearLoggedIn() throws IOException {
+ public void saveCompany(LogisticCompany company) throws IOException {
 	 Gson gson = new Gson();
-	 Writer fw = new FileWriter(locLoggedin);
-	 
-	 HashSet<Client> database = new HashSet<Client>();
-
-	 gson.toJson(database, fw);
-	 
+	 Writer fw = new FileWriter("lc.json");
+	 gson.toJson(company, fw);
+     fw.flush();
+     fw.close();
  }
-// public static void main(String[] args) throws IOException {
-//	 JSONWriter wr = new JSONWriter();
-//	 Client client = new Client("Bob1",001,"mediumman1@dtu.dk","22","male","10101010");
-//	 Client client2 = new Client("Marley",002,"bigman2@dtu.dk","22","male","10101010");
-//	 wr.addClient(client);
-//	 wr.addClient(client2);
-//	 wr.test();
-//}
-public void Remove(String email) throws IOException {
-	 Gson gson = new Gson();
-	 Reader reader = new FileReader(locClients);
-	 ClientDatabase db = gson.fromJson(reader, ClientDatabase.class);
-	 Writer fw = new FileWriter(locClients);
-	 
-	 System.out.println(db.remove(db.getClient(email)));
-	 HashSet<Client> database = db ;
-    gson.toJson(database, fw);
-    fw.flush();
-    fw.close();
-	// TODO Auto-generated method stub
-	
-}
-public Client getClient() throws FileNotFoundException {
-	 Gson gson = new Gson();
-	 Reader reader = new FileReader(locLoggedin);
-	 ClientDatabase db = gson.fromJson(reader, ClientDatabase.class);
-	 
-	 HashSet<Client> database = db ;
-	 Client client = database.stream().findFirst().get();
-	 return client;
- }
-	
-	
 
 public static void main(String[] args) throws IOException {
-	JSONWriter wr = new JSONWriter();
-	Client client = new Client("mo","JegErMO","12","male",28381812,"12");
-	//wr.getClient().print();
-	
-	
-	
+	JSONWriter jw = new JSONWriter();
+	LogisticCompany company = jw.getCompany();
+	Client client = new Client("Bob1","mediumman1@dtu.dk","22-12-1900","male",10101010,"kode123");
+	Client client2 = new Client("Bob2","mediumman1@dtu.dk","22-12-1900","male",10101010,"kode123");
+	Client client3 = new Client("Bob3","mediumman1@dtu.dk","22-12-1900","male",10101010,"kode123");
+	company.newClient(client);
+	company.newClient(client2);
+	company.newClient(client3);
+	jw.saveCompany(company);
+	System.out.println("Halal");
 }
 }

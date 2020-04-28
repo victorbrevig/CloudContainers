@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
  * 
  * @author Gustav Als
  * @author Victor Brevig
+ * 
  */
 
 public class LogisticCompany {
