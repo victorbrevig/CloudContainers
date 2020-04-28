@@ -22,19 +22,10 @@ import Cloud.model.Client;
 import Cloud.model.ClientDatabase; 
 
 public class JSONWriter{ 
-	// Mo Path
-	String filepath = "lc.json";
-	
- public JSONWriter() throws IOException {
-	 Gson gson = new Gson();
-	 Writer fw = new FileWriter("lc.json");
-	 LogisticCompany company = new LogisticCompany("Maersk",1,2,"bigstonks");
-	 gson.toJson(company, fw);
-     fw.flush();
-     fw.close();
- }
+	static String filepath = "lc.json";
+	static String filepathin = "in.json";
  
- public LogisticCompany getCompany() throws FileNotFoundException {
+ public static LogisticCompany getCompany() throws FileNotFoundException {
 	 Gson gson = new Gson();
 	 Reader reader = new FileReader(filepath);
 	 LogisticCompany company = gson.fromJson(reader, LogisticCompany.class);
@@ -42,24 +33,58 @@ public class JSONWriter{
 	 
  }
  
- public void saveCompany(LogisticCompany company) throws IOException {
+ public static void saveCompany(LogisticCompany company) throws IOException {
 	 Gson gson = new Gson();
 	 Writer fw = new FileWriter("lc.json");
 	 gson.toJson(company, fw);
      fw.flush();
      fw.close();
  }
+ 
+ public static Client getIn() throws FileNotFoundException {
+	 Gson gson = new Gson();
+	 Reader reader = new FileReader(filepathin);
+	 Client client = gson.fromJson(reader, Client.class);
+	 return client;
+ }
+ 
+ public static void setIn(Client client) throws IOException {
+	 Gson gson = new Gson();
+	 Writer fwin = new FileWriter("in.json");
+	 gson.toJson(client, fwin);
+     fwin.flush();
+     fwin.close();
+ }
+ 
+ public static boolean checkPass(String mail, String pass) throws IOException {
+	 Gson gson = new Gson();
+	 Reader reader = new FileReader(filepath);
+	 LogisticCompany company = gson.fromJson(reader, LogisticCompany.class);
+	 ClientDatabase ClientDB = company.getClients();
+	 Client client = ClientDB.getClient(mail);
+	 if ((client.getPassword()).equals(pass)) {
+		 return true;
+	 }
+	 return false;
+ }
+ 
 
 public static void main(String[] args) throws IOException {
-	JSONWriter jw = new JSONWriter();
-	LogisticCompany company = jw.getCompany();
-	Client client = new Client("Bob1","mediumman1@dtu.dk","22-12-1900","male",10101010,"kode123");
+	LogisticCompany company = JSONWriter.getCompany();
+	ClientDatabase ClientDB = company.getClients();
+	Client client = ClientDB.getClient("mediumman1@dtu.dk");
+	Client client1 = new Client("Bob1","mediumman1@dtu.dk","22-12-1900","male",10101010,"kode123");
 	Client client2 = new Client("Bob2","mediumman1@dtu.dk","22-12-1900","male",10101010,"kode123");
 	Client client3 = new Client("Bob3","mediumman1@dtu.dk","22-12-1900","male",10101010,"kode123");
-	company.newClient(client);
+	company.newClient(client1);
 	company.newClient(client2);
 	company.newClient(client3);
-	jw.saveCompany(company);
+	JSONWriter.saveCompany(company);
+	System.out.println(JSONWriter.checkPass("mediumman1@dtu.dk", "kode123"));
+	if (JSONWriter.checkPass("mediumman1@dtu.dk", "kode123")) {
+		System.out.println("Virker");
+	}
+	JSONWriter.setIn(client);
 	System.out.println("Halal");
 }
 }

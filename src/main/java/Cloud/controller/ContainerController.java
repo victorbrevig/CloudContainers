@@ -18,13 +18,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import Cloud.model.ClientDatabase;
 import Cloud.model.*;
 
 import net.bytebuddy.matcher.ModifierMatcher.Mode;
-import Cloud.model.Container;
-import Cloud.model.JSONWriter;
-import Cloud.model.Client;
 
 
 @Controller
@@ -35,7 +31,7 @@ public class ContainerController extends HttpServlet {
 	public String mainpage(Model model) {
 		
 		
-		return "MainPage";
+		return "index";
 		
 	}
 	
@@ -46,30 +42,43 @@ public class ContainerController extends HttpServlet {
 	}
 	@PostMapping("/ClientLogin")
 	public String add(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
-		
-		 response.setContentType("text/html");  
-		    PrintWriter out = response.getWriter();  
-		          
-		    String n=request.getParameter("userName");  
-		    String p=request.getParameter("userPass");  
-		    JSONWriter jw = new JSONWriter(); 
-		    if(jw.checkPass(n, p)){ 
-		    	 ClientDatabase db = jw.dbReturner();
-		         Cloud.model.Client client = db.getClient(n);
-		         
-		         jw.addClient2(client);
-		         RequestDispatcher rd=request.getRequestDispatcher("/Welcome.html");  
-		         System.out.println("Hola");
-
-		model.addAttribute("client",client);
-		return "Welcome";
-		}
-		    System.out.println("No good");
-		return "ClientLogin";}
-		
-		@GetMapping("/Welcome" )
-		public String welcome() {
+		response.setContentType("text/html");   
+	    String mail=request.getParameter("userName"); 
+	    String pass=request.getParameter("userPass");
+	    if (JSONWriter.checkPass(mail, pass)){ 
+		    LogisticCompany company = JSONWriter.getCompany();
+			ClientDatabase ClientDB = company.getClients();
+			Client client = ClientDB.getClient(mail);
+		    JSONWriter.setIn(client);
+		    RequestDispatcher rd=request.getRequestDispatcher("/Welcome.html"); 
+			model.addAttribute("client",client);
 			return "Welcome";
+		}
+		    
+		return "ClientLogin";}
+	
+	@GetMapping("/CompanyLogin")
+	public String add2(Container container,Model model) {
+		return "CompanyLogin";
+		
+	}
+	@PostMapping("/CompanyLogin")
+	public String add2(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+		response.setContentType("text/html");   
+	    String name=request.getParameter("userName"); 
+	    String pass=request.getParameter("userPass");
+	    LogisticCompany company = JSONWriter.getCompany();
+	    System.out.println("her til");
+	    if (company.getPassword().equals(pass) && company.getName().equals(name)) {
+	    	RequestDispatcher rd=request.getRequestDispatcher("/WelcomeC.html"); 
+			model.addAttribute("company",company);
+			return "WelcomeC";
+	    }    
+	return "CompanyLogin";}
+		
+	@GetMapping("/Welcome" )
+	public String welcome() {
+		return "Welcome";
 			
 
 }
@@ -93,16 +102,18 @@ public class ContainerController extends HttpServlet {
 			String n=request.getParameter("userMail");  
 			int pn= Integer.parseInt(request.getParameter("userNumber"));  
 			JSONWriter jw = new JSONWriter();   
-			    	  	
-			    	
-	    	Client client2 = jw.getClient();
-	    	jw.Remove(client2.getEmail());
-	    	client2.updateClient(pn);
-	    	client2.updateClient(n);
-	
-	    	jw.addClient2(client2);
-	    	jw.addClient(client2);
-	    	model.addAttribute("client",client2);
+			LogisticCompany company = jw.getCompany();
+			   	
+	    	ClientDatabase ClientDB = company.getClients();
+//	    	ClientDB.getClient(email)
+//	    	
+//	    	jw.Remove(client2.getEmail());
+//	    	client2.updateClient(pn);
+//	    	client2.updateClient(n);
+//	
+//	    	jw.addClient2(client2);
+//	    	jw.addClient(client2);
+//	    	model.addAttribute("client",client2);
 	    	return "Welcome";
 	    	       		
 		}
@@ -129,7 +140,7 @@ public class ContainerController extends HttpServlet {
 		    ResponseObject Response = new ResponseObject();
 		    Validator.validInput(n,m,a,g,pn);
 		    if(Response.getErrorMessage().equals("Valid")) {
-		    	jw.addClient(client);
+		    	//jw.addClient(client);
 		        return "ClientLogin";
 		    }
 	        
@@ -148,7 +159,7 @@ public class ContainerController extends HttpServlet {
 		@GetMapping("/logout")
 		public String logout(Model model, Client client) throws IOException {
 			
-			JSONWriter.clearLoggedIn();
+			//JSONWriter.clearLoggedIn();
 			
 			return "MainPage";
 			

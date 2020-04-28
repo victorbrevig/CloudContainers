@@ -28,7 +28,6 @@ import Cloud.model.Validator;
  * @Author Gustav
  */
 // New version
-@Entity
 public class Client {
 
 	private int clientID;

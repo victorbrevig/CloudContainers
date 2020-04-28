@@ -230,6 +230,12 @@ public class LogisticCompany {
 		return clients.stream().anyMatch(c -> c.getEmail().equals(email));
 	}
 	
+	public String getPassword() {
+		return password;
+	}
+	public String getName() {
+		return name;
+	}
 	
 	
 	
