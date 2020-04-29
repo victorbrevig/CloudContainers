@@ -64,7 +64,8 @@ public class ContainerController extends HttpServlet {
 			model.addAttribute("client",client);
 			return "Welcome";
 		}
-	    
+	    responseObject1.setErrorMessage("Invalid login");
+	    model.addAttribute("response",responseObject1);
 		return "ClientLogin";}
 	
 	@GetMapping("/CompanyLogin")
@@ -78,21 +79,21 @@ public class ContainerController extends HttpServlet {
 	    String name=request.getParameter("userName"); 
 	    String pass=request.getParameter("userPass");
 	    LogisticCompany company = JSONWriter.getCompany();
-	    System.out.println("her til");
 	    if (company.getPassword().equals(pass) && company.getName().equals(name)) {
 	    	RequestDispatcher rd=request.getRequestDispatcher("/WelcomeC.html"); 
 			model.addAttribute("company",company);
 			model.addAttribute("clientContainers",company.getContainerDatabase());
-
 			return "WelcomeC";
-			
-			
-	    }    
-	return "CompanyLogin";}
+	    }   
+	    else {
+	    responseObject1.setErrorMessage("Invalid login");
+	    model.addAttribute("response",responseObject1);
+	    return "CompanyLogin";}}
 	
 	@GetMapping("/WelcomeC")
 	public String WelcomeCompany(Model model) throws IOException {
-
+		LogisticCompany company = JSONWriter.getCompany();
+		model.addAttribute("clientContainers",company.getContainerDatabase());
 	    return "WelcomeC";
 
 	}
@@ -221,7 +222,29 @@ public class ContainerController extends HttpServlet {
 		public String covid() {
 			return "covid";
 		}
+		@GetMapping("/journeys")
+		public String journeys(Model model) throws FileNotFoundException {
+			LogisticCompany company = JSONWriter.getCompany();
+			model.addAttribute("company",company);
+			return "journeys";
+		}
 		
+		@GetMapping("/createJourney")
+		public String createJourney(Model model) {
+			return "createJourney";
+		}
+		
+		@PostMapping("/createJourney")
+		public String createJourney(HttpServletRequest request, HttpServletResponse response,Model model) throws IOException {
+			String port = request.getParameter("port");  
+			String destination = request.getParameter("destination");  
+			int duration = Integer.parseInt(request.getParameter("duration")); 
+			Journey journey = new Journey(port,destination,duration);
+			LogisticCompany company = JSONWriter.getCompany();
+			company.getJourneyDatabase().add(journey);
+			JSONWriter.saveCompany(company);
+			return "journeys";
+		}
 		
 	
 }

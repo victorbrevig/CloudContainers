@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-</head>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -8,11 +7,9 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <style>
-
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
-
 
 .thead-dark {
   th {
@@ -20,6 +17,13 @@ body {
     background-color: $table-dark-bg;
     border-color: $table-dark-border-color;
   }
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
 }
 
 th, td {
@@ -34,8 +38,10 @@ tr:nth-child(even) {
 
 </style>
 </head>
-
 <body>
+
+
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="/WelcomeC">CloudContainers</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,35 +63,48 @@ tr:nth-child(even) {
           <a class="dropdown-item" href="/logout">Log out</a>
         </div>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/createJourney">Create Journey</a>
+      </li>
     </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
   </div>
 </nav>
 
-<div>
-	<a th:text="${'Hello ' + client.getName() + ' here you can change your information'}" th:unless="${client == null}"></a>
-</div>
-<h3>UpdateClient info</h3>
 
-<div id="id01">
-  <form class="modal-content animate" action="/UpdateInfo" method="post">
-    <div class="container">
-      <label for="uname"><b>New Email</b></label>
-      <input type="text" placeholder="Enter Email" name="userMail" required>
-      <br>
-      <div>
-    <a th:text="${responseEmail.getErrorMessage()}" th:unless="${responseEmail == null}"></a>
-    </div>
-    <br>
-      <label for="psw"><b>New Phone Number</b></label>
-      <input type="text" placeholder="Enter new Phone Number" name="userNumber" required>
-      <br>
-      <div>
-    <a th:text="${responseNumber.getErrorMessage()}" th:unless="${responseNumber == null}"></a>
-    </div>
-    <br>
-      <button type="submit">Confirm Changes</button>
-    </div>
-  </form>
+<div style="text-align:center">
+<h3 >Here are all your journeys. Click the "Create Journey" button to create a new one</h3>
 </div>
+
+
+<table style="width:90%;margin-left:auto;margin-right:auto">
+  <thead class="thead-dark">
+  <tr>
+    <th style="text-align:center">Journey ID</th>
+    <th style="text-align:center">Port of Origin</th>
+    <th style="text-align:center">Destination</th>
+    <th style="text-align:center">Time to Destination</th>
+    <th style="text-align:center">End Journey</th>
+
+  </tr>
+  </thead>
+  <tbody>
+  <th:block th:each="journey: ${company.getJourneyDatabase()}">
+   <tr>
+    <td style="text-align:center" th:text="${journey.getJourneyID()}" />
+    <td style="text-align:center" th:text="${!(journey == null)} ? ${journey.getPortOfOrigin()} : 'N/A'" />
+    <td style="text-align:center" th:text="${!(journey == null)} ? ${journey.getDestination()} : 'N/A'" />
+    <td style="text-align:center" th:text="${!(journey == null)} ? ${journey.getTimeToDestination()} : 'N/A'" />
+    <td style="text-align:center"><a href="/end/${journey.getJourneyID()}">End</a></td>
+   </tr>
+  </th:block>
+  </tbody>
+</table>
+
+</div>
+
 </body>
-</html>
+</html> 	

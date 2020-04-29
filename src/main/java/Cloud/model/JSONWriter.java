@@ -62,7 +62,7 @@ public class JSONWriter{
 	 LogisticCompany company = gson.fromJson(reader, LogisticCompany.class);
 	 ClientDatabase ClientDB = company.getClients();
 	 Client client = ClientDB.getClient(mail);
-	 if ((client.getPassword()).equals(pass)) {
+	 if (client != null && (client.getPassword()).equals(pass)) {
 		 return true;
 	 }
 	 return false;

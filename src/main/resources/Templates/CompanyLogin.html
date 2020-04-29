@@ -129,6 +129,10 @@ span.psw {
 
 <h2>Cloud Containers Company Login</h2>
 
+<div>
+	<a th:text="${response.getErrorMessage()}" th:unless="${response == null}"></a>
+</div>
+
 <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
 
 <div id="id01" class="modal">
