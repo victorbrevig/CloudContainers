@@ -31,10 +31,11 @@ public class LogisticCompany {
 
 	private String password;
 	
-	private ClientDatabase clients; //Should be list of object
+	private ClientDatabase clients;
 
 	private ContainerDatabase containers;
 
+	
 	private JourneyDatabase journeys;
 
 	private int amountOfContainers;
@@ -72,6 +73,49 @@ public class LogisticCompany {
 			containers.add(new Container(i));
 		}
 	}
+	
+	/** Gets container database
+	 * 
+	 * @return containers
+	 */
+	
+	public ContainerDatabase getContainers() {
+		return containers;
+	}
+	/**Sets container database
+	 * 
+	 * @param containers
+	 */
+
+	public void setContainers(ContainerDatabase containers) {
+		this.containers = containers;
+	}
+	/**Gets journey database
+	 * 
+	 * @return journeys
+	 */
+
+	public JourneyDatabase getJourneys() {
+		return journeys;
+	}
+	/**Sets journey database
+	 * 
+	 * @param journeys
+	 */
+
+	public void setJourneys(JourneyDatabase journeys) {
+		this.journeys = journeys;
+	}
+	/**Sets client database
+	 * 
+	 * @param clients
+	 */
+
+
+	public void setClients(ClientDatabase clients) {
+		this.clients = clients;
+	}
+	
 
 	/** This method retrieves the ID of the company.
 	 * 

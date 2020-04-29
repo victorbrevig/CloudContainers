@@ -178,7 +178,7 @@ public class Client {
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Client) {
-			return (this.getEmail()).equals(((Client) o).getEmail());
+			return (this.getClientID() == ((Client) o).getClientID());
 		}
 		return false;
 	}
@@ -224,7 +224,7 @@ public class Client {
 		boolean validNumber = Validator.validPhoneNumber(number);
 		if (validNumber) {
 			this.setNumber(number);
-			response.setErrorMessage("Phone number has been updated");
+			response.setErrorMessage("Valid Phone number");
 			}
 		else {
 			response.setErrorMessage(number + " is not a valid phone number");

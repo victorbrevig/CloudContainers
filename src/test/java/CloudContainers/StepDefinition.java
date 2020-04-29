@@ -131,7 +131,7 @@ public class StepDefinition{
 
 	@Then("Display phonenumber update success message")
 	public void display_phonenumber_update_success_message() {
-		assertEquals(response.getErrorMessage(),"Phone number has been updated");
+		assertEquals(response.getErrorMessage(),"Valid Phone number");
 		
 	}
 	
