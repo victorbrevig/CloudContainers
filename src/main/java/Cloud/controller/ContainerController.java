@@ -117,7 +117,7 @@ public class ContainerController extends HttpServlet {
 			return "ClientUpdate";
 			
 		}
-<<<<<<< HEAD
+
 		@GetMapping("/ContainerInfo")
 		public String containerInfo(Model model) {
 			return "ContainerInfo";
@@ -127,9 +127,7 @@ public class ContainerController extends HttpServlet {
 //		    
 //	
 //		}
-=======
 
->>>>>>> redirectRefactor
 		@PostMapping("/UpdateInfo")
 		public String updateinfo(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
 			
