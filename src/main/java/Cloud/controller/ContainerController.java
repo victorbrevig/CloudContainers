@@ -186,9 +186,7 @@ public class ContainerController extends HttpServlet {
 		
 		@GetMapping("/logout")
 		public String logout(Model model, Client client) throws IOException {
-			
-			//JSONWriter.clearLoggedIn();
-			
+
 			return "index";
 			
 		}
