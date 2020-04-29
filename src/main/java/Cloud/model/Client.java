@@ -224,7 +224,7 @@ public class Client {
 		boolean validNumber = Validator.validPhoneNumber(number);
 		if (validNumber) {
 			this.setNumber(number);
-			response.setErrorMessage("Phone number has been updated");
+			response.setErrorMessage("Valid Phone number");
 			}
 		else {
 			response.setErrorMessage(number + " is not a valid phone number");

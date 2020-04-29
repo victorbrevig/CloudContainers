@@ -31,7 +31,7 @@ public class LogisticCompany {
 
 	private String password;
 	
-	private ClientDatabase clients; //Should be list of object
+	private ClientDatabase clients;
 
 	private ContainerDatabase containers;
 

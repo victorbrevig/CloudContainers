@@ -1,5 +1,6 @@
 package Cloud.controller;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Optional;
@@ -16,8 +17,11 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import Cloud.model.*;
@@ -40,12 +44,13 @@ public class ContainerController extends HttpServlet {
 	}
 	
 	@GetMapping("/ClientLogin")
-	public String add(Container container,Model model) {
+	public String add(Client client ,Model model) {
+		model.addAttribute("client",client);
 		return "ClientLogin";
 		
 	}
 	@PostMapping("/ClientLogin")
-	public String add(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+	public String add(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws IOException {
 		response.setContentType("text/html");   
 	    String mail=request.getParameter("userName"); 
 	    String pass=request.getParameter("userPass");
@@ -58,7 +63,7 @@ public class ContainerController extends HttpServlet {
 			model.addAttribute("client",client);
 			return "Welcome";
 		}
-		    
+	    
 		return "ClientLogin";}
 	
 	@GetMapping("/CompanyLogin")
@@ -81,60 +86,58 @@ public class ContainerController extends HttpServlet {
 	return "CompanyLogin";}
 		
 	@GetMapping("/Welcome" )
-	public String welcome(ModelMap model) {
+	public String welcome(ModelMap model, @ModelAttribute("client") Client client) {
+		model.addAttribute("client",client);
 		return "Welcome";
 			
 
 }
 		@GetMapping("/container")
 		public String plotpage(Model model) {
-			
-			
 			return "ContainerPage";
 			
 		}
 		@GetMapping("/UpdateInfo")
-		public String updateinfo(ModelMap model,Client client) {
+		public String updateinfo(ModelMap model) throws FileNotFoundException {
+			Client client = JSONWriter.getIn();
 			model.addAttribute("client",client);
 			return "ClientUpdate";
 			
 		}
+
 		@PostMapping("/UpdateInfo")
-		public ModelAndView updateinfo(Client client,HttpServletRequest request, HttpServletResponse response, ModelMap model) throws IOException {
+		public String updateinfo(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
 			
 			response.setContentType("text/html");  
 			PrintWriter out = response.getWriter();  
 			          
 			String email = request.getParameter("userMail");  
 			int number = Integer.parseInt(request.getParameter("userNumber"));  
-			
+			Client client = JSONWriter.getIn();
 			LogisticCompany company = JSONWriter.getCompany();
 			ClientDatabase clients = company.getClients();
 			responseObject1 = client.updateClient(email);
 			responseObject2 = client.updateClient(number);
 			
-			if (!company.clientExists(email)) {
+			if (!company.clientExists(email) && responseObject1.getErrorMessage().equals("Email has been updated")) {
+				clients.remove(client);
 				clients.add(client);
 				company.setClients(clients);
 				JSONWriter.saveCompany(company);
+				JSONWriter.setIn(client);
 				model.addAttribute("client",client);
-				return new ModelAndView("redirect:/Welcome",model);
+				return "Welcome";
 			}
 			else if (company.clientExists(email)){
 				responseObject1.setErrorMessage("This email is already in use");
 			}
-			
 			model.addAttribute("responseEmail", responseObject1);
 			model.addAttribute("responseNumber", responseObject2);
 			model.addAttribute("client",client);
-	        return new ModelAndView("redirect:/UpdateInfo", model);
+	        return "ClientUpdate";
 			
 			}
-	    	
-
-//	    	model.addAttribute("client",client2);
 	
-	    	       		
 		
 		@GetMapping("/Register")
 		public String Register()  {

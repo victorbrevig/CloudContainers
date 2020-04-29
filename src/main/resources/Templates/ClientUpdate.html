@@ -73,40 +73,42 @@ body {
 
 <div class="navbar">
   <a href="/Welcome">Home</a>
-  <a href="#news">About us</a>
   <div class="dropdown">
     <button class="dropbtn">Options
       <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-content">
-      <a href="/YeetContainer2/ClientLogin.html">Search container</a>
-      <a href="/YeetContainer2/CompanyLogin.html">Update information</a>
+      <a href="/container">Search container</a>
+      <a href="/UpdateInfo">Update information</a>
       <a href="#">Register container</a>
       <a href="/LoginPage">Log out</a>
       
     </div>
   </div> 
 </div>
-
+<div>
+		<a th:text="${'Hello ' + client.getName() + ' here you can change your information'}" th:unless="${client == null}"></a>
+</div>
 <h3>UpdateClient info</h3>
 
 <div id="id01" class="modal">
   
   <form class="modal-content animate" action="/UpdateInfo" method="post">
-
     <div class="container">
       <label for="uname"><b>New Email</b></label>
       <input type="text" placeholder="Enter Email" name="userMail" required>
       <br>
-      <div style="text-align:center">
-		<h1 th:text="${responseEmail.getErrorMessage()}" th:unless="${responseEmail == null}">Test</h1>
+      <div>
+		<a th:text="${responseEmail.getErrorMessage()}" th:unless="${responseEmail == null}"></a>
 	  </div>
+	  <br>
       <label for="psw"><b>New Phone Number</b></label>
       <input type="text" placeholder="Enter new Phone Number" name="userNumber" required>
       <br>
-      <div style="text-align:center">
-		<h1 th:text="${responseNumber.getErrorMessage()}" th:unless="${responseNumber == null}">Test</h1>
+      <div>
+		<a th:text="${responseNumber.getErrorMessage()}" th:unless="${responseNumber == null}"></a>
 	  </div>
+	  <br>
       <button type="submit">Confirm Changes</button>
       <label>
         <input type="checkbox" checked="checked" name="remember"> Remember me
