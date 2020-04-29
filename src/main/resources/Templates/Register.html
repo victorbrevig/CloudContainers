@@ -187,10 +187,12 @@ span.psw {
 </head>
 <body>
 
-<h2>Register journey</h2>
+<h2>Register</h2>
 
 <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Register Here!</button>
-
+<div>
+	<a th:text="${response.getErrorMessage()}" th:unless="${response == null}"></a>
+</div>
 <div id="id01" class="modal">
   
   <form class="modal-content animate" action="/Register" method="post">
@@ -200,8 +202,8 @@ span.psw {
     </div>
 
     <div class="container">
-      <label for="uname"><b>Username</b></label>
-      <input type="text" placeholder="Enter Username" name="userName" required>
+      <label for="uname"><b>Name</b></label>
+      <input type="text" placeholder="Enter Name" name="userName" required>
 
       <label for="psw"><b>Password</b></label>
       <input type="password" placeholder="Enter Password" name="userPass" required>
@@ -216,12 +218,12 @@ span.psw {
   <input type="submit">
 
     <br/>
-       <label for="uname"><b>Age</b></label>
-      <input type="text" placeholder="Enter Username" name="userAge" required>
+       <label for="uname"><b>Birthdate (dd-mm-yyyy)</b></label>
+      <input type="text" placeholder="Enter your birthdate" name="userBirthdate" required>
 
       <label for="psw"><b>Phone Number</b></label>
       <input type="text" placeholder="Enter Phone number" name="userNumber" required>
-        
+       
       <button type="submit">Register</button>
       <label>
         <input type="checkbox" checked="checked" name="remember"> Remember me
