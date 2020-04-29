@@ -212,6 +212,16 @@ public class ContainerController extends HttpServlet {
 			
 		}
 		
+		@GetMapping("/about")
+		public String about() {
+			return "about";
+		}
+		
+		@GetMapping("/covid")
+		public String covid() {
+			return "covid";
+		}
+		
 		
 	
 }
