@@ -55,7 +55,7 @@ tr:nth-child(even) {
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
+          Settings
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="/UpdateInfo">Update Information</a>
@@ -88,10 +88,10 @@ tr:nth-child(even) {
     <th style="text-align:center">Port of Origin</th>
     <th style="text-align:center">Destination</th>
     <th style="text-align:center">Time to Destination</th>
-    <th style="text-align:center"> Owner </th>
-    <th style="text-align:center">Allocate</th>
+    <th style="text-align:center">Put on journey</th>
+    <th style="text-align:center">Journey</th>
     <th style="text-align:center">Status data</th>
-    <th style="text-align:center">Update</th>
+    <th style="text-align:center">Update content</th>
 
   </tr>
   </thead>
@@ -103,7 +103,8 @@ tr:nth-child(even) {
     <td style="text-align:center" th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getPortOfOrigin()} : 'N/A'" />
     <td style="text-align:center" th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getDestination()} : 'N/A'" />
     <td style="text-align:center" th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getTimeToDestination()} : 'N/A'" />
-    <td style="text-align:center" th:text="${!(container.getOwner() == null)} ? ${container.getOwner().getName()} : 'Not yet allocated'" />
+    
+    <td style="text-align:center"><a href="/journey/${container.getContainerID()}">View</a></td>
     <td style="text-align:center"><a href="/allocate/${container.getContainerID()}">Allocate</a></td>
     <td style="text-align:center"><a href="/container/${container.getContainerID()}">View</a></td>
     <td style="text-align:center"><a href="/updateCompany/${container.getContainerID()}">Update</a></td>
