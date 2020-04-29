@@ -109,19 +109,18 @@ body {
     <th>Status Data</th>
     <th> Owner </th>
   </tr>
-  <th:block  th:each="container: ${clientContainers}">
-  <tr>
+  <th:block th:each="container: ${clientContainers}">
+   <tr>
     <td th:text="${container.getContainerID()}" />
-    <td th:text="${container.getContent()}" />
-    <td th:text="${container.getCurrentJourney().getPortOfOrigin()}" />
-    <td th:text="${container.getCurrentJourney().getDestination()}" />
-    <td th:text="${container.getCurrentJourney().getTimeToDestination()}" />
-    <td th:text="${container.getCurrentJourney().getTimeToDestination()}" />
-    <td th:text="${container.getOwner())}" />
-    
-	</tr>
-	</th:block>
+    <td th:text="${!(container.getContent().equals('')) ? container.getContent() : 'No content yet'}" />
+    <td th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getPortOfOrigin()} : 'N/A'" />
+    <td th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getDestination()} : 'N/A'" />
+    <td th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getTimeToDestination()} : 'N/A'" />
+    <td th:text="${!(container.getOwner() == null)} ? ${container.getOwner().getName()} : 'Not yet allocated'" />
+   </tr>
+  </th:block>
 </table>
+
 
 
 
