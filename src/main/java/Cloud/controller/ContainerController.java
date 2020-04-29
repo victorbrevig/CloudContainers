@@ -145,27 +145,26 @@ public class ContainerController extends HttpServlet {
 			
 		}
 		@PostMapping("/Register")
-		public String Register(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		public String Register(HttpServletRequest request, HttpServletResponse response,Model model) throws IOException {
 			 
-			
-			response.setContentType("text/html");  
+			response.setContentType("text/html");
 		    PrintWriter out = response.getWriter();  
-		    String n=request.getParameter("userName");  
-		    String m=request.getParameter("userMail"); 
-		    String a=request.getParameter("userAge");  
-		    String g=request.getParameter("userGender"); 
-		    int pn= Integer.parseInt(request.getParameter("userNumber"));  
-		    String p=request.getParameter("userPass"); 
-		    Client client = new Client(n,m,a,g,pn,p);
+		    String name = request.getParameter("userName");  
+		    String email = request.getParameter("userMail"); 
+		    String birthdate = request.getParameter("userBirthdate");  
+		    String gender = request.getParameter("userGender"); 
+		    int phonenumber = Integer.parseInt(request.getParameter("userNumber"));  
+		    String password = request.getParameter("userPass"); 
+		    Client client = new Client(name,email,birthdate,gender,phonenumber,password);
 		    
-		    JSONWriter jw = new JSONWriter();
-		    ResponseObject Response = new ResponseObject();
-		    Validator.validInput(n,m,a,g,pn);
-		    if(Response.getErrorMessage().equals("Valid")) {
-		    	//jw.addClient(client);
+		    LogisticCompany company = JSONWriter.getCompany();
+			responseObject1 = company.newClient(client);
+		 
+		    if(responseObject1.getErrorMessage().equals("Client was successfully added")) {
+		    	JSONWriter.saveCompany(company);
 		        return "ClientLogin";
 		    }
-	        
+		    model.addAttribute("response", responseObject1);
 	        return "Register";
 			
 		}
