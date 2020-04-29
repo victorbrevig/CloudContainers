@@ -179,12 +179,17 @@ public class ContainerController extends HttpServlet {
 			
 		}
 		
+		@GetMapping("/updateCompany/{id}")
+		public String updateCompany(@PathVariable("id") int id, LogisticCompany company,Model model) {
+			return "/WelcomeC";
+		}
+		
 		@GetMapping("/logout")
 		public String logout(Model model, Client client) throws IOException {
 			
 			//JSONWriter.clearLoggedIn();
 			
-			return "MainPage";
+			return "index";
 			
 		}
 		
