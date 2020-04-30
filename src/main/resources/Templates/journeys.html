@@ -95,7 +95,7 @@ tr:nth-child(even) {
     <td style="text-align:center" th:text="${!(journey == null)} ? ${journey.getPortOfOrigin()} : 'N/A'" />
     <td style="text-align:center" th:text="${!(journey == null)} ? ${journey.getDestination()} : 'N/A'" />
     <td style="text-align:center" th:text="${!(journey == null)} ? ${journey.getTimeToDestination()} : 'N/A'" />
-    <td style="text-align:center"><a href="/end/${journey.getJourneyID()}">End</a></td>
+    <td style="text-align:center"><a th:href="@{'/endJourney/' + ${journey.getJourneyID()}}">End</a></td>
     <td style="text-align:center"><a href="/progress/${journey.getJourneyID()}">Progress</a></td>
    </tr>
   </th:block>

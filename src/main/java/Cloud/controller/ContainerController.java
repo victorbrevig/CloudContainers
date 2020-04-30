@@ -260,5 +260,16 @@ public class ContainerController extends HttpServlet {
 			
 		}
 		
+		@GetMapping("/endJourney/{id}")
+		public String endJourney(@PathVariable("id") int id, Journey journey,Model model) throws FileNotFoundException {
+			
+			LogisticCompany company = JSONWriter.getCompany();
+			JourneyDatabase journeys = company.getJourneyDatabase();
+			model.addAttribute("journeys",journeys);
+			
+			return "redirect:journeys";
+			
+		}
+		
 	
 }
