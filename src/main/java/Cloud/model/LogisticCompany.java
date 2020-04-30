@@ -200,13 +200,31 @@ public class LogisticCompany {
 	 * @return response
 	 */
 	public ResponseObject newClient(Client client) {
-		ResponseObject response = null;
+		ResponseObject response = new ResponseObject();
 		response = Validator.validInput(client.getName(),client.getEmail(),client.getBirthdate(),client.getGender(),client.getNumber());
 		if (response.getErrorMessage().equals("Valid")) {
 			// Set id
 			client.setClientID(clients.size() + 1);
 			clients.add(client);
 			response.setErrorMessage("Client was successfully added");
+		}
+		return response;
+	}
+	
+	/**Creates a new journey and adds it to the journey database
+	 * 
+	 * @param journey
+	 * @return response
+	 */
+	
+	public ResponseObject newJourney(Journey journey) {
+		ResponseObject response = new ResponseObject();
+		response = Validator.validJourney(journey);
+		
+		if(response.getErrorMessage().equals("Valid")) {
+			journey.setJourneyID(journeys.size() + 1);
+			journeys.add(journey);
+			response.setErrorMessage("Journey was successfully added");
 		}
 		return response;
 	}

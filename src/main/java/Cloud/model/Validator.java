@@ -19,7 +19,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
  */
 public class Validator {
 
-
 	/** Static method to check if birth date has correct format
 	 * 
 	 * @param birthdate - type String
@@ -85,19 +84,19 @@ public class Validator {
 	ResponseObject response = new ResponseObject();
 	
 		if (!emptyParameters(name,email,birthdate,gender,number)) {
-			response = new ResponseObject("There is a missing parameter");
+			response.setErrorMessage("There is a missing parameter");
 			return response;
 		}
 		else if (!validEmail(email)) {
-			response = new ResponseObject(email + " is not a valid email");
+			response.setErrorMessage(email + " is not a valid email");
 			return response;
 		}
 		else if (!validBirthdate(birthdate)) {
-			response = new ResponseObject(birthdate + " is not a valid birthdate");
+			response.setErrorMessage(birthdate + " is not a valid birthdate");
 			return response;
 		}
 		else if (!validPhoneNumber(number)) {
-			response = new ResponseObject(number + " is not a valid phone number");
+			response.setErrorMessage(number + " is not a valid phone number");
 			return response;
 		}
 		
@@ -114,6 +113,27 @@ public class Validator {
 	 */
 	public static boolean clientHasAccess(Client client, Container container) {
 		return container.getAccessClients().stream().anyMatch(c -> c.equals(client));
+	}
+	
+	/**Checks if the journey typed by the user is valid
+	 * 
+	 * @param journey
+	 * @return response
+	 */
+	
+	public static ResponseObject validJourney(Journey journey) {
+		ResponseObject response = new ResponseObject();
+		
+		if (journey.portEqualsDestination()) {
+			response.setErrorMessage("Destination cannot be the same as port of origin");
+			return response;
+		}
+		else if (journey.durationOutOfBounds()) {
+			response.setErrorMessage("Duration is out of bounds");
+			return response;
+		}
+		response.setErrorMessage("Valid");
+		return response;
 	}
 	
 }

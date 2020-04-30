@@ -273,8 +273,22 @@ public class StepDefinition{
 		assertTrue((container.getOwner().equals(client2)));		
 		assertTrue(container.isOwned());
 	}
-	
-	
+	// ____________________________________createJourney____________________________________________
+	@When("journey is created with POO {string} and destination {string} and duration {int}")
+	public void journey_is_created_with_POO_and_destination_and_duration(String string, String string2, Integer int1 ) {
+	    Journey journey = new Journey(string,string2,int1);
+	    response = lc.newJourney(journey);
+	}
+
+	@Then("journey is created succesfully")
+	public void journey_is_created_succesfully() {
+		assertTrue(lc.getJourneyDatabase().size() == 1);
+	}
+
+	@Then("following error message is dispayed {string}")
+	public void following_error_message_is_dispayed(String string) {
+	    assertEquals(response.getErrorMessage(),string);
+	}
 	// ____________________________________containerOnJourney____________________________________________
 	Journey journey;
 

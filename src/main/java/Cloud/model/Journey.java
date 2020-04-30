@@ -208,7 +208,6 @@ public class Journey {
 	 * @return response
 	 */
 	
-//	In logistic company
 	
 	public ResponseObject endJourney() {
 		ResponseObject response = new ResponseObject();
@@ -238,6 +237,24 @@ public class Journey {
 				countFree++;
 		}
 		return countFree;
+	}
+	
+	/**Checks if a journeys duration is in bounds
+	 * 
+	 * @param journey
+	 * @return boolean
+	 */
+	
+	public boolean durationOutOfBounds() {
+		return getTimeToDestination() <= 0 || getTimeToDestination() > 44000;
+	}
+	/**Checks if port is equal to destination
+	 * 
+	 * @return boolean
+	 */
+
+	public boolean portEqualsDestination() {
+		return getDestination().equals(getPortOfOrigin());
 	}
 
 

@@ -62,7 +62,7 @@ public class ContainerController extends HttpServlet {
 		    JSONWriter.setIn(client);
 		    RequestDispatcher rd=request.getRequestDispatcher("/Welcome.html"); 
 			model.addAttribute("client",client);
-			return "Welcome";
+			return "redirect:Welcome";
 		}
 	    responseObject1.setErrorMessage("Invalid login");
 	    model.addAttribute("response",responseObject1);
@@ -83,7 +83,7 @@ public class ContainerController extends HttpServlet {
 	    	RequestDispatcher rd=request.getRequestDispatcher("/WelcomeC.html"); 
 			model.addAttribute("company",company);
 			model.addAttribute("clientContainers",company.getContainerDatabase());
-			return "WelcomeC";
+			return "redirect:WelcomeC";
 	    }   
 	    else {
 	    responseObject1.setErrorMessage("Invalid login");
@@ -99,7 +99,8 @@ public class ContainerController extends HttpServlet {
 	}
 		
 	@GetMapping("/Welcome" )
-	public String welcome(ModelMap model, @ModelAttribute("client") Client client) {
+	public String welcome(Model model) throws FileNotFoundException {
+		Client client = JSONWriter.getIn();
 		model.addAttribute("client",client);
 		return "Welcome";
 			
@@ -138,6 +139,7 @@ public class ContainerController extends HttpServlet {
 			String email = request.getParameter("userMail");  
 			int number = Integer.parseInt(request.getParameter("userNumber"));  
 			Client client = JSONWriter.getIn();
+			model.addAttribute("client",client);
 			LogisticCompany company = JSONWriter.getCompany();
 			ClientDatabase clients = company.getClients();
 			responseObject1 = client.updateClient(email);
@@ -150,7 +152,7 @@ public class ContainerController extends HttpServlet {
 				JSONWriter.saveCompany(company);
 				JSONWriter.setIn(client);
 				model.addAttribute("client",client);
-				return "Welcome";
+				return "redirect:Welcome";
 			}
 			else if (company.clientExists(email)){
 				responseObject1.setErrorMessage("This email is already in use");
@@ -162,7 +164,6 @@ public class ContainerController extends HttpServlet {
 			
 			}
 	
-		
 		@GetMapping("/Register")
 		public String Register()  {
 			return "Register";
@@ -186,7 +187,7 @@ public class ContainerController extends HttpServlet {
 		 
 		    if(responseObject1.getErrorMessage().equals("Client was successfully added")) {
 		    	JSONWriter.saveCompany(company);
-		        return "ClientLogin";
+		        return "redirect:ClientLogin";
 		    }
 		    model.addAttribute("response", responseObject1);
 	        return "Register";
@@ -225,7 +226,8 @@ public class ContainerController extends HttpServlet {
 		@GetMapping("/journeys")
 		public String journeys(Model model) throws FileNotFoundException {
 			LogisticCompany company = JSONWriter.getCompany();
-			model.addAttribute("company",company);
+			JourneyDatabase journeys = company.getJourneyDatabase();
+			model.addAttribute("journeys",journeys);
 			return "journeys";
 		}
 		
@@ -239,11 +241,22 @@ public class ContainerController extends HttpServlet {
 			String port = request.getParameter("port");  
 			String destination = request.getParameter("destination");  
 			int duration = Integer.parseInt(request.getParameter("duration")); 
+			
 			Journey journey = new Journey(port,destination,duration);
 			LogisticCompany company = JSONWriter.getCompany();
-			company.getJourneyDatabase().add(journey);
-			JSONWriter.saveCompany(company);
-			return "journeys";
+			responseObject1 = company.newJourney(journey);
+			if (responseObject1.getErrorMessage().equals("Journey was successfully added")) {
+				JourneyDatabase journeys = company.getJourneyDatabase();
+				model.addAttribute("journeys",journeys);
+				JSONWriter.saveCompany(company);
+				return "redirect:journeys";
+			}
+			else {
+			model.addAttribute("response",responseObject1);
+			return "createJourney";
+			}
+			
+			
 		}
 		
 	

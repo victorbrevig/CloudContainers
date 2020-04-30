@@ -70,6 +70,10 @@ tr:nth-child(even) {
       <label for="duration"><b>Duration</b></label>
       <input type="text" placeholder="Enter duration" name="duration" required>
     <br>
+      <div>
+    	<a th:text="${response.getErrorMessage()}" th:unless="${response == null}"></a>
+    </div>
+    <br>
       <button type="submit">Confirm Changes</button>
     </div>
   </form>
