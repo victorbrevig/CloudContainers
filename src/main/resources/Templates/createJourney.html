@@ -56,27 +56,28 @@ tr:nth-child(even) {
   </div>
 </nav>
 
-<h3>Create a new journey</h3>
+<br>
 
-<div id="id01">
-  <form class="modal-content animate" action="/createJourney" method="post">
-    <div class="container">
-      <label for="newPort"><b>Port of origin</b></label>
-      <input type="text" placeholder="Enter port of origin" name="port" required>
-    <br>
-      <label for="newDestination"><b>Destination</b></label>
-      <input type="text" placeholder="Enter destination" name="destination" required>
-    <br>
-      <label for="duration"><b>Duration</b></label>
-      <input type="text" placeholder="Enter duration" name="duration" required>
-    <br>
-      <div>
-    	<a th:text="${response.getErrorMessage()}" th:unless="${response == null}"></a>
-    </div>
-    <br>
-      <button type="submit">Confirm Changes</button>
-    </div>
-  </form>
+<div id="id01" style="margin-left: 3%;">
+	<h3>Create a new journey</h3>
+	<form action="/createJourney" method="post">
+	  <div class="form-group">
+	    <label for="newPort">Port of origin</label>
+	    <input type="text" class="form-control" id="exampleInputPOO1" aria-describedby="emailHelp" placeholder="Enter port of origin" name="port" required>
+	  </div>
+	  <div class="form-group">
+	    <label for="newDestination">Destination</label>
+	    <input type="text" class="form-control" id="exampleInputDest1" placeholder="Enter destination" name="destination" required>
+	  </div>
+	  <div class="form-group">
+	    <label for="duration">Duration</label>
+	    <input type="text" class="form-control" id="exampleInputDur1" placeholder="Enter duration" name="duration" required>
+	  </div>
+	  
+	  <small id="errorMsg" class="form-text text-muted" th:text="${response.getErrorMessage()}" th:unless="${response == null}"></small>
+	  <br>
+	  <button type="submit" class="btn btn-primary">Submit</button>
+	</form>
 </div>
 </body>
 </html>

@@ -61,31 +61,26 @@ tr:nth-child(even) {
   </div>
 </nav>
 
-<div>
-	<a th:text="${'Hello ' + client.getName() + ' here you can change your information'}" th:unless="${client == null}"></a>
-</div>
-<h3>UpdateClient info</h3>
+<br>
 
-<div id="id01">
-  <form class="modal-content animate" action="/UpdateInfo" method="post">
-    <div class="container">
-      <label for="uname"><b>New Email</b></label>
-      <input type="text" placeholder="Enter Email" name="userMail" required>
-      <br>
-      <div>
-    <a th:text="${responseEmail.getErrorMessage()}" th:unless="${responseEmail == null}"></a>
-    </div>
-    <br>
-      <label for="psw"><b>New Phone Number</b></label>
-      <input type="text" placeholder="Enter new Phone Number" name="userNumber" required>
-      <br>
-      <div>
-    <a th:text="${responseNumber.getErrorMessage()}" th:unless="${responseNumber == null}"></a>
-    </div>
-    <br>
-      <button type="submit">Confirm Changes</button>
-    </div>
-  </form>
+<div id="id01" style="margin-left: 3%;">
+
+	<h3>Update information</h3>
+	<form action="/UpdateInfo" method="post">
+	  <div class="form-group">
+	    <label for="uname">New Email</label>
+	    <input type="text" class="form-control" id="exampleNewEmail" aria-describedby="emailHelp" placeholder="Enter new email" name="userMail" required>
+	    <small id="errorMsg1" class="form-text text-muted" th:text="${responseEmail.getErrorMessage()}" th:unless="${responseEmail == null}"></small>
+	  </div>
+	  
+	  <div class="form-group">
+	    <label for="newNum">New Phone Number</label>
+	    <input type="text" class="form-control" id="exampleNewNum" placeholder="Enter new phone number" name="userNumber" required>
+	    <small id="errorMsg2" class="form-text text-muted" th:text="${responseNumber.getErrorMessage()}" th:unless="${responseNumber == null}"></small>
+	  </div>
+	  
+	  <button type="submit" class="btn btn-primary">Submit</button>
+	</form>
 </div>
 </body>
 </html>

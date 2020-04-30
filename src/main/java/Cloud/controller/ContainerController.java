@@ -93,6 +93,7 @@ public class ContainerController extends HttpServlet {
 	@GetMapping("/WelcomeC")
 	public String WelcomeCompany(Model model) throws IOException {
 		LogisticCompany company = JSONWriter.getCompany();
+		model.addAttribute("company",company);
 		model.addAttribute("clientContainers",company.getContainerDatabase());
 	    return "WelcomeC";
 
