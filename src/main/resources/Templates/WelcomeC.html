@@ -126,7 +126,7 @@ tr:nth-child(even) {
 		  </button>
 		  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 		  <th:block th:each="client: ${clients}">
-		    <a class="dropdown-item" th:href="@{'/allocateContainer/' + ${client.getJourneyID()}}">Action</a>
+		    <a class="dropdown-item" th:href="@{'/allocateContainer/' + ${client.getClientID()}}">Action</a>
 		  </th:block>
 		  </div>
 		</div>
