@@ -50,7 +50,6 @@ public class ContainerDatabase extends HashSet<Container>{
 	}
 	
 	
-	
 	/**Finds a free container in container database
 	 * 
 	 * @return container

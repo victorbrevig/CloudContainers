@@ -50,7 +50,7 @@ public class JourneyDataGenerator {
 			double randAirHumIncrement = rand.nextDouble() * (rand.nextBoolean() ? -1 : 1) * 0.05;
 			
 //			Changing status data for containers registered to this journey
-			for (Container container : journey.getContainerDB().getContainersForJourney(journey)) {
+			for (Container container : journey.getContainerDB()) {
 			
 					oneContainerOnJourney = true;
 					newTemp = container.getTemperature() + randTempIncrement;
@@ -64,6 +64,7 @@ public class JourneyDataGenerator {
 			timeToDestination--;
 			timeTraveled++;
 			
+			
 //			Set status data in journey
 			if (oneContainerOnJourney) {
 				DataPoint status = new DataPoint(elapsedTime,newAirHum,newTemp,newPressure);
@@ -74,6 +75,10 @@ public class JourneyDataGenerator {
 			journey.setElapsedTime(elapsedTime);
 			journey.setTimeToDestination(timeToDestination);
 			
+//			When the timeIncrement doesn't exceed the time to destination
+			if (timeToDestination == 0) {
+				journey.endJourney();
+			} 
 		}
 		
 		if(oneContainerOnJourney && journey.isStarted()){
@@ -87,6 +92,8 @@ public class JourneyDataGenerator {
 		else {
 			response.setErrorMessage("No containers are on this journey");
 		}
+		
+		
 			
 		return response;
 	}

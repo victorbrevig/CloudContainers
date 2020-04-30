@@ -18,7 +18,7 @@ public class Journey {
 	private String portOfOrigin;
 	private String destination;
 	
-	private ContainerDatabase containerDB;
+	private ContainerDatabase containerDB = new ContainerDatabase();
 	
 	private boolean isStarted;
 	private int timeToDestination;
@@ -230,7 +230,7 @@ public class Journey {
 	 */
 	private int freeUpContainers(int countFree) {
 //		The filter returns null
-		for (Container container : containerDB.getContainersForJourney(this)) {
+		for (Container container : containerDB) {
 				container.setCurrentJourney(null);
 				container.setOnJourney(false);
 				container.setContent("");
@@ -260,7 +260,7 @@ public class Journey {
 
 
 //	public void print() {
-//		System.out.println("JourneyID: " + this.getJourneyID());
+//		System.out.println("JourneyID: " + this. ID());
 //		System.out.println("Company: " + this.getCompany());
 //		System.out.println("PortOfOrigin: " + this.getPortOfOrigin());
 //		System.out.println("Destination: " + this.getDestination());

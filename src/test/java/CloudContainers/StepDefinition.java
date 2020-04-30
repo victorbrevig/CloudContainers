@@ -301,7 +301,7 @@ public class StepDefinition{
 	@Given("a valid journey")
 	public void a_valid_journey() {
 	    journey = new Journey("Texas", "Zimbabwe",50);
-	    lc.registerJourney(journey);
+	    lc.newJourney(journey);
 	}
 
 	@When("logistic company tries to put container on journey")
@@ -329,7 +329,7 @@ public class StepDefinition{
 	@Given("a registered journey with PoO of {string}")
 	public void a_registered_journey_with_PoO_of(String string) {
 		journey = new Journey(string, "Zimbabwe",50);
-	    lc.registerJourney(journey);
+	    lc.newJourney(journey);
 	}
 
 	@When("the logistic company tries to update port of origin to {string}")
@@ -345,7 +345,7 @@ public class StepDefinition{
 	@Given("a registered journey with destination of {string}")
 	public void a_registered_journey_with_destination_of(String string) {
 	    journey = new Journey("Bahamas", string,50);
-	    lc.registerJourney(journey);
+	    lc.newJourney(journey);
 	}
 
 	@When("the logistic company tries to update destination to {string}")
@@ -369,9 +369,9 @@ public class StepDefinition{
 		journey1 = new Journey(string, "Copenhagen",50);
 		journey2 = new Journey(string2, "Copenhagen",50);
 		journey3 = new Journey(string3, "Copenhagen",50);
-	    lc.registerJourney(journey1);
-	    lc.registerJourney(journey2);
-	    lc.registerJourney(journey3);
+	    lc.newJourney(journey1);
+	    lc.newJourney(journey2);
+	    lc.newJourney(journey3);
 	}
 
 	@When("journeys are filtered for {string}")
@@ -392,9 +392,9 @@ public class StepDefinition{
 		journey1 = new Journey("Copenhagen",string,50);
 		journey2 = new Journey("Copenhagen",string2,50);
 		journey3 = new Journey("Copenhagen",string3,50);
-	    lc.registerJourney(journey1);
-	    lc.registerJourney(journey2);
-	    lc.registerJourney(journey3);
+	    lc.newJourney(journey1);
+	    lc.newJourney(journey2);
+	    lc.newJourney(journey3);
 	}
 	
 	@When("journeys are filtered for destination {string}")
@@ -464,7 +464,7 @@ public class StepDefinition{
 	@Given("a journey from {string} to {string} with {int} hours to destination")
 	public void a_journey_from_to_with_hours_to_destination(String string, String string2, Integer int1) {
 		journey = new Journey(string, string2,int1);
-	    lc.registerJourney(journey);
+	    lc.newJourney(journey);
 	}
 
 	@Given("three containers registered to the client")
@@ -567,12 +567,12 @@ public class StepDefinition{
 	@Given("the container has been on one journey from {string} to {string} and another journey from {string} to {string}")
 	public void the_container_has_been_on_one_journey_from_to_and_another_journey_from_to(String string, String string2, String string3, String string4) {
 		journey1 = new Journey(string, string2,10);
-	    lc.registerJourney(journey1);
+	    lc.newJourney(journey1);
 	    client1.containerToJourney(container, journey1, "Chocolate");
 		JourneyDataGenerator.progressJourney(journey1,10);
 		
 		journey2 = new Journey(string3, string4,20);
-	    lc.registerJourney(journey2);
+	    lc.newJourney(journey2);
 	    client1.containerToJourney(container, journey2, "Banana");
 	    JourneyDataGenerator.progressJourney(journey2,20);
 		

@@ -150,16 +150,7 @@ public class LogisticCompany {
 		return containers;
 	}
 	
-	/** This method registers a journey to the journey database of the company.
-	 * 
-	 * @param journey
-	 */
-	public void registerJourney(Journey journey) {
-		journey.setJourneyID(journeys.size() + 1);
-		journey.setContainerDB(containers);
-		journeys.add(journey);
-		
-	}
+
 	
 	/** This method overrides equals for LogisticCompany. Two companies are equal if their ID's are equal.
 	 * 
@@ -216,7 +207,7 @@ public class LogisticCompany {
 	 * @param journey
 	 * @return response
 	 */
-	
+
 	public ResponseObject newJourney(Journey journey) {
 		ResponseObject response = new ResponseObject();
 		response = Validator.validJourney(journey);

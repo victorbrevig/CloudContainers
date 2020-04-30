@@ -260,6 +260,7 @@ public class Container{
 		journeyHistory.add(containerJourneyInfo);
 		setOnJourney(true);
 		setCurrentJourney(journey);
+		
 	}
 	
 	/**Grants access to the containers data to a new client

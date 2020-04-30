@@ -42,7 +42,17 @@ public class JourneyDatabase extends HashSet<Journey> {
 				.collect(Collectors.toSet());
 		return filtered;		
 	}
-	
-	
+	/**Gets a journey from its ID
+	 * 
+	 * @param journeyID
+	 * @return journey
+	 */
+	public Journey getJourney(int journeyID) {
+		for (Journey j :this) {
+			if (j.getJourneyID() == journeyID) {
+				return j;
+			}
+		} return null;
+	}
 	
 }

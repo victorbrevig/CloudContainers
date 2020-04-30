@@ -252,6 +252,7 @@ public class Client {
 		
 		container.setContent(content);
 		container.addJourney(journey);
+		journey.getContainerDB().add(container);
 		return response;
 	}
 	

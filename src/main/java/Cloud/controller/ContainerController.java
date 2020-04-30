@@ -83,6 +83,7 @@ public class ContainerController extends HttpServlet {
 	    	RequestDispatcher rd=request.getRequestDispatcher("/WelcomeC.html"); 
 			model.addAttribute("company",company);
 			model.addAttribute("clientContainers",company.getContainerDatabase());
+			model.addAttribute("clients",company.getClients());
 			return "redirect:WelcomeC";
 	    }   
 	    else {
@@ -95,6 +96,7 @@ public class ContainerController extends HttpServlet {
 		LogisticCompany company = JSONWriter.getCompany();
 		model.addAttribute("company",company);
 		model.addAttribute("clientContainers",company.getContainerDatabase());
+		model.addAttribute("clients",company.getClients());
 	    return "WelcomeC";
 
 	}
@@ -260,16 +262,44 @@ public class ContainerController extends HttpServlet {
 			
 		}
 		
-		@GetMapping("/endJourney/{id}")
-		public String endJourney(@PathVariable("id") int id, Journey journey,Model model) throws FileNotFoundException {
+		@GetMapping("/removeJourney/{id}")
+		public String endJourney(@PathVariable("id") int id	,Model model) throws IOException {
 			
 			LogisticCompany company = JSONWriter.getCompany();
 			JourneyDatabase journeys = company.getJourneyDatabase();
+			Journey journey = journeys.getJourney(id);
+			journey.endJourney();
+			journeys.remove(journey);
+			company.setJourneys(journeys);
+			JSONWriter.saveCompany(company);
 			model.addAttribute("journeys",journeys);
 			
-			return "redirect:journeys";
+			return "redirect:/journeys";
 			
 		}
 		
+	    @GetMapping("/progressJourney/{id}")
+		public String progressJourney(@PathVariable("id") int id,Model model) throws IOException {
+//			Can be rewritten to allow custom timeIncrements
+			LogisticCompany company = JSONWriter.getCompany();
+			JourneyDatabase journeys = company.getJourneyDatabase();
+			Journey journey = journeys.getJourney(id);
+			journeys.remove(journey);
+			JourneyDataGenerator.progressJourney(journey,10);
+			journeys.add(journey);
+			company.setJourneys(journeys);
+			JSONWriter.saveCompany(company);
+			model.addAttribute("journeys",journeys);
+			
+			return "redirect:/journeys";
+			
+		}
+	    @GetMapping("/allocateContainer/{id}")
+	    public String allocateContainer(@PathVariable("id") int id,Model model) throws IOException {
+	    	
+	    	
+	    	
+	    	return "redirect:/WelcomeC";
+	    }
 	
 }
