@@ -11,7 +11,10 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.HashSet;
 import java.util.LinkedHashMap; 
-import java.util.Map; 
+import java.util.Map;
+
+import javax.servlet.RequestDispatcher;
+
 import org.json.simple.JSONArray; 
 import org.json.simple.JSONObject;
 
@@ -70,21 +73,11 @@ public class JSONWriter{
  
 
 public static void main(String[] args) throws IOException {
-	LogisticCompany company = JSONWriter.getCompany();
-	ClientDatabase ClientDB = company.getClients();
-	Client client = ClientDB.getClient("mediumman1@dtu.dk");
-	Client client1 = new Client("Bob1","mediumman1@dtu.dk","22-12-1900","male",10101010,"kode123");
-	Client client2 = new Client("Bob2","mediumman1@dtu.dk","22-12-1900","male",10101010,"kode123");
-	Client client3 = new Client("Bob3","mediumman1@dtu.dk","22-12-1900","male",10101010,"kode123");
-	company.newClient(client1);
-	company.newClient(client2);
-	company.newClient(client3);
-	JSONWriter.saveCompany(company);
-	System.out.println(JSONWriter.checkPass("mediumman1@dtu.dk", "kode123"));
-	if (JSONWriter.checkPass("mediumman1@dtu.dk", "kode123")) {
-		System.out.println("Virker");
-	}
-	JSONWriter.setIn(client);
-	System.out.println("Halal");
+	Gson gson = new Gson();
+	 Reader reader = new FileReader(filepath);
+	 LogisticCompany company = gson.fromJson(reader, LogisticCompany.class);
+	 System.out.println(company.getPassword());
+	 System.out.println(company.getName());
+
 }
 }

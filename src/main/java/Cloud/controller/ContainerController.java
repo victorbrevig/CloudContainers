@@ -44,6 +44,66 @@ public class ContainerController extends HttpServlet {
 		return "index";
 		
 	}
+	@PostMapping("/")
+	public String add3(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws IOException {
+		response.setContentType("text/html"); 
+		String name=request.getParameter("companyName"); 
+	    String mail=request.getParameter("userName"); 
+	    String pass=request.getParameter("userPass");
+	    System.out.println(name);
+	    System.out.println(mail);
+	    System.out.println(pass);
+	    LogisticCompany company = JSONWriter.getCompany();
+	    if (name==null) {
+	    if (JSONWriter.checkPass(mail, pass)){ 
+			ClientDatabase ClientDB = company.getClients();
+			Client client = ClientDB.getClient(mail);
+		    JSONWriter.setIn(client);
+		    RequestDispatcher rd=request.getRequestDispatcher("/Welcome.html"); 
+			Set<Container> clientContainers = company.getContainerDatabase().filterClient(client);
+			model.addAttribute("client",client);
+			model.addAttribute("clientContainers",clientContainers);
+			model.addAttribute("clients",company.getClients());
+			return "redirect:Welcome";
+		}
+	    responseObject1.setErrorMessage("Invalid login");
+	    model.addAttribute("response",responseObject1);
+		return "createJourney";}
+		else if (mail==null) {
+	    	if (company.getPassword().equals(pass) && company.getName().equals(name)) {
+		    	RequestDispatcher rd=request.getRequestDispatcher("/WelcomeC.html"); 
+				model.addAttribute("company",company);
+				model.addAttribute("clientContainers",company.getContainerDatabase());
+				model.addAttribute("clients",company.getClients());
+				return "redirect:WelcomeC";
+		    }   
+		    else {
+		    responseObject1.setErrorMessage("Invalid login");
+		    model.addAttribute("response",responseObject1);
+		    return "CompanyLogin";}
+		    }
+	    return "Yeet";}
+		
+//	@PostMapping("/")
+//	public String add4(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws IOException {
+//		System.out.println("Stonks");
+//		response.setContentType("text/html");   
+//	    String name=request.getParameter("userName"); 
+//	    String pass=request.getParameter("userPass");
+//	    System.out.println(name + pass);
+//	    LogisticCompany company = JSONWriter.getCompany();
+//	    if (company.getPassword().equals(pass) && company.getName().equals(name)) {
+//	    	RequestDispatcher rd=request.getRequestDispatcher("/WelcomeC.html"); 
+//			model.addAttribute("company",company);
+//			model.addAttribute("clientContainers",company.getContainerDatabase());
+//			model.addAttribute("clients",company.getClients());
+//			return "redirect:WelcomeC";
+//	    }   
+//	    else {
+//	    responseObject1.setErrorMessage("Invalid login");
+//	    model.addAttribute("response",responseObject1);
+//	    return "CompanyLogin";}
+//	    }
 	
 	@GetMapping("/ClientLogin")
 	public String add(Client client ,Model model) {

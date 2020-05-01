@@ -3,6 +3,9 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
@@ -59,8 +62,86 @@ body, html {
   color:white;
 }
 
-
-
+.modal-login {		
+		color: #636363;
+		width: 350px;
+	}
+	.modal-login .modal-content {
+		padding: 20px;
+		border-radius: 5px;
+		border: none;
+	}
+	.modal-login .modal-header {
+		border-bottom: none;   
+        position: relative;
+        justify-content: center;
+	}
+	.modal-login h4 {
+		text-align: center;
+		font-size: 26px;
+		margin: 30px 0 -15px;
+	}
+	.modal-login .form-control:focus {
+		border-color: #70c5c0;
+	}
+	.modal-login .form-control, .modal-login .btn {
+		min-height: 40px;
+		border-radius: 3px; 
+	}
+	.modal-login .close {
+        position: absolute;
+		top: -5px;
+		right: -5px;
+	}	
+	.modal-login .modal-footer {
+		background: #ecf0f1;
+		border-color: #dee4e7;
+		text-align: center;
+        justify-content: center;
+		margin: 0 -20px -20px;
+		border-radius: 5px;
+		font-size: 13px;
+	}
+	.modal-login .modal-footer a {
+		color: #999;
+	}		
+	.modal-login .avatar {
+		position: absolute;
+		margin: 0 auto;
+		left: 0;
+		right: 0;
+		top: -70px;
+		width: 95px;
+		height: 95px;
+		border-radius: 50%;
+		z-index: 9;
+		background: #60c7c1;
+		padding: 15px;
+		box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+	}
+	.modal-login .avatar img {
+		width: 100%;
+	}
+	.modal-login.modal-dialog {
+		margin-top: 80px;
+	}
+    .modal-login .btn {
+        color: #fff;
+        border-radius: 4px;
+		background: #60c7c1;
+		text-decoration: none;
+		transition: all 0.4s;
+        line-height: normal;
+        border: none;
+    }
+	.modal-login .btn:hover, .modal-login .btn:focus {
+		background: #45aba6;
+		outline: none;
+	}
+	.trigger-btn {
+		display: inline-block;
+		margin: 100px auto;
+	}
 </style>
 </head>
 <body>
@@ -88,9 +169,9 @@ body, html {
           Login
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/ClientLogin">Client</a>
+          <a class="dropdown-item" href="#ClientIn" data-toggle="modal">Client</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/CompanyLogin">Company</a>
+          <a class="dropdown-item" href="#CompanyIn" data-toggle="modal">Company</a>
         </div>
    </span>
 
@@ -107,7 +188,62 @@ body, html {
   </div>
 </div>
 
+<div id="ClientIn" class="modal fade">
+	<div class="modal-dialog modal-login">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="avatar">
+					<img src="https://scontent-cph2-1.xx.fbcdn.net/v/t1.0-9/55807393_10214429331992440_8856390291414843392_o.jpg?_nc_cat=104&_nc_sid=85a577&_nc_ohc=jt4EV0dYIpAAX810_2-&_nc_ht=scontent-cph2-1.xx&oh=c391dd9c99839e340771e3924ad8313c&oe=5ED2FE13" alt="Avatar">
+				</div>				
+				<h4 class="modal-title">Client Login</h4>	
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			</div>
+			<div class="modal-body">
+				<form action = "/" method="post">
+					<div class="form-group">
+						<input type="text" class="form-control" name="userName" placeholder="Mail" required="required">		
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control" name="userPass" placeholder="Password" required="required">	
+					</div>        
+					<div class="form-group">
+						<button type="submit" onclick="add3(HttpServletRequest request, HttpServletResponse response)" class="btn btn-primary btn-lg btn-block login-btn">Login</button>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<a href="#">Register as new client</a>
+			</div>
+		</div>
+	</div>
+</div> 
 
+<div id="CompanyIn" class="modal fade">
+	<div class="modal-dialog modal-login">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="avatar">
+					<img src="https://scontent-cph2-1.xx.fbcdn.net/v/t1.0-9/55807393_10214429331992440_8856390291414843392_o.jpg?_nc_cat=104&_nc_sid=85a577&_nc_ohc=jt4EV0dYIpAAX810_2-&_nc_ht=scontent-cph2-1.xx&oh=c391dd9c99839e340771e3924ad8313c&oe=5ED2FE13" alt="Avatar">
+				</div>				
+				<h4 class="modal-title">Company Login</h4>	
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			</div>
+			<div class="modal-body">
+				<form action = "/" method="post">
+					<div class="form-group">
+						<input type="text" class="form-control" name="companyName" placeholder="Company Name" required="required">		
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control" name="userPass" placeholder="Password" required="required">	
+					</div>        
+					<div class="form-group">
+						<button type="submit" onclick="add3(HttpServletRequest request, HttpServletResponse response)" class="btn btn-primary btn-lg btn-block login-btn">Login</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 
 
 
