@@ -240,7 +240,7 @@ public class Client {
 	 * @return response
 	 */
 	
-	public ResponseObject containerToJourney(Container container, Journey journey, String content) {
+	public ResponseObject containerToJourney(Container container, Journey journey) {
 		ResponseObject response = new ResponseObject("Container successfully added to journey");
 
 		boolean belongsToClient = container.getOwner().equals(this);
@@ -250,9 +250,7 @@ public class Client {
 			return response;
 		}
 		
-		container.setContent(content);
 		container.addJourney(journey);
-		journey.getContainerDB().add(container);
 		return response;
 	}
 	

@@ -6,7 +6,7 @@ Feature: access data as client
     And a journey from "Copenhagen" to "Oslo" with 80 hours to destination
     And existing client
     And three containers registered to the client
- 		And the containers are put on the journey containing "bananas", "milk" and "oranges" respectively
+ 		And the containers are put on the journey
  		And journey is started and run for 10 hours
  		When client request the data for his container
     Then the status of the container is returned
@@ -26,6 +26,6 @@ Feature: access data as client
     And a journey from "Copenhagen" to "Oslo" with 80 hours to destination
     And existing client
     And three containers registered to the client
- 		And the containers are put on the journey containing "bananas", "milk" and "oranges" respectively
+ 		And the containers are put on the journey
  		When client request the data for his container
     Then a error message is returned for journey has not started

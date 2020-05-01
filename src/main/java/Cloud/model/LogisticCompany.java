@@ -34,7 +34,6 @@ public class LogisticCompany {
 	private ClientDatabase clients;
 
 	private ContainerDatabase containers;
-
 	
 	private JourneyDatabase journeys;
 
@@ -91,14 +90,6 @@ public class LogisticCompany {
 		this.containers = containers;
 	}
 
-	/**Sets journey database
-	 * 
-	 * @param journeys
-	 */
-
-	public void setJourneys(JourneyDatabase journeys) {
-		this.journeys = journeys;
-	}
 	/**Sets client database
 	 * 
 	 * @param clients
@@ -133,6 +124,13 @@ public class LogisticCompany {
 	 */
 	public JourneyDatabase getJourneyDatabase() {
 		return journeys;
+	}
+	/** This method sets the journey database of the company.
+	 * 
+	 * @return A journey database object
+	 */
+	public void setJourneyDatabase(JourneyDatabase journeys) {
+		this.journeys = journeys;
 	}
 	
 	/** This method fetches the container database of the company.
@@ -275,14 +273,56 @@ public class LogisticCompany {
 	public boolean clientExists(String email) {
 		return clients.stream().anyMatch(c -> c.getEmail().equals(email));
 	}
+	/**Gets password
+	 * 
+	 * @return password
+	 */
 	
 	public String getPassword() {
 		return password;
 	}
+	/**Gets companies name
+	 * 
+	 * @return
+	 */
+	
+	
 	public String getName() {
 		return name;
 	}
 	
+	/** This method ends the journey.
+	 * 
+	 * @return response
+	 */
+	public ResponseObject endJourney(Journey journey) {
+		ResponseObject response = new ResponseObject();
+		
+		int countFree = 0;
+		
+		journey.setStarted(false);
+
+		countFree = freeUpContainers(countFree, journey);
+		
+		response.setErrorMessage("Journey successfully ended. " + countFree + " containers were set free.");
+		
+		return response;
+	}
+	
+	/** This method frees up all containers associated with this journey.
+	 * 
+	 * @param countFree 
+	 * @return countFree - how many containers was freed
+	 */
+	private int freeUpContainers(int countFree,Journey journey) {
+		for (Container container : containers.filterJourney(journey)) {
+				container.setCurrentJourney(null);
+				container.setOnJourney(false);
+				container.setContent("");
+				countFree++;
+		}
+		return countFree;
+	}
 	
 	
 

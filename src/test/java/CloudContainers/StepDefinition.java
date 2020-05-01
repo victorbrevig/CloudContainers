@@ -306,7 +306,7 @@ public class StepDefinition{
 
 	@When("logistic company tries to put container on journey")
 	public void logistic_company_tries_to_put_container_on_journey() {
-	    response = client1.containerToJourney(container, journey, "Bananas");
+	    response = client1.containerToJourney(container, journey);
 	    
 	}
 	@Then("success message is displayed")
@@ -419,7 +419,7 @@ public class StepDefinition{
 
 	@When("logistic company tries to end journey")
 	public void logistic_company_tries_to_end_journey() {
-	    response = journey.endJourney();
+	    response = lc.endJourney(journey);
 	}
 
 	@Then("message displayed saying journey successfully ended for {int} containers")
@@ -476,17 +476,17 @@ public class StepDefinition{
 		container3 = lc.getContainerDatabase().findFreeContainer();
 		lc.allocateContainer(client1, container3);
 	}
-	@Given("the containers are put on the journey containing {string}, {string} and {string} respectively")
-	public void the_containers_are_put_on_the_journey_containing_and_respectively(String string, String string2, String string3) {
-		client1.containerToJourney(container1, journey, string);
-	    client1.containerToJourney(container2, journey, string2);
-	    client1.containerToJourney(container3, journey, string3);
+	@Given("the containers are put on the journey")
+	public void the_containers_are_put_on_the_journey() {
+		client1.containerToJourney(container1, journey);
+	    client1.containerToJourney(container2, journey);
+	    client1.containerToJourney(container3, journey);
 	}
 	
 	
 	@When("journey is started and run for {int} hours")
 	public void journey_is_started_and_run_for_hours(Integer int1) {
-	    response = JourneyDataGenerator.progressJourney(journey,int1);
+	    response = JourneyDataGenerator.progressJourney(lc,journey,int1);
 	}
 	
 	@Then("journey elapsed time is updated to {int} hours")
@@ -568,13 +568,13 @@ public class StepDefinition{
 	public void the_container_has_been_on_one_journey_from_to_and_another_journey_from_to(String string, String string2, String string3, String string4) {
 		journey1 = new Journey(string, string2,10);
 	    lc.newJourney(journey1);
-	    client1.containerToJourney(container, journey1, "Chocolate");
-		JourneyDataGenerator.progressJourney(journey1,10);
+	    client1.containerToJourney(container, journey1);
+		JourneyDataGenerator.progressJourney(lc,journey1,10);
 		
 		journey2 = new Journey(string3, string4,20);
 	    lc.newJourney(journey2);
-	    client1.containerToJourney(container, journey2, "Banana");
-	    JourneyDataGenerator.progressJourney(journey2,20);
+	    client1.containerToJourney(container, journey2);
+	    JourneyDataGenerator.progressJourney(lc,journey2,20);
 		
 	}
 
@@ -626,9 +626,9 @@ public class StepDefinition{
 	ResponseObject response1;
 	ResponseObject response2;
 	
-	@Given("the container is put on the journey containing {string}")
-	public void the_container_is_put_on_the_journey_containing(String string) {
-		client2.containerToJourney(container, journey, string);
+	@Given("the container is put on the journey")
+	public void the_container_is_put_on_the_journey() {
+		client2.containerToJourney(container, journey);
 	}
 
 	@When("client with container grants other client access to data of container")

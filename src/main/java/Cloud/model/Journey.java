@@ -17,9 +17,6 @@ public class Journey {
 	private int journeyID;
 	private String portOfOrigin;
 	private String destination;
-	
-	private ContainerDatabase containerDB = new ContainerDatabase();
-	
 	private boolean isStarted;
 	private int timeToDestination;
 	private int elapsedTime;
@@ -48,13 +45,6 @@ public class Journey {
 		this.journeyID = journeyID;
 	}
 
-	/** This method sets the container database
-	 * 
-	 * @param containerDB
-	 */
-	public void setContainerDB(ContainerDatabase containerDB) {
-		this.containerDB = containerDB;
-	}
 	
 	/** This method gets the amount of hours that journey has been underway for
 	 * 
@@ -132,13 +122,7 @@ public class Journey {
 		this.isStarted = isStarted;
 	}
 	
-	/** This method gets the container database
-	 * 
-	 * @return containerDB - type ContainerDatabase
-	 */
-	public ContainerDatabase getContainerDB() {
-		return containerDB;
-	}
+
 	
 	/** This method fetches the ID of this journey
 	 * 
@@ -203,41 +187,7 @@ public class Journey {
 		return result;
 	}
 	
-	/** This method ends the journey.
-	 * 
-	 * @return response
-	 */
-	
-	
-	public ResponseObject endJourney() {
-		ResponseObject response = new ResponseObject();
-		
-		int countFree = 0;
-		
-		this.setStarted(false);
 
-		countFree = freeUpContainers(countFree);
-		
-		response.setErrorMessage("Journey successfully ended. " + countFree + " containers were set free.");
-		
-		return response;
-	}
-	
-	/** This method frees up all containers associated with this journey.
-	 * 
-	 * @param countFree 
-	 * @return countFree - how many containers was freed
-	 */
-	private int freeUpContainers(int countFree) {
-//		The filter returns null
-		for (Container container : containerDB) {
-				container.setCurrentJourney(null);
-				container.setOnJourney(false);
-				container.setContent("");
-				countFree++;
-		}
-		return countFree;
-	}
 	
 	/**Checks if a journeys duration is in bounds
 	 * 
