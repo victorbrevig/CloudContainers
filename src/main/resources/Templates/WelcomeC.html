@@ -97,49 +97,29 @@ tr:nth-child(even) {
     <td style="text-align:center" th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getDestination()} : 'N/A'" />
     <td style="text-align:center" th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getTimeToDestination()} : 'N/A'" />
     
-    <td style="text-align:center"><a href="/allocate/${container.getContainerID()}">Allocate</a></td>
+    <td style="text-align:center">
+    	<div class="dropdown" th:if="${container.getOwner() == null}">
+		  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		    Allocate
+		  </button>
+		  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		  <th:block th:each="client: ${clients}">
+		    <a class="dropdown-item" th:text="${client.getName()}" th:href="@{'/allocateContainer/' + ${client.getClientID()} + '/' + ${container.getContainerID()}}"></a>
+		  </th:block>
+		  </div>
+		</div>
+		
+		<div th:if="${!(container.getOwner() == null)}">
+			Owned
+		</div>
+			
+		</td>
     <td style="text-align:center"><a href="/container/${container.getContainerID()}">View</a></td>
    </tr>
   </th:block>
   </tbody>
 </table>
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-  Allocate Container
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Choose client</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="dropdown">
-		  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		    Clients
-		  </button>
-		  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-		  <th:block th:each="client: ${clients}">
-		    <a class="dropdown-item" th:href="@{'/allocateContainer/' + ${client.getClientID()}}">Action</a>
-		  </th:block>
-		  </div>
-		</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-</div>
 
 </body>
 </html>

@@ -21,7 +21,7 @@ public class ContainerDatabase extends HashSet<Container>{
 
 	public Set<Container> filterClient(Client client) {
 		Set<Container> filtered = this.stream()
-				.filter(container -> container.getOwner().equals(client))
+				.filter(container -> container.getAccessClients().contains(client))
 				.collect(Collectors.toSet());
 		return filtered;	
 	}
@@ -63,7 +63,21 @@ public class ContainerDatabase extends HashSet<Container>{
 			}
 		}
 		return null;
-		}
+	}
+	
+	
+	/** Gets a container given a unique containerID
+	 * 
+	 * @param containerID
+	 * @return container
+	 */
+	public Container getContainer(int containerID) {
+		for (Container c : this) {
+			if (c.getContainerID() == containerID) {
+				return c;
+			}
+		} return null;
+	}
 
 	
 }

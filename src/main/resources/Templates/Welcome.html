@@ -42,7 +42,7 @@ tr:nth-child(even) {
 
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="/WelcomeC">CloudContainers</a>
+  <a class="navbar-brand" href="/Welcome">CloudContainers</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -84,14 +84,39 @@ tr:nth-child(even) {
     <th>Destination</th>
     <th>Time to Destination</th>
     <th>Status Data</th>
+    <th>Accessibility</th>
+    <th>Grant access</th>
   </tr>
   <tr th:each="container: ${clientContainers}">
-    <td th:text="${container.getContainerID()}" />
-    <td th:text="${container.getContent()}" />
-    <td th:text="${container.getCurrentJourney().getPortOfOrigin()}" />
-    <td th:text="${container.getCurrentJourney().getDestination()}" />
-    <td th:text="${container.getCurrentJourney().getTimeToDestination()}" />
-    <td th:text="${container.getCurrentJourney().getTimeToDestination()}" />
+    <td style="text-align:center" th:text="${container.getContainerID()}" />
+    <td style="text-align:center" th:text="${!(container.getContent().equals('')) ? container.getContent() : 'No content yet'}" />
+	<td style="text-align:center" th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getPortOfOrigin()} : 'N/A'" />
+    <td style="text-align:center" th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getDestination()} : 'N/A'" />
+    <td style="text-align:center" th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getTimeToDestination()} : 'N/A'" />
+    <td style="text-align:center" th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getTimeToDestination()} : 'N/A'" />
+    <td style="text-align:center" th:text="${container.getOwner().equals(client)} ? 'Owned' : 'Has access'" />
+    <td style="text-align:center">
+    	<div class="dropdown" th:if="${!(container.getOwner() == null) ? client.equals(container.getOwner()) : false}">
+		  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		    Allow
+		  </button>
+		  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		  <th:block th:each="toClient: ${clients}">
+		    <a class="dropdown-item" th:if="${!(container.getAccessClients().contains(toClient))}" th:text="${toClient.getName()}" th:href="@{'/grantAccess/' + ${toClient.getClientID()} + '/' + ${container.getContainerID()}}"></a>
+		  </th:block>
+		  </div>
+		</div>
+		
+		<div th:if="${!(container.getOwner() == null) ? !(client.equals(container.getOwner())) : false}">
+			Not your container
+		</div>
+		<div th:if="${container.getOwner() == null}">
+			Not your container
+		</div>
+		
+		</td>
+    
+
 	</tr>
 </table>
 

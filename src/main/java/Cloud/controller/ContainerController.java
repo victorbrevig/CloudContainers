@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServlet;
@@ -61,7 +62,10 @@ public class ContainerController extends HttpServlet {
 			Client client = ClientDB.getClient(mail);
 		    JSONWriter.setIn(client);
 		    RequestDispatcher rd=request.getRequestDispatcher("/Welcome.html"); 
+			Set<Container> clientContainers = company.getContainerDatabase().filterClient(client);
 			model.addAttribute("client",client);
+			model.addAttribute("clientContainers",clientContainers);
+			model.addAttribute("clients",company.getClients());
 			return "redirect:Welcome";
 		}
 	    responseObject1.setErrorMessage("Invalid login");
@@ -103,8 +107,12 @@ public class ContainerController extends HttpServlet {
 		
 	@GetMapping("/Welcome" )
 	public String welcome(Model model) throws FileNotFoundException {
+		LogisticCompany company = JSONWriter.getCompany();
 		Client client = JSONWriter.getIn();
+		Set<Container> clientContainers = company.getContainerDatabase().filterClient(client);
 		model.addAttribute("client",client);
+		model.addAttribute("clientContainers",clientContainers);
+		model.addAttribute("clients",company.getClients());
 		return "Welcome";
 			
 
@@ -294,12 +302,46 @@ public class ContainerController extends HttpServlet {
 			return "redirect:/journeys";
 			
 		}
-	    @GetMapping("/allocateContainer/{id}")
-	    public String allocateContainer(@PathVariable("id") int id,Model model) throws IOException {
+
+	    
+	    @GetMapping("/allocateContainer/{clientID}/{containerID}")
+	    public String allocateContainer(@PathVariable("clientID") int clientID,@PathVariable("containerID") int containerID,Model model) throws IOException {
 	    	
+			LogisticCompany company = JSONWriter.getCompany();
+			
+			Client client = company.getClients().getClient(clientID);
+			Container container = company.getContainerDatabase().getContainer(containerID);
+			
+			company.allocateContainer(client, container);
+			
+			JSONWriter.saveCompany(company);
 	    	
-	    	
+			model.addAttribute("company",company);
+			model.addAttribute("clientContainers",company.getContainerDatabase());
+			model.addAttribute("clients",company.getClients());
+			
 	    	return "redirect:/WelcomeC";
+	    }
+	    
+	    @GetMapping("/grantAccess/{toClientID}/{containerID}")
+	    public String grantAccess(@PathVariable("toClientID") int toClientID,@PathVariable("containerID") int containerID,Model model) throws IOException {
+	    	
+			LogisticCompany company = JSONWriter.getCompany();
+			
+			Client toClient = company.getClients().getClient(toClientID);
+			company.getContainerDatabase().getContainer(containerID).grantAccess(toClient);
+
+			
+			JSONWriter.saveCompany(company);
+	    	
+			Client client = JSONWriter.getIn();
+			
+			model.addAttribute("client",client);
+			model.addAttribute("clientContainers",company.getContainerDatabase());
+			model.addAttribute("clients",company.getClients());
+			
+			
+	    	return "redirect:/Welcome";
 	    }
 	
 }

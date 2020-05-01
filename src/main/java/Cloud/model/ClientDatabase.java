@@ -22,7 +22,6 @@ public class ClientDatabase extends HashSet<Client> {
 		 * @param clientID
 		 * @return client
 		 */
-	
 		public Client getClient(int clientID) {
 			for (Client c :this) {
 				if (c.getClientID() == clientID) {
