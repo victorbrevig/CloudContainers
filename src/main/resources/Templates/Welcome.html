@@ -86,6 +86,7 @@ tr:nth-child(even) {
     <th>Status Data</th>
     <th>Accessibility</th>
     <th>Grant access</th>
+    <th>Place on journey</th>
   </tr>
   <tr th:each="container: ${clientContainers}">
     <td style="text-align:center" th:text="${container.getContainerID()}" />
@@ -114,8 +115,25 @@ tr:nth-child(even) {
 			Not your container
 		</div>
 		
-		</td>
-    
+	</td>
+		
+    <td style="text-align:center">
+    	<div class="dropdown" th:if="${!container.isOnJourney()}">
+		  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		    Journeys
+		  </button>
+		  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		  <th:block th:each="journey: ${journeys}">
+		    <a class="dropdown-item" th:text="${journey.getPortOfOrigin() + ' - ' + journey.getDestination() + ' JourneyID: ' + journey.getJourneyID() + }" 
+		    	th:href="@{'/toJourney/' + ${journey.getJourneyID()} + '/' + ${container.getContainerID()}}"></a>
+		  </th:block>
+		  </div>
+		</div>
+		
+		<div th:if="${container.isOnJourney()}" th:text="${'On journey ' + container.getCurrentJourney().getJourneyID()}"></div>
+		
+		
+	</td>
 
 	</tr>
 </table>

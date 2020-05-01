@@ -343,5 +343,25 @@ public class ContainerController extends HttpServlet {
 			
 	    	return "redirect:/Welcome";
 	    }
+	    
+	    @GetMapping("/toJourney/{journeyID}/{containerID}")
+	    public String toJourney(@PathVariable("journeyID") int journeyID,@PathVariable("containerID") int containerID,Model model) throws IOException {
+	    	
+			LogisticCompany company = JSONWriter.getCompany();
+			
+			Container container = company.getContainerDatabase().getContainer(containerID);
+			
+			
+			JSONWriter.saveCompany(company);
+	    	
+			Client client = JSONWriter.getIn();
+			
+			model.addAttribute("client",client);
+			model.addAttribute("clientContainers",company.getContainerDatabase());
+			model.addAttribute("clients",company.getClients());
+			
+			
+	    	return "redirect:/Welcome";
+	    }
 	
 }

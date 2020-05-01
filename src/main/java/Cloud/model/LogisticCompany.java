@@ -90,14 +90,7 @@ public class LogisticCompany {
 	public void setContainers(ContainerDatabase containers) {
 		this.containers = containers;
 	}
-	/**Gets journey database
-	 * 
-	 * @return journeys
-	 */
 
-	public JourneyDatabase getJourneys() {
-		return journeys;
-	}
 	/**Sets journey database
 	 * 
 	 * @param journeys
