@@ -118,6 +118,7 @@ public class ContainerController extends HttpServlet {
 			model.addAttribute("client",client);
 			model.addAttribute("clientContainers",clientContainers);
 			model.addAttribute("clients",company.getClients());
+			model.addAttribute("journeys", company.getJourneyDatabase());
 			return "redirect:Welcome";
 		}
 	    responseObject1.setErrorMessage("Invalid login");
@@ -165,6 +166,7 @@ public class ContainerController extends HttpServlet {
 		model.addAttribute("client",client);
 		model.addAttribute("clientContainers",clientContainers);
 		model.addAttribute("clients",company.getClients());
+		model.addAttribute("journeys", company.getJourneyDatabase());
 		return "Welcome";
 			
 
@@ -210,6 +212,9 @@ public class ContainerController extends HttpServlet {
 				JSONWriter.saveCompany(company);
 				JSONWriter.setIn(client);
 				model.addAttribute("client",client);
+				model.addAttribute("clientContainers",company.getContainerDatabase());
+				model.addAttribute("clients",company.getClients());
+				model.addAttribute("journeys",company.getJourneyDatabase());
 				return "redirect:Welcome";
 			}
 			else if (company.clientExists(email)){
@@ -229,7 +234,12 @@ public class ContainerController extends HttpServlet {
 		}
 		@PostMapping("/Register")
 		public String Register(HttpServletRequest request, HttpServletResponse response,Model model) throws IOException {
+<<<<<<< HEAD
 			System.out.println("Yeey");  
+=======
+			 
+			response.setContentType("text/html");
+>>>>>>> origin/containerToJourney
 		    String name = request.getParameter("userName");  
 		    String email = request.getParameter("userMail"); 
 		    String birthdate = request.getParameter("userBirthdate");  
@@ -321,9 +331,9 @@ public class ContainerController extends HttpServlet {
 			LogisticCompany company = JSONWriter.getCompany();
 			JourneyDatabase journeys = company.getJourneyDatabase();
 			Journey journey = journeys.getJourney(id);
-			journey.endJourney();
+			company.endJourney(journey);
 			journeys.remove(journey);
-			company.setJourneys(journeys);
+			company.setJourneyDatabase(journeys);
 			JSONWriter.saveCompany(company);
 			model.addAttribute("journeys",journeys);
 			
@@ -338,9 +348,9 @@ public class ContainerController extends HttpServlet {
 			JourneyDatabase journeys = company.getJourneyDatabase();
 			Journey journey = journeys.getJourney(id);
 			journeys.remove(journey);
-			JourneyDataGenerator.progressJourney(journey,10);
+			JourneyDataGenerator.progressJourney(company,journey,10);
 			journeys.add(journey);
-			company.setJourneys(journeys);
+			company.setJourneyDatabase(journeys);
 			JSONWriter.saveCompany(company);
 			model.addAttribute("journeys",journeys);
 			
@@ -384,8 +394,33 @@ public class ContainerController extends HttpServlet {
 			model.addAttribute("client",client);
 			model.addAttribute("clientContainers",company.getContainerDatabase());
 			model.addAttribute("clients",company.getClients());
+			model.addAttribute("journeys",company.getJourneyDatabase());
 			
 			
+	    	return "redirect:/Welcome";
+	    }
+	    
+	    @GetMapping("/toJourney/{journeyID}/{containerID}")
+	    public String toJourney(@PathVariable("journeyID") int journeyID,@PathVariable("containerID") int containerID,Model model) throws IOException {
+	    	
+			LogisticCompany company = JSONWriter.getCompany();
+			Client client = JSONWriter.getIn();
+			client.containerToJourney(company.getContainerDatabase().getContainer(containerID), company.getJourneyDatabase().getJourney(journeyID));
+			JSONWriter.saveCompany(company);
+			
+			model.addAttribute("client",client);
+			model.addAttribute("clientContainers",company.getContainerDatabase());
+			model.addAttribute("journeys",company.getJourneyDatabase());
+			model.addAttribute("clients",company.getClients());
+	    	return "redirect:/Welcome";
+	    }
+	    
+	    @PostMapping("/content/{id}")
+	    public String content(@PathVariable("id")int containerID,Model model,HttpServletRequest request, HttpServletResponse response) throws IOException {
+	    	String content = request.getParameter("content");  
+	    	LogisticCompany company = JSONWriter.getCompany();
+	    	company.getContainerDatabase().getContainer(containerID).setContent(content);
+	    	JSONWriter.saveCompany(company);
 	    	return "redirect:/Welcome";
 	    }
 	

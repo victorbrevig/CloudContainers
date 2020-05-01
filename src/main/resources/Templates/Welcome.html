@@ -76,7 +76,7 @@ tr:nth-child(even) {
 </div>
 <br>
 
-<table style="width:70%;margin-left:auto;margin-right:auto">
+<table style="width:80%;margin-left:auto;margin-right:auto">
   <tr>
     <th>Container ID</th>
     <th>Content</th>
@@ -86,10 +86,20 @@ tr:nth-child(even) {
     <th>Status Data</th>
     <th>Accessibility</th>
     <th>Grant access</th>
+    <th>Place on journey</th>
   </tr>
   <tr th:each="container: ${clientContainers}">
     <td style="text-align:center" th:text="${container.getContainerID()}" />
-    <td style="text-align:center" th:text="${!(container.getContent().equals('')) ? container.getContent() : 'No content yet'}" />
+     
+    <td style="text-align:center" >
+    <form th:if="${container.getContent().equals('')}" th:action="@{'/content/' + ${container.getContainerID()}}" method="post">
+     <div class="form-group">
+	    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Content" name="content" required>
+ 	 </div>
+  	</form>
+  	<p th:if="${!(container.getContent().equals(''))}" th:text="${container.getContent()}"></p>
+  	</td>
+    
 	<td style="text-align:center" th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getPortOfOrigin()} : 'N/A'" />
     <td style="text-align:center" th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getDestination()} : 'N/A'" />
     <td style="text-align:center" th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getTimeToDestination()} : 'N/A'" />
@@ -114,8 +124,24 @@ tr:nth-child(even) {
 			Not your container
 		</div>
 		
-		</td>
-    
+	</td>
+		
+    <td style="text-align:center">
+    	<div class="dropdown" th:if="${!container.isOnJourney()}">
+		  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		    Journeys
+		  </button>
+		  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		  <th:block th:each="journey: ${journeys}">
+		    <a class="dropdown-item" th:text="${journey.getPortOfOrigin() + ' - ' + journey.getDestination() + ' ID: ' + journey.getJourneyID() }" th:href="@{'/toJourney/' + ${journey.getJourneyID()} + '/' + ${container.getContainerID()}}"></a>
+		  </th:block>
+		  </div>
+		</div>
+		
+		<div th:if="${container.isOnJourney()}" th:text="${'On journey ' + container.getCurrentJourney().getJourneyID()}"></div>
+		
+		
+	</td>
 
 	</tr>
 </table>

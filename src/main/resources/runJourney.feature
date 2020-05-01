@@ -8,7 +8,7 @@ Feature: elapse time for journey
     Given a journey from "Copenhagen" to "Oslo" with 80 hours to destination
     And existing client
     And three containers registered to the client
- 		And the containers are put on the journey containing "bananas", "milk" and "oranges" respectively
+ 		And the containers are put on the journey
     When journey is started and run for 10 hours
     Then journey elapsed time is updated to 10 hours
     And data has been collected up till 10 hours
@@ -20,7 +20,7 @@ Feature: elapse time for journey
     Given a journey from "Copenhagen" to "Oslo" with 5 hours to destination
     And existing client
     And three containers registered to the client
- 		And the containers are put on the journey containing "bananas", "milk" and "oranges" respectively
+ 		And the containers are put on the journey
     When journey is started and run for 10 hours
     Then journey elapsed time is updated to 5 hours
     And data has been collected up till 5 hours
@@ -42,7 +42,7 @@ Feature: elapse time for journey
     Given a journey from "Copenhagen" to "Oslo" with 80 hours to destination
     And existing client
     And three containers registered to the client
- 		And the containers are put on the journey containing "bananas", "milk" and "oranges" respectively
+ 		And the containers are put on the journey
     When journey is started and run for 0 hours
     Then journey elapsed time is updated to 0 hours
     And no data has been collected

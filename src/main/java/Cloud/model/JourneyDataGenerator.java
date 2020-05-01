@@ -13,7 +13,7 @@ public class JourneyDataGenerator {
 	 * @param timeIncrement - number of hours to progress
 	 * @return response
 	 */
-	public static ResponseObject progressJourney(Journey journey, int timeIncrement) {
+	public static ResponseObject progressJourney(LogisticCompany company,Journey journey, int timeIncrement) {
 		ResponseObject response = new ResponseObject();
 		int elapsedTime = journey.getElapsedTime();
 		int timeToDestination = journey.getTimeToDestination();
@@ -37,7 +37,7 @@ public class JourneyDataGenerator {
 		for (int i = 1; i<= timeIncrement;i++) {
 //			Checking if the journey has ended
 			if (timeToDestination == 0) {
-				journey.endJourney();
+				company.endJourney(journey);
 				break;
 			} 
 			
@@ -50,7 +50,7 @@ public class JourneyDataGenerator {
 			double randAirHumIncrement = rand.nextDouble() * (rand.nextBoolean() ? -1 : 1) * 0.05;
 			
 //			Changing status data for containers registered to this journey
-			for (Container container : journey.getContainerDB()) {
+			for (Container container : company.getContainerDatabase().filterJourney(journey)) {
 			
 					oneContainerOnJourney = true;
 					newTemp = container.getTemperature() + randTempIncrement;
@@ -77,7 +77,7 @@ public class JourneyDataGenerator {
 			
 //			When the timeIncrement doesn't exceed the time to destination
 			if (timeToDestination == 0) {
-				journey.endJourney();
+				company.endJourney(journey);
 			} 
 		}
 		
