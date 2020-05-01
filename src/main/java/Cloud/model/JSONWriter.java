@@ -78,6 +78,7 @@ public static void main(String[] args) throws IOException {
 	 LogisticCompany company = gson.fromJson(reader, LogisticCompany.class);
 	 System.out.println(company.getPassword());
 	 System.out.println(company.getName());
+	 System.out.println(company.clientExists("Adam"));
 
 }
 }

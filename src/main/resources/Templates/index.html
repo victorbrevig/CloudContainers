@@ -201,10 +201,12 @@ body, html {
 			<div class="modal-body">
 				<form action = "/" method="post">
 					<div class="form-group">
-						<input type="text" class="form-control" name="userName" placeholder="Mail" required="required">		
+						<input type="text" class="form-control" name="userName" placeholder="Be kind to enter your Mail" required="required">		
+						<small id="errorMsg2" class="form-text text-muted" th:text="${response1.getErrorMessage()}" th:unless="${response1 == null}"></small>
 					</div>
 					<div class="form-group">
-						<input type="password" class="form-control" name="userPass" placeholder="Password" required="required">	
+						<input type="password" class="form-control" name="userPass" placeholder="Be kind to enter your Password" required="required">	
+						<small id="errorMsg1" class="form-text text-muted" th:text="${response.getErrorMessage()}" th:unless="${response == null}"></small>
 					</div>        
 					<div class="form-group">
 						<button type="submit" onclick="add3(HttpServletRequest request, HttpServletResponse response)" class="btn btn-primary btn-lg btn-block login-btn">Login</button>
@@ -231,10 +233,12 @@ body, html {
 			<div class="modal-body">
 				<form action = "/" method="post">
 					<div class="form-group">
-						<input type="text" class="form-control" name="companyName" placeholder="Company Name" required="required">		
+						<input type="text" class="form-control" name="companyName" placeholder="Company Name" required="required">	
+						<small id="errorMsg3" class="form-text text-muted" th:text="${response3.getErrorMessage()}" th:unless="${response3 == null}"></small>	
 					</div>
 					<div class="form-group">
 						<input type="password" class="form-control" name="userPass" placeholder="Password" required="required">	
+						<small id="errorMsg4" class="form-text text-muted" th:text="${response4.getErrorMessage()}" th:unless="${response4 == null}"></small>
 					</div>        
 					<div class="form-group">
 						<button type="submit" onclick="add3(HttpServletRequest request, HttpServletResponse response)" class="btn btn-primary btn-lg btn-block login-btn">Login</button>

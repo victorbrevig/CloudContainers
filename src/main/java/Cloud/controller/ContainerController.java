@@ -55,7 +55,13 @@ public class ContainerController extends HttpServlet {
 	    System.out.println(pass);
 	    LogisticCompany company = JSONWriter.getCompany();
 	    if (name==null) {
-	    if (JSONWriter.checkPass(mail, pass)){ 
+	    if (company.clientExists(mail)==false) {
+	    	responseObject1.setErrorMessage("Sir your mail is not in our database, please register");
+		    model.addAttribute("response1",responseObject1);
+	    	return "/index";
+	    }
+	    
+	    else if (JSONWriter.checkPass(mail, pass)){
 			ClientDatabase ClientDB = company.getClients();
 			Client client = ClientDB.getClient(mail);
 		    JSONWriter.setIn(client);
@@ -66,10 +72,16 @@ public class ContainerController extends HttpServlet {
 			model.addAttribute("clients",company.getClients());
 			return "redirect:Welcome";
 		}
-	    responseObject1.setErrorMessage("Invalid login");
+	    responseObject1.setErrorMessage("Password does not match your email sir");
 	    model.addAttribute("response",responseObject1);
-		return "createJourney";}
+		return "/index";
+		}
 		else if (mail==null) {
+			if (company.getName().equals(name)==false) {
+				responseObject1.setErrorMessage("Not valid company name");
+			    model.addAttribute("response3",responseObject1);
+		    	return "/index";
+			}
 	    	if (company.getPassword().equals(pass) && company.getName().equals(name)) {
 		    	RequestDispatcher rd=request.getRequestDispatcher("/WelcomeC.html"); 
 				model.addAttribute("company",company);
@@ -78,32 +90,12 @@ public class ContainerController extends HttpServlet {
 				return "redirect:WelcomeC";
 		    }   
 		    else {
-		    responseObject1.setErrorMessage("Invalid login");
-		    model.addAttribute("response",responseObject1);
-		    return "CompanyLogin";}
+		    responseObject1.setErrorMessage("Invalid company password");
+		    model.addAttribute("response4",responseObject1);
+		    return "/index";}
 		    }
 	    return "Yeet";}
-		
-//	@PostMapping("/")
-//	public String add4(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws IOException {
-//		System.out.println("Stonks");
-//		response.setContentType("text/html");   
-//	    String name=request.getParameter("userName"); 
-//	    String pass=request.getParameter("userPass");
-//	    System.out.println(name + pass);
-//	    LogisticCompany company = JSONWriter.getCompany();
-//	    if (company.getPassword().equals(pass) && company.getName().equals(name)) {
-//	    	RequestDispatcher rd=request.getRequestDispatcher("/WelcomeC.html"); 
-//			model.addAttribute("company",company);
-//			model.addAttribute("clientContainers",company.getContainerDatabase());
-//			model.addAttribute("clients",company.getClients());
-//			return "redirect:WelcomeC";
-//	    }   
-//	    else {
-//	    responseObject1.setErrorMessage("Invalid login");
-//	    model.addAttribute("response",responseObject1);
-//	    return "CompanyLogin";}
-//	    }
+
 	
 	@GetMapping("/ClientLogin")
 	public String add(Client client ,Model model) {
