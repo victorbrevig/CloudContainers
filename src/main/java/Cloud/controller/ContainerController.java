@@ -270,7 +270,7 @@ public class ContainerController extends HttpServlet {
 		}
 		
 		@GetMapping("/container/{id}")
-		public String containerPage(@PathVariable("id") int id, Container container,Model model) {
+		public String containerPage(@PathVariable("id") int id,Model model) {
 			
 			
 			return "ContainerPage";
