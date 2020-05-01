@@ -187,11 +187,6 @@ public class ContainerController extends HttpServlet {
 		public String containerInfo(Model model) {
 			return "ContainerInfo";
 		}
-//		@PostMapping("/ContainerInfo")
-//		public String containerInfo(HttpServletRequest request, HttpServletResponse response,Model model) throws IOException   {
-//		    
-//	
-//		}
 
 		@PostMapping("/UpdateInfo")
 		public String updateinfo(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
@@ -234,9 +229,7 @@ public class ContainerController extends HttpServlet {
 		}
 		@PostMapping("/Register")
 		public String Register(HttpServletRequest request, HttpServletResponse response,Model model) throws IOException {
-			 
-			response.setContentType("text/html");
-		    PrintWriter out = response.getWriter();  
+			System.out.println("Yeey");  
 		    String name = request.getParameter("userName");  
 		    String email = request.getParameter("userMail"); 
 		    String birthdate = request.getParameter("userBirthdate");  
@@ -250,10 +243,10 @@ public class ContainerController extends HttpServlet {
 		 
 		    if(responseObject1.getErrorMessage().equals("Client was successfully added")) {
 		    	JSONWriter.saveCompany(company);
-		        return "redirect:ClientLogin";
+		        return "/Welcome";
 		    }
 		    model.addAttribute("response", responseObject1);
-	        return "Register";
+	        return "/index";
 			
 		}
 		
