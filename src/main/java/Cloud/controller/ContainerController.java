@@ -234,12 +234,9 @@ public class ContainerController extends HttpServlet {
 		}
 		@PostMapping("/Register")
 		public String Register(HttpServletRequest request, HttpServletResponse response,Model model) throws IOException {
-<<<<<<< HEAD
 			System.out.println("Yeey");  
-=======
 			 
 			response.setContentType("text/html");
->>>>>>> origin/containerToJourney
 		    String name = request.getParameter("userName");  
 		    String email = request.getParameter("userMail"); 
 		    String birthdate = request.getParameter("userBirthdate");  
@@ -247,16 +244,28 @@ public class ContainerController extends HttpServlet {
 		    int phonenumber = Integer.parseInt(request.getParameter("userNumber"));  
 		    String password = request.getParameter("userPass"); 
 		    Client client = new Client(name,email,birthdate,gender,phonenumber,password);
-		    
-		    LogisticCompany company = JSONWriter.getCompany();
-			responseObject1 = company.newClient(client);
-		 
-		    if(responseObject1.getErrorMessage().equals("Client was successfully added")) {
-		    	JSONWriter.saveCompany(company);
-		        return "/Welcome";
-		    }
 		    model.addAttribute("response", responseObject1);
-	        return "/index";
+		    LogisticCompany company = JSONWriter.getCompany();
+			
+		    
+			if(company.clientExists(email)) {
+				responseObject1.setErrorMessage("Email Already exist, try again");
+				System.out.println(responseObject1.getErrorMessage());
+				return "Register";
+			}
+			if (!company.clientExists(email)){
+				responseObject1 = company.newClient(client);
+				System.out.println("YOINK");
+
+				if(responseObject1.getErrorMessage().equals("Client was successfully added")) {
+					JSONWriter.saveCompany(company);
+			        return "/Welcome";
+			}
+		
+			}
+		
+			
+	        return "Register";
 			
 		}
 		

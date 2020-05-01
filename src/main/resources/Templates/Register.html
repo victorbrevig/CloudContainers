@@ -89,11 +89,13 @@
 <article class="card-body mx-auto" style="max-width: 400px;">
 	<h4 class="card-title mt-3 text-center">Register as client</h4>
 	<p class="text-center">Cloud Containers</p>
-	<form>
+	
+	<form action = "/Register" method="post">
 	<div class="form-group input-group">
 		<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
 		 </div>
+		 
         <input name="userName" class="form-control" placeholder="Full name" type="text">
     </div> <!-- form-group// -->
     <div class="form-group input-group">
@@ -120,21 +122,20 @@
         <input name="userBirthdate" class="form-control" placeholder="Birthday dd-mm-yyyy" type="text">
     </div> <!-- form-group// -->
     <div class="form-group input-group">
-    	<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-building"></i> </span>
-		</div>
-		<select class="form-control">
-			<option selected="">Please select gender</option>
-			<option>Male</option>
-		</select>
-	</div> <!-- form-group end.// -->
+		<div class="input-group-prepend">
+		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+		 </div>
+        <input name="userGender" class="form-control" placeholder="Enter Gender" type="text">
+    </div> <!-- form-group// -->
     <div class="form-group input-group">
-    	<div class="input-group-prepend">
+    	<div class="input-group-prepend"> 
 		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
 		</div>
         <input name="userPass" class="form-control" placeholder="Create password" type="password">
     </div> <!-- form-group// -->                                     
     <div class="form-group">
+    	<small id="errorMsg6" class="form-text text-muted" th:text="${response.getErrorMessage()}" th:unless="${response == null}"></small>	
+    
         <button type="submit" onclick="Register(HttpServletRequest request, HttpServletResponse response,Model model)" class="btn btn-primary btn-block"> Create Client  </button>
     </div> <!-- form-group// -->                                                                      
 </form>
