@@ -40,6 +40,15 @@ public class ContainerJourneyInfo {
 		return clients;
 	}
 	
+	/**Sets journey
+	 * 
+	 * @param journey
+	 */
+
+	public void setJourney(Journey journey) {
+		this.journey = journey;
+	}
+	
 
 
 	

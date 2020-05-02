@@ -291,7 +291,7 @@ public class ContainerController extends HttpServlet {
 				model.addAttribute("journeysInfo",journeyHist);
 				return "ContainerPageC";
 			}
-			
+		
 			
 			
 			Journey journey = company.getJourneyDatabase().getJourney(journeyID);
@@ -301,6 +301,32 @@ public class ContainerController extends HttpServlet {
 			model.addAttribute("container",container);
 			model.addAttribute("journeysInfo",journeyHist);
 			return "ContainerPageC";
+		}
+		
+		@GetMapping("/container/{containerID}/{journeyID}")
+		public String containerPage(@PathVariable("containerID") int containerID,@PathVariable("journeyID") int journeyID,Model model) throws FileNotFoundException {
+			
+			LogisticCompany company = JSONWriter.getCompany();
+			Container container = company.getContainerDatabase().getContainer(containerID);
+			Client client = JSONWriter.getIn();
+			ArrayList<ContainerJourneyInfo> journeyHist = company.getContainers().getContainer(containerID).getJourneyHistory();
+			ArrayList<Journey> journeys = container.getHistoryOfContainerForClient(client).getJourneyHist();
+			if (journeyID == -1) {
+				// Get most current journey
+				Journey journey = journeyHist.get(journeyHist.size() - 1).getJourney();
+				
+				model.addAttribute("journey",journey);
+				model.addAttribute("container",container);
+				model.addAttribute("journeys",journeys);
+				return "ContainerPage";
+			}
+		
+			Journey journey = company.getJourneyDatabase().getJourney(journeyID);
+			
+			model.addAttribute("journey",journey);
+			model.addAttribute("container",container);
+			model.addAttribute("journeys",journeys);
+			return "ContainerPage";
 		}
 		
 		
@@ -380,14 +406,11 @@ public class ContainerController extends HttpServlet {
 		
 	    @GetMapping("/progressJourney/{id}")
 		public String progressJourney(@PathVariable("id") int id,Model model) throws IOException {
-//			Can be rewritten to allow custom timeIncrements
+
 			LogisticCompany company = JSONWriter.getCompany();
-			
-//			Journey journey = journeys.getJourney(id);
-//			journeys.remove(journey);
+
 			JourneyDataGenerator.progressJourney(company,company.getJourneyDatabase().getJourney(id),10);
-//			journeys.add(journey);
-//			company.setJourneyDatabase(journeys);
+
 			JourneyDatabase journeys = company.getJourneyDatabase();
 			JSONWriter.saveCompany(company);
 			model.addAttribute("journeys",journeys);

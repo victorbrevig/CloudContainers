@@ -61,6 +61,7 @@ public class JourneyDataGenerator {
 					container.setAirHumidity(newAirHum);
 					
 					container.setCurrentJourney(journey);
+					container.getJourneyHistory().get(container.getJourneyHistory().size() - 1).setJourney(journey);
 			}
 			elapsedTime++;
 			timeToDestination--;

@@ -54,8 +54,6 @@ tr:nth-child(even) {
           Settings
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Register container to journey</a>
-          <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="/UpdateInfo">Update Information</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="/logout">Log out</a>
@@ -76,14 +74,14 @@ tr:nth-child(even) {
 </div>
 <br>
 
-<table style="width:80%;margin-left:auto;margin-right:auto">
+<table style="width:90%;margin-left:auto;margin-right:auto">
   <tr>
     <th>Container ID</th>
     <th>Content</th>
     <th>Port of Origin</th>
     <th>Destination</th>
     <th>Time to Destination</th>
-    <th>Status Data</th>
+    <th>History</th>
     <th>Accessibility</th>
     <th>Grant access</th>
     <th>Place on journey</th>
@@ -103,7 +101,7 @@ tr:nth-child(even) {
 	<td style="text-align:center" th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getPortOfOrigin()} : 'N/A'" />
     <td style="text-align:center" th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getDestination()} : 'N/A'" />
     <td style="text-align:center" th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getTimeToDestination()} : 'N/A'" />
-    <td style="text-align:center"><a th:href="@{'/container/' + ${container.getContainerID()}}">See status</a></td>
+    <td style="text-align:center"><a th:href="@{'/container/' + ${container.getContainerID() + '/-1'}}">View</a></td>
     <td style="text-align:center" th:text="${container.getOwner().equals(client)} ? 'Owned' : 'Has access'" />
     <td style="text-align:center">
     	<div class="dropdown" th:if="${!(container.getOwner() == null) ? client.equals(container.getOwner()) : false}">
