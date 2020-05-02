@@ -59,6 +59,8 @@ public class JourneyDataGenerator {
 					container.setPressure(newPressure);
 					newAirHum = container.getAirHumidity() + randAirHumIncrement;
 					container.setAirHumidity(newAirHum);
+					
+					container.setCurrentJourney(journey);
 			}
 			elapsedTime++;
 			timeToDestination--;

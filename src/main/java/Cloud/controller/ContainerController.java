@@ -3,6 +3,7 @@ package Cloud.controller;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -151,6 +152,7 @@ public class ContainerController extends HttpServlet {
 	@GetMapping("/WelcomeC")
 	public String WelcomeCompany(Model model) throws IOException {
 		LogisticCompany company = JSONWriter.getCompany();
+		model.addAttribute("journeys",company.getJourneyDatabase());
 		model.addAttribute("company",company);
 		model.addAttribute("clientContainers",company.getContainerDatabase());
 		model.addAttribute("clients",company.getClients());
@@ -171,11 +173,7 @@ public class ContainerController extends HttpServlet {
 			
 
 }
-		@GetMapping("/container")
-		public String plotpage(Model model) {
-			return "ContainerPage";
-			
-		}
+
 		
 		@GetMapping("/UpdateInfo")
 		public String updateinfo(ModelMap model) throws FileNotFoundException {
@@ -274,8 +272,38 @@ public class ContainerController extends HttpServlet {
 			
 			
 			return "ContainerPage";
-			
 		}
+		
+		
+		@GetMapping("/containerC/{containerID}/{journeyID}")
+		public String containerPageC(@PathVariable("containerID") int containerID,@PathVariable("journeyID") int journeyID,Model model) throws FileNotFoundException {
+			
+			LogisticCompany company = JSONWriter.getCompany();
+			Container container = company.getContainerDatabase().getContainer(containerID);
+			ArrayList<ContainerJourneyInfo> journeyHist = company.getContainers().getContainer(containerID).getJourneyHistory();
+			
+			if (journeyID == -1) {
+				// Get most current journey
+				Journey journey = journeyHist.get(journeyHist.size() - 1).getJourney();
+				
+				model.addAttribute("journey",journey);
+				model.addAttribute("container",container);
+				model.addAttribute("journeysInfo",journeyHist);
+				return "ContainerPageC";
+			}
+			
+			
+			
+			Journey journey = company.getJourneyDatabase().getJourney(journeyID);
+			
+			
+			model.addAttribute("journey",journey);
+			model.addAttribute("container",container);
+			model.addAttribute("journeysInfo",journeyHist);
+			return "ContainerPageC";
+		}
+		
+		
 		
 		@GetMapping("/updateCompany/{id}")
 		public String updateCompany(@PathVariable("id") int id, LogisticCompany company,Model model) {
@@ -354,12 +382,13 @@ public class ContainerController extends HttpServlet {
 		public String progressJourney(@PathVariable("id") int id,Model model) throws IOException {
 //			Can be rewritten to allow custom timeIncrements
 			LogisticCompany company = JSONWriter.getCompany();
+			
+//			Journey journey = journeys.getJourney(id);
+//			journeys.remove(journey);
+			JourneyDataGenerator.progressJourney(company,company.getJourneyDatabase().getJourney(id),10);
+//			journeys.add(journey);
+//			company.setJourneyDatabase(journeys);
 			JourneyDatabase journeys = company.getJourneyDatabase();
-			Journey journey = journeys.getJourney(id);
-			journeys.remove(journey);
-			JourneyDataGenerator.progressJourney(company,journey,10);
-			journeys.add(journey);
-			company.setJourneyDatabase(journeys);
 			JSONWriter.saveCompany(company);
 			model.addAttribute("journeys",journeys);
 			

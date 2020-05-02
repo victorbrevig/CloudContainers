@@ -84,7 +84,7 @@ tr:nth-child(even) {
     <th style="text-align:center">Destination</th>
     <th style="text-align:center">Time to Destination</th>
     <th style="text-align:center">Allocate Container</th>
-    <th style="text-align:center">Status data</th>
+    <th style="text-align:center">History</th>
 
   </tr>
   </thead>
@@ -114,7 +114,7 @@ tr:nth-child(even) {
 		</div>
 			
 		</td>
-    <td style="text-align:center"><a href="/container/${container.getContainerID()}">View</a></td>
+    <td style="text-align:center"><a th:href="@{'/containerC/' + ${container.getContainerID() + '/-1'}}">View</a></td>
    </tr>
   </th:block>
   </tbody>

@@ -20,7 +20,7 @@ public class Journey {
 	private boolean isStarted;
 	private int timeToDestination;
 	private int elapsedTime;
-	private ArrayList<DataPoint> statusData = new ArrayList<DataPoint>();
+	private DataStorage statusData = new DataStorage();
 	
 	
 	/** Create a new journey
@@ -80,9 +80,9 @@ public class Journey {
 
 	/** This method fetches the data for the journey
 	 * 
-	 * @return statusData - ArrayList of DataPoint
+	 * @return statusData - DataStorage of DataPoint
 	 */
-	public ArrayList<DataPoint> getStatusData() {
+	public DataStorage getStatusData() {
 		return statusData;
 	}
 
