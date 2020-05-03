@@ -231,8 +231,7 @@ public class ContainerController extends HttpServlet {
 			
 		}
 		@PostMapping("/Register")
-		public String Register(HttpServletRequest request, HttpServletResponse response,Model model) throws IOException {
-			System.out.println("Yeey");  
+		public String Register(HttpServletRequest request, HttpServletResponse response,Model model) throws IOException { 
 			 
 			response.setContentType("text/html");
 		    String name = request.getParameter("userName");  
@@ -253,7 +252,6 @@ public class ContainerController extends HttpServlet {
 			}
 			if (!company.clientExists(email)){
 				responseObject1 = company.newClient(client);
-				System.out.println("YOINK");
 
 				if(responseObject1.getErrorMessage().equals("Client was successfully added")) {
 					JSONWriter.saveCompany(company);
@@ -293,9 +291,7 @@ public class ContainerController extends HttpServlet {
 			}
 		
 			
-			
 			Journey journey = company.getJourneyDatabase().getJourney(journeyID);
-			
 			
 			model.addAttribute("journey",journey);
 			model.addAttribute("container",container);
@@ -485,4 +481,50 @@ public class ContainerController extends HttpServlet {
 	    	return "redirect:/Welcome";
 	    }
 	
+	    
+	    @GetMapping("/removeContainer/{containerID}")
+	    public String removeContainer(@PathVariable("containerID") int containerID,Model model) throws IOException {
+	    	
+			LogisticCompany company = JSONWriter.getCompany();
+			
+			Client client = JSONWriter.getIn();
+			
+			client.removeContainer(company.getContainerDatabase().getContainer(containerID));
+			
+			JSONWriter.saveCompany(company);
+			
+			model.addAttribute("client",client);
+			model.addAttribute("clientContainers",company.getContainerDatabase());
+			model.addAttribute("clients",company.getClients());
+			model.addAttribute("journeys",company.getJourneyDatabase());
+			
+	    	return "redirect:/Welcome";
+	    }
+	    
+	    
+	    @PostMapping("/viewClient")
+	    public String viewClientPost(Model model,HttpServletRequest request, HttpServletResponse response) throws IOException {
+	    	String email = request.getParameter("email");
+	    	LogisticCompany company = JSONWriter.getCompany();
+	    	
+	    	if (company.getClients().getClient(email) == null) {
+	    		
+	    		String error = "Client not found";
+	    		model.addAttribute("error",error);
+				model.addAttribute("clientContainers",company.getContainerDatabase());
+				model.addAttribute("clients",company.getClients());
+				model.addAttribute("journeys",company.getJourneyDatabase());
+	    		return "redirect:/WelcomeC";
+	    	}
+	    	
+	    	Client client = company.getClients().getClient(email);
+	    	model.addAttribute("client",client);
+	    	model.addAttribute("clientContainers",company.getContainerDatabase());
+			model.addAttribute("clients",company.getClients());
+			model.addAttribute("journeys",company.getJourneyDatabase());
+	    	return "ViewClient";
+	    }
+	    
+	    
+	    
 }

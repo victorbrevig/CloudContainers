@@ -254,7 +254,21 @@ public class Client {
 		return response;
 	}
 	
+	
+	/** This method removes the container from the client
+	 * 
+	 * @param container
+	 */
+	public void removeContainer(Container container) {
+		
+		if (container.getOwner().equals(this)) {
+			container.setOwner(null);
+			container.getAccessClients().remove(this);
+		}
 
+		container.getAccessClients().remove(this);
+		
+	}
 	
 //	/** Prints clients information
 //	 * 

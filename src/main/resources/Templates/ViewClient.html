@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.thead-dark {
+  th {
+    color: $table-dark-color;
+    background-color: $table-dark-bg;
+    border-color: $table-dark-border-color;
+  }
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  text-align: left;
+  padding: 16px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+
+</style>
+</head>
+<body>
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/WelcomeC">CloudContainers</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Settings
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/logout">Log out</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/journeys">Journeys</a>
+      </li>
+    </ul>
+	<form class="form-inline my-2 my-lg-0" action="/viewClient" method="post">
+      <input class="form-control mr-sm-2" id="inputEmail" name="email" type="text" th:placeholder="${!(error == null) ? error : 'Search client email'}" aria-label="Search" required>
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+
+<br>
+<div style="text-align:center">
+<h1 th:text="${client.getName()}"></h1>
+</div>
+<br>
+
+<table style="width:90%;margin-left:auto;margin-right:auto">
+  <tr>
+    <th style="text-align:center">Container ID</th>
+    <th style="text-align:center">Content</th>
+    <th style="text-align:center">Port of Origin</th>
+    <th style="text-align:center">Destination</th>
+    <th style="text-align:center">Time to Destination</th>
+    <th style="text-align:center">History</th>
+    <th style="text-align:center">Accessibility</th>
+  </tr>
+  <tr th:each="container: ${clientContainers}">
+    <td style="text-align:center" th:text="${container.getContainerID()}" />
+     
+    <td style="text-align:center" >
+    <form th:if="${container.getContent().equals('')}" th:action="@{'/content/' + ${container.getContainerID()}}" method="post">
+     <div class="form-group">
+	    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Content" name="content" required>
+ 	 </div>
+  	</form>
+  	<h6 th:if="${!(container.getContent().equals(''))}" th:text="${container.getContent()}"></h6>
+  	</td>
+    
+	<td style="text-align:center" th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getPortOfOrigin()} : 'N/A'" />
+    <td style="text-align:center" th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getDestination()} : 'N/A'" />
+    <td style="text-align:center" th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getTimeToDestination()} : 'N/A'" />
+    <td style="text-align:center"><a th:href="@{'/containerC/' + ${container.getContainerID() + '/-1'}}">View</a></td>
+    <td style="text-align:center" th:text="${container.getOwner().equals(client)} ? 'Owned' : 'Has access'" />
+   
+</table>
+
+
+</body>
+</html>

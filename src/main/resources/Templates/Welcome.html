@@ -76,15 +76,16 @@ tr:nth-child(even) {
 
 <table style="width:90%;margin-left:auto;margin-right:auto">
   <tr>
-    <th>Container ID</th>
-    <th>Content</th>
-    <th>Port of Origin</th>
-    <th>Destination</th>
-    <th>Time to Destination</th>
-    <th>History</th>
-    <th>Accessibility</th>
-    <th>Grant access</th>
-    <th>Place on journey</th>
+    <th style="text-align:center">Container ID</th>
+    <th style="text-align:center">Content</th>
+    <th style="text-align:center">Port of Origin</th>
+    <th style="text-align:center">Destination</th>
+    <th style="text-align:center">Time to Destination</th>
+    <th style="text-align:center">History</th>
+    <th style="text-align:center">Accessibility</th>
+    <th style="text-align:center">Grant access</th>
+    <th style="text-align:center">Place on journey</th>
+    <th style="text-align:center">Remove</th>
   </tr>
   <tr th:each="container: ${clientContainers}">
     <td style="text-align:center" th:text="${container.getContainerID()}" />
@@ -95,7 +96,7 @@ tr:nth-child(even) {
 	    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Content" name="content" required>
  	 </div>
   	</form>
-  	<p th:if="${!(container.getContent().equals(''))}" th:text="${container.getContent()}"></p>
+  	<h6 th:if="${!(container.getContent().equals(''))}" th:text="${container.getContent()}"></h6>
   	</td>
     
 	<td style="text-align:center" th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getPortOfOrigin()} : 'N/A'" />
@@ -140,6 +141,8 @@ tr:nth-child(even) {
 		
 		
 	</td>
+	
+	<td style="text-align:center"><a class="text-danger" th:href="@{'/removeContainer/' + ${container.getContainerID()}}">Remove</a></td>
 
 	</tr>
 </table>
