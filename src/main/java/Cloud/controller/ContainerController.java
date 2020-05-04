@@ -156,7 +156,6 @@ public class ContainerController extends HttpServlet {
 		model.addAttribute("clientContainers",company.getContainerDatabase());
 		model.addAttribute("clients",company.getClients());
 	    return "WelcomeC";
-
 	}
 		
 	@GetMapping("/Welcome" )
@@ -492,10 +491,13 @@ public class ContainerController extends HttpServlet {
 				JSONWriter.saveCompany(company);
 				model.addAttribute("journeys",company.getJourneyDatabase());
 	    	} catch(Exception e) {
-	    			
+	    		responseObject2.setErrorMessage("Insert number please");
+	    		model.addAttribute("company",company);
+				model.addAttribute("journeys",company.getJourneyDatabase());
+	    		model.addAttribute("responseObject2",responseObject2);
 	    	}
 	    	
-	    	return "redirect:/journeys";
+	    	return "journeys";
 	    }
 	
 	    
@@ -527,12 +529,12 @@ public class ContainerController extends HttpServlet {
 	    	if (company.getClients().getClient(email) == null) {
 	    		
 	    		responseObject1.setErrorMessage("Client not found");
-
+	    		model.addAttribute("company",company);
 	    		model.addAttribute("responseObject1",responseObject1);
 				model.addAttribute("clientContainers",company.getContainerDatabase());
 				model.addAttribute("clients",company.getClients());
 				model.addAttribute("journeys",company.getJourneyDatabase());
-	    		return "redirect:/WelcomeC";
+	    		return "WelcomeC";
 	    	}
 	    	
 	    	Client client = company.getClients().getClient(email);

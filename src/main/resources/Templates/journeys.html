@@ -100,7 +100,7 @@ tr:nth-child(even) {
     <td style="text-align:center">
     <form th:if="${journey.getTimeToDestination() > 0}" th:action="@{'/progressJourney/' + ${journey.getJourneyID()}}" method="post">
      <div class="form-group">
-	    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="progress time" name="timeIncrement" required>
+	    <input type="text" class="form-control" id="exampleInputPassword1" th:placeholder="${!(responseObject2 == null) ? responseObject2.getErrorMessage() : 'Progress time'}" name="timeIncrement" required>
  	 </div>
   	</form>
   	<p th:if="${journey.getTimeToDestination() == 0}">Journey has ended</p>

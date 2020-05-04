@@ -24,22 +24,18 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="/about">About</a>
+        <a class="nav-link" href="/about">Contact</a>
       </li>
-      
-    <li class="nav-item">
-        <a class="nav-link" href="/covid">COVID-19</a>
-    </li>
     </ul>
     
-   <span class="nav-item dropdown" id="spanner">
+    <span class="nav-item dropdown" id="spanner">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Login
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/ClientLogin">Client</a>
+          <a class="dropdown-item" href="#ClientIn" data-toggle="modal">Client</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/CompanyLogin">Company</a>
+          <a class="dropdown-item" href="#CompanyIn" data-toggle="modal">Company</a>
         </div>
    </span>
 
@@ -76,5 +72,69 @@
     </div>
   </div>
 </div>
+
+
+<div id="ClientIn" class="modal fade">
+	<div class="modal-dialog modal-login">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="avatar">
+					<img src="https://scontent-cph2-1.xx.fbcdn.net/v/t1.0-9/55807393_10214429331992440_8856390291414843392_o.jpg?_nc_cat=104&_nc_sid=85a577&_nc_ohc=jt4EV0dYIpAAX810_2-&_nc_ht=scontent-cph2-1.xx&oh=c391dd9c99839e340771e3924ad8313c&oe=5ED2FE13" alt="Avatar">
+				</div>				
+				<h4 class="modal-title">Client Login</h4>	
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			</div>
+			<div class="modal-body">
+				<form action = "/" method="post">
+					<div class="form-group">
+						<input type="text" class="form-control" name="userName" placeholder="Be kind to enter your Mail" required="required">		
+						<small id="errorMsg2" class="form-text text-muted" th:text="${response1.getErrorMessage()}" th:unless="${response1 == null}"></small>
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control" name="userPass" placeholder="Be kind to enter your Password" required="required">	
+						<small id="errorMsg1" class="form-text text-muted" th:text="${response.getErrorMessage()}" th:unless="${response == null}"></small>
+					</div>        
+					<div class="form-group">
+						<button type="submit" onclick="add3(HttpServletRequest request, HttpServletResponse response)" class="btn btn-primary btn-lg btn-block login-btn">Login</button>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<a href="/Register">Register as new client</a>
+			</div>
+		</div>
+	</div>
+</div> 
+
+<div id="CompanyIn" class="modal fade">
+	<div class="modal-dialog modal-login">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="avatar">
+					<img src="https://scontent-cph2-1.xx.fbcdn.net/v/t1.0-9/55807393_10214429331992440_8856390291414843392_o.jpg?_nc_cat=104&_nc_sid=85a577&_nc_ohc=jt4EV0dYIpAAX810_2-&_nc_ht=scontent-cph2-1.xx&oh=c391dd9c99839e340771e3924ad8313c&oe=5ED2FE13" alt="Avatar">
+				</div>				
+				<h4 class="modal-title">Company Login</h4>	
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			</div>
+			<div class="modal-body">
+				<form action = "/" method="post">
+					<div class="form-group">
+						<input type="text" class="form-control" name="companyName" placeholder="Company Name" required="required">	
+						<small id="errorMsg3" class="form-text text-muted" th:text="${response3.getErrorMessage()}" th:unless="${response3 == null}"></small>	
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control" name="userPass" placeholder="Password" required="required">	
+						<small id="errorMsg4" class="form-text text-muted" th:text="${response4.getErrorMessage()}" th:unless="${response4 == null}"></small>
+					</div>        
+					<div class="form-group">
+						<button type="submit" onclick="add3(HttpServletRequest request, HttpServletResponse response)" class="btn btn-primary btn-lg btn-block login-btn">Login</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 </body>
 </html>
