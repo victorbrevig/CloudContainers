@@ -62,8 +62,8 @@ tr:nth-child(even) {
         <a class="nav-link" href="/createJourney">Create Journey</a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <form class="form-inline my-2 my-lg-0" action="/viewClient" method="post">
+      <input class="form-control mr-sm-2" id="inputEmail" name="email" type="text" th:placeholder="${!(responseObject1 == null) ? responseObject1.getErrorMessage() : 'Search client email'}" aria-label="Search" required>
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
   </div>
@@ -84,7 +84,7 @@ tr:nth-child(even) {
     <th style="text-align:center">Destination</th>
     <th style="text-align:center">Time to Destination</th>
     <th style="text-align:center">On route</th>
-    <th style="text-align:center">Progress Journey</th>
+    <th style="text-align:center">Progress Journey (whole hours)</th>
      <th style="text-align:center">Remove Journey</th>
 
   </tr>
@@ -97,7 +97,14 @@ tr:nth-child(even) {
     <td style="text-align:center" th:text="${!(journey == null)} ? ${journey.getDestination()} : 'N/A'" />
     <td style="text-align:center" th:text="${!(journey == null)} ? ${journey.getTimeToDestination()} : 'N/A'" />
     <td style="text-align:center" th:text="${!(journey == null)} ? ${journey.isStarted()} : 'N/A'" />
-    <td style="text-align:center"><a th:href="@{'/progressJourney/' + ${journey.getJourneyID()}}">Progress</a></td>
+    <td style="text-align:center">
+    <form th:if="${journey.getTimeToDestination() > 0}" th:action="@{'/progressJourney/' + ${journey.getJourneyID()}}" method="post">
+     <div class="form-group">
+	    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="progress time" name="timeIncrement" required>
+ 	 </div>
+  	</form>
+  	<p th:if="${journey.getTimeToDestination() == 0}">Journey has ended</p>
+  	</td>
     <td style="text-align:center"><a th:href="@{'/removeJourney/' + ${journey.getJourneyID()}}" style="color:red">Remove</a></td>
    </tr>
   </th:block>

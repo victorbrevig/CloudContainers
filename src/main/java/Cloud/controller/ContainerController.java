@@ -400,20 +400,7 @@ public class ContainerController extends HttpServlet {
 			
 		}
 		
-	    @GetMapping("/progressJourney/{id}")
-		public String progressJourney(@PathVariable("id") int id,Model model) throws IOException {
 
-			LogisticCompany company = JSONWriter.getCompany();
-
-			JourneyDataGenerator.progressJourney(company,company.getJourneyDatabase().getJourney(id),10);
-
-			JourneyDatabase journeys = company.getJourneyDatabase();
-			JSONWriter.saveCompany(company);
-			model.addAttribute("journeys",journeys);
-			
-			return "redirect:/journeys";
-			
-		}
 
 	    
 	    @GetMapping("/allocateContainer/{clientID}/{containerID}")
@@ -479,6 +466,24 @@ public class ContainerController extends HttpServlet {
 	    	company.getContainerDatabase().getContainer(containerID).setContent(content);
 	    	JSONWriter.saveCompany(company);
 	    	return "redirect:/Welcome";
+	    }
+	    
+
+	    
+	    @PostMapping("/progressJourney/{id}")
+	    public String progressInput(@PathVariable("id")int journeyID,Model model,HttpServletRequest request, HttpServletResponse response) throws IOException {
+	    	LogisticCompany company = JSONWriter.getCompany();
+	    	try {
+	    		int timeIncrement = Integer.parseInt(request.getParameter("timeIncrement"));   
+		    	
+		    	JourneyDataGenerator.progressJourney(company,company.getJourneyDatabase().getJourney(journeyID),timeIncrement);
+				JSONWriter.saveCompany(company);
+				model.addAttribute("journeys",company.getJourneyDatabase());
+	    	} catch(Exception e) {
+	    			
+	    	}
+	    	
+	    	return "redirect:/journeys";
 	    }
 	
 	    
