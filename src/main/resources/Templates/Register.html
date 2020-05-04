@@ -96,13 +96,13 @@
 		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
 		 </div>
 		 
-        <input name="userName" class="form-control" placeholder="Full name" type="text">
+        <input name="userName" class="form-control" placeholder="Full name" type="text" required="required">
     </div> <!-- form-group// -->
     <div class="form-group input-group">
     	<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
 		 </div>
-        <input name="userMail" class="form-control" placeholder="Email address" type="email">
+        <input name="userMail" class="form-control" placeholder="Email address" type="email" required="required">
     </div> <!-- form-group// -->
     <div class="form-group input-group">
     	<div class="input-group-prepend">
@@ -113,25 +113,25 @@
 		    <option value="1">+46</option>
 		    <option value="2">+44</option>
 		</select>
-    	<input name="userNumber" class="form-control" placeholder="Phone number" type="text">
+    	<input name="userNumber" class="form-control" placeholder="Phone number" type="text" required="required">
     </div> <!-- form-group// -->
     <div class="form-group input-group">
 		<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
 		 </div>
-        <input name="userBirthdate" class="form-control" placeholder="Birthday dd-mm-yyyy" type="text">
+        <input name="userBirthdate" class="form-control" placeholder="Birthday dd-mm-yyyy" type="text" required="required">
     </div> <!-- form-group// -->
     <div class="form-group input-group">
 		<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
 		 </div>
-        <input name="userGender" class="form-control" placeholder="Enter Gender" type="text">
+        <input name="userGender" class="form-control" placeholder="Enter Gender" type="text" required="required">
     </div> <!-- form-group// -->
     <div class="form-group input-group">
     	<div class="input-group-prepend"> 
 		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
 		</div>
-        <input name="userPass" class="form-control" placeholder="Create password" type="password">
+        <input name="userPass" class="form-control" placeholder="Create password" type="password" required="required">
     </div> <!-- form-group// -->                                     
     <div class="form-group">
     	<small id="errorMsg6" class="form-text text-muted" th:text="${response.getErrorMessage()}" th:unless="${response == null}"></small>	

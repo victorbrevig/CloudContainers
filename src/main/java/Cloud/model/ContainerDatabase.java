@@ -78,6 +78,24 @@ public class ContainerDatabase extends HashSet<Container>{
 			}
 		} return null;
 	}
+	
+	/** This method gives the number of container owned by a client on a specific journey
+	 * 
+	 * @param client
+	 * @param journey
+	 * @return count - integer
+	 */
+	public int numberOfContainersOnJourneyForClient(Client client, Journey journey) {
+		int count = 0;
+		for (Container container : this) {
+			if (container.getOwner().equals(client) && container.getCurrentJourney().equals(journey)) {
+				count++;
+			}
+		}
+		
+		return count;
+		
+	}
 
 	
 }
