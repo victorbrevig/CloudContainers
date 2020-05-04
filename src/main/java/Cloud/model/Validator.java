@@ -53,7 +53,7 @@ public class Validator {
 	 * @param number - type Integer
 	 * @return boolean
 	 */
-	public static boolean emptyParameters(String name, String email, String birthdate, String gender, int number) {
+	public static boolean emptyParameters(String name, String email, String birthdate, String gender, long number) {
 		return !(   (name.equals("")) 
 				|| (birthdate.equals("")) 
 				|| (email.equals(""))			
@@ -66,7 +66,7 @@ public class Validator {
 	 * @param number
 	 * @return boolean
 	 */
-	public static boolean validPhoneNumber(int number) {
+	public static boolean validPhoneNumber(long number) {
 		int length = String.valueOf(number).length();
 		return (length == 8);
 	}
@@ -80,7 +80,7 @@ public class Validator {
 	 * @param number
 	 * @return response - type ResponseObject
 	 */
-	public static ResponseObject validInput(String name, String email, String birthdate, String gender, int number) {
+	public static ResponseObject validInput(String name, String email, String birthdate, String gender, long number) {
 	ResponseObject response = new ResponseObject();
 	
 		if (!emptyParameters(name,email,birthdate,gender,number)) {
