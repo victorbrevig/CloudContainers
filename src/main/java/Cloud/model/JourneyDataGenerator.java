@@ -44,10 +44,10 @@ public class JourneyDataGenerator {
 //			Generating random values
 			// +- 3 C
 			double randTempIncrement = rand.nextDouble() * (rand.nextBoolean() ? -1 : 1) * 3;
-			// +- 0.1 atm
-			double randPressureIncrement = rand.nextDouble() * (rand.nextBoolean() ? -1 : 1) * 0.1;
-			// +- 0.05
-			double randAirHumIncrement = rand.nextDouble() * (rand.nextBoolean() ? -1 : 1) * 0.05;
+			// +- 0.01 atm
+			double randPressureIncrement = rand.nextDouble() * (rand.nextBoolean() ? -1 : 1) * 0.01;
+			// +- 0.1
+			double randAirHumIncrement = rand.nextDouble() * (rand.nextBoolean() ? -1 : 1) * 0.1;
 			
 //			Changing status data for containers registered to this journey
 			for (Container container : company.getContainerDatabase().filterJourney(journey)) {
