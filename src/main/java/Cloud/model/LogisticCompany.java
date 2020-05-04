@@ -75,6 +75,24 @@ public class LogisticCompany {
 		}
 	}
 	
+	/**Gets password
+	 * 
+	 * @return password
+	 */
+	
+	public String getPassword() {
+		return password;
+	}
+	/**Gets companies name
+	 * 
+	 * @return
+	 */
+	
+	
+	public String getName() {
+		return name;
+	}
+	
 	/** Gets container database
 	 * 
 	 * @return containers
@@ -223,8 +241,8 @@ public class LogisticCompany {
 	 */
 	public ResponseObject allocateContainer(Client client,Container container) {
 		ResponseObject response = new ResponseObject("Container succesfully allocated");
-		boolean owned = container.isOwned();
-		if (owned) {
+
+		if (container.isOwned()) {
 			response.setErrorMessage("This container is already owned by a client");
 		}
 		else {
@@ -240,13 +258,10 @@ public class LogisticCompany {
 	 */
 	public ResponseObject freeContainer(Container container) {
 		ResponseObject response = new ResponseObject();
-//		container is not on journey
-//		container is owned
-		boolean onJourney = container.isOnJourney();
-		boolean owned = container.isOwned();
-		if (onJourney) {
+
+		if (container.isOnJourney()) {
 			response.setErrorMessage("This container is on a journey");
-		}else if (!owned) {
+		}else if (!container.isOwned()) {
 			response.setErrorMessage("This container does not belong to a client");
 		}else {
 			container.setOwner(null);
@@ -276,23 +291,7 @@ public class LogisticCompany {
 	public boolean clientExists(String email) {
 		return clients.stream().anyMatch(c -> c.getEmail().equals(email));
 	}
-	/**Gets password
-	 * 
-	 * @return password
-	 */
-	
-	public String getPassword() {
-		return password;
-	}
-	/**Gets companies name
-	 * 
-	 * @return
-	 */
-	
-	
-	public String getName() {
-		return name;
-	}
+
 	
 	/** This method ends the journey.
 	 * 

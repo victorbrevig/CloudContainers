@@ -1,4 +1,4 @@
-package Cloud.model;
+package CloudJson;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 
 import Cloud.model.Client;
-import Cloud.model.JSONWriter; 
+import Cloud.model.LogisticCompany; 
 
 
 public class CreateJAson {

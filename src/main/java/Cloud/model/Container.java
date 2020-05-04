@@ -270,7 +270,7 @@ public class Container{
 	 */
 	
 	public ResponseObject grantAccess (Client client) {
-//		Container
+
 		ResponseObject response = new ResponseObject();
 		
 		getAccessClients().add(client);
@@ -289,9 +289,7 @@ public class Container{
 		ResponseObject response = new ResponseObject();
 		Journey journey = getCurrentJourney();
 		
-		boolean accessToDataContainer = accessClients.contains(client);
-		
-		if (!accessToDataContainer) {
+		if (!accessClients.contains(client)) {
 			response.setErrorMessage("You don't have access to this container");
 			return response;
 		} 
@@ -320,9 +318,7 @@ public class Container{
 	public ResponseObject getHistoryOfContainerForClient (Client client) {
 		ResponseObject response = new ResponseObject();
 		
-		boolean clientHasAccess = Validator.clientHasAccess(client, this);
-		
-		if (clientHasAccess) {
+		if (Validator.clientHasAccess(client, this)) {
 			ArrayList<Journey> journeyHist = fetchContainerHistory(client);
 			
 			response.setJourneyHistForClient(journeyHist);
@@ -347,7 +343,6 @@ public class Container{
 		ArrayList<Journey> journeyHist = new ArrayList<Journey>();
 //		Acquiring all journey data related to the client
 		for (ContainerJourneyInfo i : getJourneyHistory()) {
-			// if (p.getRight.contains(clientId))
 			if (i.getClients().contains(client)) {
 				journeyHist.add(i.getJourney());
 			}
@@ -355,24 +350,29 @@ public class Container{
 		return journeyHist;
 	}
 	
+	/**Checks if a container is on a journey for a given client
+	 * 
+	 * @param client
+	 * @param journey
+	 * @return boolean
+	 */
+	boolean containerOnJourneyForClient(Client client, Journey journey) {
+		if (getOwner() != null && getCurrentJourney() != null) {
+			return getOwner().equals(client) && getCurrentJourney().equals(journey);
+		}
+		return false;
+	}
+	
+	/**Checks if container belongs to client
+	 * 
+	 * @param client
+	 * @return
+	 */
+	boolean belongsToClient(Client client) {
+		return getOwner().equals(client);
+	}
+	
 
-	
-//	Should be in logistic company
-	
-	
-	
-//	/**Prints information of container
-//	 * 
-//	 */
-//	
-//	public void print() {
-//		System.out.println(this.getContainerID());
-//		System.out.println(this.getTemperature());
-//		System.out.println(this.getPressure());
-//		System.out.println(this.getAirHumidity());
-//		System.out.println(this.isOwned());
-//		System.out.println(this.isOnJourney());
-//	}
 
 
 	

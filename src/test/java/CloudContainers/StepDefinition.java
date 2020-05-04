@@ -56,10 +56,7 @@ public class StepDefinition{
 		assertTrue(lc.getClients().contains(client1));
 	}
 	
-	@When("repeated information is entered")
-	public void repeated_information_is_entered() {
-		response = lc.newClient(client1);
-	}
+
 
 	
 	@Given("A none existing client with missing information")
@@ -414,6 +411,18 @@ public class StepDefinition{
 	    assertEquals(filtered.size(),0);
 	}
 	
+	// ______________________________getJourneysFromContainers____________________________________________________
+	
+	@When("company retrieves journeys for client")
+	public void company_retrieves_journeys_for_client() {
+	    lc.getJourneyDatabase().getJourneysFromContainers(lc.getContainerDatabase());
+	}
+
+	@Then("the relevant journeys are displayed")
+	public void the_relevant_journeys_are_displayed() {
+	    assertEquals(lc.getJourneyDatabase().getJourneysFromContainers(lc.getContainerDatabase()).size(),1);
+	}
+	
 	// ______________________________endJourney____________________________________________________
 
 
@@ -428,7 +437,29 @@ public class StepDefinition{
 	    assertFalse(container.isOnJourney());
 	}
 	
+	// ____________________________filterContainer______________________________________________________
 	
+	@When("company retrieves containers for client")
+	public void company_retrieves_containers_for_client() {
+	    lc.getContainerDatabase().filterClient(client1);
+	}
+
+	@Then("the relevant containers are displayed")
+	public void the_relevant_containers_are_displayed() {
+	    assertEquals(lc.getContainerDatabase().filterClient(client1).size(),3);
+	}
+	
+	// ____________________________containersOnJourneyForClient______________________________________________________
+	
+	@When("company retrieves number of containers on journey for the client")
+	public void company_retrieves_number_of_containers_on_journey_for_the_client() {
+	    lc.getContainerDatabase().getContainersForJourney(journey);
+	}
+
+	@Then("the relevant integer value is displayed")
+	public void the_relevant_integer_value_is_displayed() {
+		assertEquals(lc.getContainerDatabase().numberOfContainersOnJourneyForClient(client1,journey),3);
+	}
 
 	// ____________________________freeContainer______________________________________________________
 	Container container1;
@@ -647,18 +678,70 @@ public class StepDefinition{
 		assertEquals(response1.getErrorMessage(),"Access succesfully granted");
 	}
 	
-	LogisticCompany lc2;
-	@Given("a client from another company")
-	public void a_client_from_another_company() {
-		lc2  = new LogisticCompany("Hellmann",2,50,"hellmans");
-		client1 = new Client("Karsten","smallmoney123@gmail.com","24-05-1998","male",10101010,"1234");
-		lc2.newClient(client1);
+	//__________________________________________getFromID______________________________________________________________
+	
+	@When("company retrieves journey from ID")
+	public void company_retrieves_journey_from_ID() {
+	    lc.getJourneyDatabase().getJourney(1);
+	}
+
+	@Then("the right journey is displayed")
+	public void the_right_journey_is_displayed() {
+	    assertEquals(lc.getJourneyDatabase().getJourney(1).getPortOfOrigin(),"Texas");
+	}
+
+	@When("company retrieves container from ID")
+	public void company_retrieves_container_from_ID() {
+	    lc.getContainerDatabase().getContainer(10);
+	}
+
+	@Then("the right container is displayed")
+	public void the_right_container_is_displayed() {
+	    assertEquals(lc.getContainerDatabase().getContainer(10).getContainerID(),10);
 	}
 	
-	@Then("error message displayed saying that they are not in same company")
-	public void error_message_displayed_saying_that_they_are_not_in_same_company() {
-	    assertEquals(response1.getErrorMessage(),"You do not share company");
+	//__________________________________________getFromID______________________________________________________________
+	
+	@When("temperature is extracted")
+	public void temperature_is_extracted() {
+	    journey.getStatusData().extractTemperature();
 	}
+
+	@When("time is extracted")
+	public void time_is_extracted() {
+		journey.getStatusData().extractTime();
+	}
+
+	@When("air humidity is extracted")
+	public void air_humidity_is_extracted() {
+		journey.getStatusData().extractAirHum();
+	}
+
+	@When("pressure is extracted")
+	public void pressure_is_extracted() {
+		journey.getStatusData().extractPressure();
+	}
+	@Then("an arraylist with the temperature data is returned")
+	public void an_arraylist_with_the_temperature_data_is_returned() {
+	    assertEquals(journey.getStatusData().extractTemperature().size(),10);
+	}
+
+	@Then("an arraylist with the time data is returned")
+	public void an_arraylist_with_the_time_data_is_returned() {
+
+	    assertEquals(journey.getStatusData().extractTime().size(),10);
+	}
+
+	@Then("an arraylist with the air humidity data is returned")
+	public void an_arraylist_with_the_air_humidity_data_is_returned() {
+	    assertEquals(journey.getStatusData().extractAirHum().size(),10);
+	}
+
+	@Then("an arraylist with the pressure data is returned")
+	public void an_arraylist_with_the_pressure_data_is_returned() {
+	    assertEquals(journey.getStatusData().extractPressure().size(),10);
+	}
+
 
 	
 	

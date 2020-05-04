@@ -1,6 +1,6 @@
 @tag
 Feature: creating a new journey
-  I want to use this template for my feature file
+ 
 Background: A logistic company
 		Given A logistic company
 	

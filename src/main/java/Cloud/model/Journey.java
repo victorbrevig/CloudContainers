@@ -93,13 +93,7 @@ public class Journey {
 	public void addDataPoint(DataPoint status) {
 		statusData.add(status);
 	}
-	
-	/** This method clears the status data for the journey
-	 * 
-	 */
-	public void clearData() {
-		statusData.clear();
-	}
+
 	
 	/** This method checks if the journey has begun
 	 * 
@@ -114,15 +108,9 @@ public class Journey {
 	 * @param isStarted
 	 */
 	
-	/** This method 
-	 * 
-	 * @param isStarted
-	 */
 	public void setStarted(boolean isStarted) {
 		this.isStarted = isStarted;
 	}
-	
-
 	
 	/** This method fetches the ID of this journey
 	 * 
@@ -195,7 +183,7 @@ public class Journey {
 	 * @return boolean
 	 */
 	
-	public boolean durationOutOfBounds() {
+	boolean durationOutOfBounds() {
 		return getTimeToDestination() <= 0 || getTimeToDestination() > 44000;
 	}
 	/**Checks if port is equal to destination
@@ -203,20 +191,11 @@ public class Journey {
 	 * @return boolean
 	 */
 
-	public boolean portEqualsDestination() {
+	boolean portEqualsDestination() {
 		return getDestination().equals(getPortOfOrigin());
 	}
 
 
 
-//	public void print() {
-//		System.out.println("JourneyID: " + this. ID());
-//		System.out.println("Company: " + this.getCompany());
-//		System.out.println("PortOfOrigin: " + this.getPortOfOrigin());
-//		System.out.println("Destination: " + this.getDestination());
-//		System.out.println("Elapsed time: ");
-//		System.out.println("Time to destination: " + this.getTimeToDestination());
-//	}
-	
 	
 }

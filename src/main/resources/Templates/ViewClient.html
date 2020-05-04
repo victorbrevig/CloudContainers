@@ -106,14 +106,7 @@ tr:nth-child(even) {
   <tr th:each="container: ${clientContainers}">
     <td style="text-align:center" th:text="${container.getContainerID()}" />
      
-    <td style="text-align:center" >
-    <form th:if="${container.getContent().equals('')}" th:action="@{'/content/' + ${container.getContainerID()}}" method="post">
-     <div class="form-group">
-	    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Content" name="content" required>
- 	 </div>
-  	</form>
-  	<h6 th:if="${!(container.getContent().equals(''))}" th:text="${container.getContent()}"></h6>
-  	</td>
+    <td style="text-align:center" th:text="${!(container.getContent().equals('')) ? container.getContent() : 'No content yet'}" />
     
 	<td style="text-align:center" th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getPortOfOrigin()} : 'N/A'" />
     <td style="text-align:center" th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getDestination()} : 'N/A'" />

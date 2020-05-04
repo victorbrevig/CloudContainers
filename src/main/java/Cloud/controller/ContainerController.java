@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import Cloud.model.*;
-
+import CloudJson.JSONWriter;
 import net.bytebuddy.matcher.ModifierMatcher.Mode;
 
 
@@ -604,11 +604,6 @@ public class ContainerController extends HttpServlet {
 			return "clientJourneys";
 		}
 			
-			
-			
-			
-			
-			
-	    
+
 	    
 }

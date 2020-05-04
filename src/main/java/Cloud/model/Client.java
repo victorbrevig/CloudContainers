@@ -86,8 +86,6 @@ public class Client {
 		this.password = password;
 	}
 
-
-	
 	/**Gets clients name
 	 * 
 	 * @return name
@@ -220,9 +218,8 @@ public class Client {
 	
 	public ResponseObject updateClient(long number) {
 		ResponseObject response = new ResponseObject();
-		// Valid new phone number
-		boolean validNumber = Validator.validPhoneNumber(number);
-		if (validNumber) {
+		
+		if (Validator.validPhoneNumber(number)) {
 			this.setNumber(number);
 			response.setErrorMessage("Valid Phone number");
 			}
@@ -242,10 +239,8 @@ public class Client {
 	
 	public ResponseObject containerToJourney(Container container, Journey journey) {
 		ResponseObject response = new ResponseObject("Container successfully added to journey");
-
-		boolean belongsToClient = container.getOwner().equals(this);
 		
-		if (!belongsToClient) {
+		if (!container.belongsToClient(this)) {
 			response.setErrorMessage("Container does not belong to client");
 			return response;
 		}
@@ -253,7 +248,7 @@ public class Client {
 		container.addJourney(journey);
 		return response;
 	}
-	
+
 	
 	/** This method removes the container from the client
 	 * 
@@ -261,7 +256,7 @@ public class Client {
 	 */
 	public void removeContainer(Container container) {
 		
-		if (container.getOwner().equals(this)) {
+		if (container.belongsToClient(this)) {
 			container.setOwner(null);
 			container.getAccessClients().remove(this);
 		}
@@ -272,23 +267,6 @@ public class Client {
 	
 	
 	
-	
-//	/** Prints clients information
-//	 * 
-//	 */
-//	
-//	public void print() {
-//		System.out.println("Name:" + this.getName());
-//		System.out.println("Company: " + this.getCompany());
-//		System.out.println("Client ID:" + this.getClientID());
-//		System.out.println("Email:" + this.getEmail());
-//		System.out.println("Birthdate:" + this.getBirthdate());
-//		System.out.println("Gender:" + this.getGender());
-//		System.out.println("Phone number:" + this.getNumber());
-//		
-//	}
-	
-
 }
 
 

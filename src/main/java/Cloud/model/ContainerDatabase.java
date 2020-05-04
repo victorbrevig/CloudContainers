@@ -88,7 +88,7 @@ public class ContainerDatabase extends HashSet<Container>{
 	public int numberOfContainersOnJourneyForClient(Client client, Journey journey) {
 		int count = 0;
 		for (Container container : this) {
-			if (container.getOwner().equals(client) && container.getCurrentJourney().equals(journey)) {
+			if (container.containerOnJourneyForClient(client, journey)) {
 				count++;
 			}
 		}
