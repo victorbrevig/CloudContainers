@@ -63,7 +63,7 @@ tr:nth-child(even) {
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0" action="/viewClient" method="post">
-      <input class="form-control mr-sm-2" id="inputEmail" name="email" type="text" th:placeholder="${!(error == null) ? error : 'Search client email'}" aria-label="Search" required>
+      <input class="form-control mr-sm-2" id="inputEmail" name="email" type="text" th:placeholder="${!(responseObject1 == null) ? responseObject1.getErrorMessage() : 'Search client email'}" aria-label="Search" required>
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
   </div>

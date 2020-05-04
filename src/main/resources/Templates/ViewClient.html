@@ -19,6 +19,11 @@ body {
   }
 }
 
+#info {
+	margin-left: 5%;
+	line-height: 80%;
+}
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -71,10 +76,23 @@ tr:nth-child(even) {
 
 <br>
 <div style="text-align:center">
-<h1 th:text="${client.getName()}"></h1>
+<h1 th:text="${'Client ' + client.getName()}"></h1>
 </div>
 <br>
+<div id="info">
+	<h2>Information</h2>
+	<br>
+	<p th:text="${'Client ID ' + client.getClientID()}"></p>
+	<p th:text="${'Name: ' + client.getName()}"></p>
+	<p th:text="${'Email: ' + client.getEmail()}"></p>
+	<p th:text="${'Birthdate: ' + client.getBirthdate()}"></p>
+	<p th:text="${'Gender: ' + client.getGender()}"></p>
+	<p th:text="${'Phone number: ' + client.getNumber()}"></p>
+	<br>
+	<h2>Containers</h2>
+</div>
 
+<br>
 <table style="width:90%;margin-left:auto;margin-right:auto">
   <tr>
     <th style="text-align:center">Container ID</th>

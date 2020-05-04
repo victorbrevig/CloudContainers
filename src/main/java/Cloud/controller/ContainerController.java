@@ -506,11 +506,12 @@ public class ContainerController extends HttpServlet {
 	    public String viewClientPost(Model model,HttpServletRequest request, HttpServletResponse response) throws IOException {
 	    	String email = request.getParameter("email");
 	    	LogisticCompany company = JSONWriter.getCompany();
-	    	
+
 	    	if (company.getClients().getClient(email) == null) {
 	    		
-	    		String error = "Client not found";
-	    		model.addAttribute("error",error);
+	    		responseObject1.setErrorMessage("Client not found");
+
+	    		model.addAttribute("responseObject1",responseObject1);
 				model.addAttribute("clientContainers",company.getContainerDatabase());
 				model.addAttribute("clients",company.getClients());
 				model.addAttribute("journeys",company.getJourneyDatabase());
