@@ -229,9 +229,9 @@ public class ContainerController extends HttpServlet {
 			return "Register";
 			
 		}
+		
 		@PostMapping("/Register")
 		public String Register(HttpServletRequest request, HttpServletResponse response,Model model) throws IOException { 
-			 
 			response.setContentType("text/html");
 		    String name = request.getParameter("userName");  
 		    String email = request.getParameter("userMail"); 
@@ -239,28 +239,32 @@ public class ContainerController extends HttpServlet {
 		    String gender = request.getParameter("userGender"); 
 		    int phonenumber = Integer.parseInt(request.getParameter("userNumber"));  
 		    String password = request.getParameter("userPass"); 
+		    System.out.println(password);
 		    Client client = new Client(name,email,birthdate,gender,phonenumber,password);
 		    model.addAttribute("response", responseObject1);
 		    LogisticCompany company = JSONWriter.getCompany();
-			
-		    
-			if(company.clientExists(email)) {
-				responseObject1.setErrorMessage("Email Already exist, try again");
-				System.out.println(responseObject1.getErrorMessage());
+			if(!Validator.validEmail(email)) {
+				responseObject1.setErrorMessage("Please write valid email");
 				return "Register";
 			}
-			if (!company.clientExists(email)){
-				responseObject1 = company.newClient(client);
-
-				if(responseObject1.getErrorMessage().equals("Client was successfully added")) {
-					JSONWriter.saveCompany(company);
-			        return "/Welcome";
+			else if(company.clientExists(email)) {
+				responseObject1.setErrorMessage("Email Already exist, try again");
+				return "Register";
 			}
-		
+			else if (!Validator.validPhoneNumber(phonenumber)){
+				responseObject1.setErrorMessage("Please write valid 8-digit phone number");
+				return "Register";}
+			else if (!Validator.validBirthdate(birthdate)) {
+				responseObject1.setErrorMessage("Please write birthdate in the form dd-mm-yyyy");
+				return "Register";}
+			else if (password.length()<4) {
+				responseObject1.setErrorMessage("Please the password should be at least 4 characters long");
+				return "Register";}
+			else {
+			    responseObject1 = company.newClient(client);
+				JSONWriter.saveCompany(company);
+		        return "/index";
 			}
-		
-			
-	        return "Register";
 			
 		}
 		
