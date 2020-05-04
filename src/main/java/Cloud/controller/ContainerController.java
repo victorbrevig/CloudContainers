@@ -2,7 +2,6 @@ package Cloud.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Optional;
@@ -192,7 +191,7 @@ public class ContainerController extends HttpServlet {
 		public String updateinfo(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
 			
 			response.setContentType("text/html");  
-			PrintWriter out = response.getWriter();  
+
 			          
 			String email = request.getParameter("userMail");  
 			int number = Integer.parseInt(request.getParameter("userNumber"));  
@@ -279,19 +278,22 @@ public class ContainerController extends HttpServlet {
 			LogisticCompany company = JSONWriter.getCompany();
 			Container container = company.getContainerDatabase().getContainer(containerID);
 			ArrayList<ContainerJourneyInfo> journeyHist = company.getContainers().getContainer(containerID).getJourneyHistory();
-			
+			Journey journey = null;
 			if (journeyID == -1) {
 				// Get most current journey
-				Journey journey = journeyHist.get(journeyHist.size() - 1).getJourney();
+				journey = journeyHist.get(journeyHist.size() - 1).getJourney();
 				
 				model.addAttribute("journey",journey);
 				model.addAttribute("container",container);
 				model.addAttribute("journeysInfo",journeyHist);
 				return "ContainerPageC";
 			}
-		
 			
-			Journey journey = company.getJourneyDatabase().getJourney(journeyID);
+			for (ContainerJourneyInfo info : journeyHist) {
+				if (info.getJourney().getJourneyID() == journeyID) {
+					journey = info.getJourney();
+				}
+			}
 			
 			model.addAttribute("journey",journey);
 			model.addAttribute("container",container);
@@ -301,7 +303,7 @@ public class ContainerController extends HttpServlet {
 		
 		@GetMapping("/container/{containerID}/{journeyID}")
 		public String containerPage(@PathVariable("containerID") int containerID,@PathVariable("journeyID") int journeyID,Model model) throws FileNotFoundException {
-			
+			Journey journey = null;
 			LogisticCompany company = JSONWriter.getCompany();
 			Container container = company.getContainerDatabase().getContainer(containerID);
 			Client client = JSONWriter.getIn();
@@ -309,15 +311,20 @@ public class ContainerController extends HttpServlet {
 			ArrayList<Journey> journeys = container.getHistoryOfContainerForClient(client).getJourneyHist();
 			if (journeyID == -1) {
 				// Get most current journey
-				Journey journey = journeyHist.get(journeyHist.size() - 1).getJourney();
+				journey = journeyHist.get(journeyHist.size() - 1).getJourney();
 				
 				model.addAttribute("journey",journey);
 				model.addAttribute("container",container);
 				model.addAttribute("journeys",journeys);
 				return "ContainerPage";
 			}
+			
+			for (ContainerJourneyInfo info : journeyHist) {
+				if (info.getJourney().getJourneyID() == journeyID) {
+					journey = info.getJourney();
+				}
+			}
 		
-			Journey journey = company.getJourneyDatabase().getJourney(journeyID);
 			
 			model.addAttribute("journey",journey);
 			model.addAttribute("container",container);
@@ -369,9 +376,11 @@ public class ContainerController extends HttpServlet {
 			
 			Journey journey = new Journey(port,destination,duration);
 			LogisticCompany company = JSONWriter.getCompany();
+			JourneyDatabase journeys = company.getJourneyDatabase();
 			responseObject1 = company.newJourney(journey);
 			if (responseObject1.getErrorMessage().equals("Journey was successfully added")) {
-				JourneyDatabase journeys = company.getJourneyDatabase();
+				
+				JourneyDatabase journeys2 = company.getJourneyDatabase();
 				model.addAttribute("journeys",journeys);
 				JSONWriter.saveCompany(company);
 				return "redirect:journeys";
@@ -391,7 +400,6 @@ public class ContainerController extends HttpServlet {
 			JourneyDatabase journeys = company.getJourneyDatabase();
 			Journey journey = journeys.getJourney(id);
 			company.endJourney(journey);
-			journeys.remove(journey);
 			company.setJourneyDatabase(journeys);
 			JSONWriter.saveCompany(company);
 			model.addAttribute("journeys",journeys);
@@ -526,6 +534,70 @@ public class ContainerController extends HttpServlet {
 	    	return "ViewClient";
 	    }
 	    
+	    
+	    @GetMapping("/clientJourneys")
+	    public String removeContainer(Model model) throws IOException {
+	    	
+			LogisticCompany company = JSONWriter.getCompany();
+			
+			Client client = JSONWriter.getIn();
+			
+			Set<Container> clientContainers = company.getContainerDatabase().filterClient(client);
+			
+			Set<Journey> journeys = company.getJourneyDatabase().getJourneysFromContainers(clientContainers);
+			
+			
+			JSONWriter.saveCompany(company);
+			
+			model.addAttribute("client",client);
+			model.addAttribute("clientContainers",company.getContainerDatabase());
+			model.addAttribute("journeys",journeys);
+			
+	    	return "clientJourneys";
+	    }
+	    
+	    
+		@PostMapping("/findJourneys")
+		public String findJourneys(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+			
+			response.setContentType("text/html");
+			
+			Set<Journey> journeys;
+			          
+			String portOfOrigin = request.getParameter("portOfOrigin");  
+			String destination = request.getParameter("destination");
+			 
+			Client client = JSONWriter.getIn();
+			LogisticCompany company = JSONWriter.getCompany();
+			
+			if (portOfOrigin.equals("") && !(destination.equals(""))) {
+				journeys = company.getJourneyDatabase().filterDestination(destination);
+			}
+			else if (!(portOfOrigin.equals("")) && destination.equals("")) {
+				journeys = company.getJourneyDatabase().filterPortOfOrigin(portOfOrigin);
+			}
+			else if (!(portOfOrigin.equals("")) && !(destination.equals(""))) {
+				JourneyDatabase db = new JourneyDatabase();
+				db.addAll(company.getJourneyDatabase().filterDestination(destination));
+				journeys = db.filterPortOfOrigin(portOfOrigin);
+			}
+			else {
+				Set<Container> clientContainers = company.getContainerDatabase().filterClient(client);
+				journeys = company.getJourneyDatabase().getJourneysFromContainers(clientContainers);
+			}
+			
+			model.addAttribute("client",client);
+			model.addAttribute("clientContainers",company.getContainerDatabase());
+			model.addAttribute("journeys",journeys);
+			
+			return "clientJourneys";
+		}
+			
+			
+			
+			
+			
+			
 	    
 	    
 }

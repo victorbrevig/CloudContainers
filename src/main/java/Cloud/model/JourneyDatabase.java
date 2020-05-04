@@ -55,4 +55,20 @@ public class JourneyDatabase extends HashSet<Journey> {
 		} return null;
 	}
 	
+	/** This method finds all the journeys that the containers given points to
+	 * 
+	 * @param containers - set of containers
+	 * @return set of journeys
+	 */
+	public Set<Journey> getJourneysFromContainers(Set<Container> containers) {
+		Set<Journey> journeys = new HashSet<Journey>();
+		
+		for (Container container : containers) {
+			if (!(container.getCurrentJourney() == null)) {
+				journeys.add(container.getCurrentJourney());
+			}
+		}	
+		return journeys;
+	}
+	
 }

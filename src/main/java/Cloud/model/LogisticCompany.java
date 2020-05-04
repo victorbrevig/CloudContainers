@@ -39,6 +39,7 @@ public class LogisticCompany {
 
 	private int amountOfContainers;
 
+	private int totalAmountOfJourneys;
 	
 	
 	
@@ -57,6 +58,7 @@ public class LogisticCompany {
 		this.amountOfContainers = amountOfContainers;
 		this.containers = new ContainerDatabase();
 		this.password = password;
+		this.totalAmountOfJourneys = 0;
 		
 		// Generate existing containers
 		generateExistingContainers(amountOfContainers);
@@ -204,7 +206,8 @@ public class LogisticCompany {
 		response = Validator.validJourney(journey);
 		
 		if(response.getErrorMessage().equals("Valid")) {
-			journey.setJourneyID(journeys.size() + 1);
+			totalAmountOfJourneys++;
+			journey.setJourneyID(totalAmountOfJourneys);
 			journeys.add(journey);
 			response.setErrorMessage("Journey was successfully added");
 		}
@@ -303,6 +306,8 @@ public class LogisticCompany {
 		journey.setStarted(false);
 
 		countFree = freeUpContainers(countFree, journey);
+		
+		journeys.remove(journey);
 		
 		response.setErrorMessage("Journey successfully ended. " + countFree + " containers were set free.");
 		

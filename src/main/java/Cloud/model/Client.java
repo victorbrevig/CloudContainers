@@ -270,6 +270,9 @@ public class Client {
 		
 	}
 	
+	
+	
+	
 //	/** Prints clients information
 //	 * 
 //	 */
