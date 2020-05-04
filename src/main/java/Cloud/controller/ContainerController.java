@@ -194,7 +194,7 @@ public class ContainerController extends HttpServlet {
 
 			          
 			String email = request.getParameter("userMail");  
-			int number = Integer.parseInt(request.getParameter("userNumber"));  
+			long number = Long.parseLong(request.getParameter("userNumber"));  
 			Client client = JSONWriter.getIn();
 			model.addAttribute("client",client);
 			LogisticCompany company = JSONWriter.getCompany();
@@ -237,7 +237,7 @@ public class ContainerController extends HttpServlet {
 		    String email = request.getParameter("userMail"); 
 		    String birthdate = request.getParameter("userBirthdate");  
 		    String gender = request.getParameter("userGender"); 
-		    int phonenumber = Integer.parseInt(request.getParameter("userNumber"));  
+		    long phonenumber = Long.parseLong(request.getParameter("userNumber"));  
 		    String password = request.getParameter("userPass"); 
 		    System.out.println(password);
 		    Client client = new Client(name,email,birthdate,gender,phonenumber,password);

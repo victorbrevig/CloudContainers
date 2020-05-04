@@ -40,7 +40,7 @@ public class Client {
 
 	private String gender;
 
-	private int number;
+	private long number;
 
 
 	private String password;
@@ -62,7 +62,7 @@ public class Client {
 	public Client() {
 		
 	}
-	public Client(String name, String email, String birthdate, String gender, int number, String password) {
+	public Client(String name, String email, String birthdate, String gender, long number, String password) {
 		super();
 		this.name = name;
 		this.email = email;
@@ -156,7 +156,7 @@ public class Client {
 	 * @return number
 	 */
 	
-	public int getNumber() {
+	public long getNumber() {
 		return number;
 	}
 	
@@ -165,7 +165,7 @@ public class Client {
 	 * @param number
 	 */
 	
-	public void setNumber(int number) {
+	public void setNumber(long number) {
 		this.number = number;
 	}
 	
@@ -218,7 +218,7 @@ public class Client {
 	 * @return response
 	 */
 	
-	public ResponseObject updateClient(int number) {
+	public ResponseObject updateClient(long number) {
 		ResponseObject response = new ResponseObject();
 		// Valid new phone number
 		boolean validNumber = Validator.validPhoneNumber(number);
