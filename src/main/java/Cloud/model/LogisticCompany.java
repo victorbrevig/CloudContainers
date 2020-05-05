@@ -271,17 +271,6 @@ public class LogisticCompany {
 	}
 	
 	
-	/** This method fetches the full history of a container
-	 * 
-	 * @param container
-	 * @return response
-	 */
-	public ResponseObject getFullHistory(Container container) {
-		ResponseObject response = new ResponseObject();
-		response.setJourneys(container.getJourneyHistory());
-		response.setErrorMessage("History successfully retrieved");
-		return response;
-	}
 
 	/** This method checks if a client is registered from the client's email
 	 * 

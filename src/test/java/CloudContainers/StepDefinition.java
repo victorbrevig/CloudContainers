@@ -611,18 +611,14 @@ public class StepDefinition{
 
 	@When("container history is requested by logistic company")
 	public void container_history_is_requested_by_logistic_company() {
-	    response = lc.getFullHistory(container);
+	   container.getJourneyHistory();
 	}
 
 	@Then("an array containing container journey information is returned")
 	public void an_array_containing_container_journey_information_is_returned() {
-	    assertEquals(response.getJourneys().size(), 2);
+	    assertEquals(container.getJourneyHistory().size(), 2);
 	}
 
-	@Then("response message saying that history of container was successfully retrieved")
-	public void response_message_saying_that_history_of_container_was_successfully_retrieved() {
-	    assertEquals(response.getErrorMessage(),"History successfully retrieved");
-	}
 	
 	
 	@When("container history is requested by client")
