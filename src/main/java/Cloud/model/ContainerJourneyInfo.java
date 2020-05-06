@@ -2,7 +2,12 @@ package Cloud.model;
 
 import java.util.HashSet;
 
-
+/**Class that stores info about a containers history (access to data, owner and journey)
+ * 
+ * @author Gustav Als
+ * @author Victor Brevig
+ *
+ */
 public class ContainerJourneyInfo {
 
 	Journey journey;

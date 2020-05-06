@@ -2,14 +2,8 @@ package Cloud.model;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-import javax.persistence.Entity;
 
 import org.apache.commons.validator.GenericValidator;
-import org.codehaus.jackson.annotate.JsonIgnore;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 /**
