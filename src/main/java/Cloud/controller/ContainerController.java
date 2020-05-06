@@ -217,7 +217,6 @@ public class ContainerController extends HttpServlet {
 		    String gender = request.getParameter("userGender"); 
 		    long phonenumber = Long.parseLong(request.getParameter("userNumber"));  
 		    String password = request.getParameter("userPass"); 
-		    System.out.println(password);
 		    Client client = new Client(name,email,birthdate,gender,phonenumber,password);
 		    model.addAttribute("response", responseObject1);
 		    LogisticCompany company = JSONWriter.getCompany();
