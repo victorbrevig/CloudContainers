@@ -45,6 +45,12 @@ public class JSONWriter{
      fw.close();
  }
  
+ /**Needs to retrieve the logged in client from the file in.json
+  * 
+  * @return
+  * @throws FileNotFoundException
+  */
+ 
  public static Client getIn() throws FileNotFoundException {
 	 Gson gson = new Gson();
 	 Reader reader = new FileReader(filepathin);
@@ -60,7 +66,7 @@ public class JSONWriter{
      fwin.close();
  }
  
- public static boolean checkPass(String mail, String pass) throws IOException {
+ public static boolean checkPassword(String mail, String pass) throws IOException {
 	 Gson gson = new Gson();
 	 Reader reader = new FileReader(filepath);
 	 LogisticCompany company = gson.fromJson(reader, LogisticCompany.class);
@@ -72,14 +78,4 @@ public class JSONWriter{
 	 return false;
  }
  
-
-public static void main(String[] args) throws IOException {
-	Gson gson = new Gson();
-	 Reader reader = new FileReader(filepath);
-	 LogisticCompany company = gson.fromJson(reader, LogisticCompany.class);
-	 System.out.println(company.getPassword());
-	 System.out.println(company.getName());
-	 System.out.println(company.clientExists("Adam"));
-
-}
 }

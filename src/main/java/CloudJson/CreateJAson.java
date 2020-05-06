@@ -19,51 +19,17 @@ import Cloud.model.LogisticCompany;
 
 public class CreateJAson {
  public static void main(String[] args) throws IOException {
-     System.out.println("yeet");
-
-     
-     //ObjectMapper objectMapper = new ObjectMapper();
-     
-     
-     
+     System.out.println("Test1");
 	 Gson gson = new Gson();
-	 Writer fw = new FileWriter("Y.json");
-	 Writer aw = new FileWriter("Loggedin.json");
-	 Writer lw = new FileWriter("company.json");
-	
-	 
-	 HashSet <Client> database = new HashSet <Client> ();
-	 
-	 
+	 Writer lw = new FileWriter("lc.json");
+
 	 LogisticCompany company = new LogisticCompany("Maersk",1,2,"bigstonks");
-	 
-	 Client cli = new Client("Karsten","smallmoney123@gmail.com","24-05-1998","male",10101010,"1234");
 
-	 company.newClient(cli);
-	 
-	 //objectMapper.writeValue(Paths.get("company2.json").toFile(), company);
-	 
-	 
-	 
-	 //LogisticCompany company2 = objectMapper.readValue(new File("C:\\Users\\victo\\git\\CloudContainers\\company2.json"), LogisticCompany.class);
-	 
 	 gson.toJson(company, lw);
-	 
-	 
-     gson.toJson(database, lw);
-     gson.toJson(database,aw);
-     //gson.toJson(company,lw);
- 	 Client client = new Client("mo","JegErMO","12","male",28381812,"12");
-     JSONWriter jw = new JSONWriter();   
-     //jw.addClient(client);
 
-     fw.flush();
-     fw.close();
-     aw.flush();
-     aw.close();
      lw.flush();
      lw.close();
-     System.out.println("yeet");
+     System.out.println("Test2");
 }
 
 }

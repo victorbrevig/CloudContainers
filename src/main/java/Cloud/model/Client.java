@@ -31,37 +31,15 @@ import Cloud.model.Validator;
 public class Client {
 
 	private int clientID;
-
 	private String name;
-
 	private String email;
-
 	private String birthdate;
-
 	private String gender;
-
 	private long number;
-
-
 	private String password;
-
-
-
 	
+	public Client() {}
 	
-	
-	/**Creates a client
-	 * @param name
-	 * @param email
-	 * @param birthdate
-	 * @param gender
-	 * @param number
-	 * @param password
-	 */
-	
-	public Client() {
-		
-	}
 	public Client(String name, String email, String birthdate, String gender, long number, String password) {
 		super();
 		this.name = name;
@@ -71,103 +49,52 @@ public class Client {
 		this.number = number;
 		this.password = password;
 	}
-	
-	/**Gets the clients password
-	 * @return password
-	 */
-	
+
 	public String getPassword() {
 		return password;
 	}
-	/**Sets the clients password
-	 * @param password
-	 */
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
-	/**Gets clients name
-	 * 
-	 * @return name
-	 */
-	
 	public String getName() {
 		return name;
 	}
-	
-	/**Gets clients clientID
-	 * 
-	 * @return clientID
-	 */
-	
+
 	public int getClientID() {
 		return clientID;
 	}
-	
-	/**Sets clients clientID
-	 * 
-	 * @param clientID
-	 */
-	
+
 	public void setClientID(int clientID) {
 		this.clientID = clientID;
 	}
-	
-	/**Gets clients email
-	 * 
-	 * @return email
-	 */
-	
+
 	public String getEmail() {
 		return email;
 	}
-	
-	/**Sets clients email
-	 * 
-	 * @param email
-	 */
-	
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	/**Get clients birthdate
-	 * 
-	 * @return birthdate
-	 */
-	
+
 	public String getBirthdate() {
 		return birthdate;
 	}
-	
-	/**Gets clients gender	
-	 * 
-	 * @return gender
-	 */
-	
+
 	public String getGender() {
 		return gender;
 	}
-	
-	/**Gets clients number
-	 * 
-	 * @return number
-	 */
-	
+
 	public long getNumber() {
 		return number;
 	}
-	
-	/**Sets clients number
-	 * 
-	 * @param number
-	 */
-	
+
 	public void setNumber(long number) {
 		this.number = number;
 	}
 	
-	/**Compares client with another client using email
+	/**Used to compare clients using clientID
 	 * 
 	 * @param client
 	 * @return boolean
@@ -180,11 +107,7 @@ public class Client {
 		}
 		return false;
 	}
-	
-	/** HashCode implementation for checking equality of client objects
-	 * 
-	 */
-	
+
 	@Override
 	public int hashCode() {
 		int result = 17;
@@ -192,7 +115,7 @@ public class Client {
 		return result;
 	}
 	
-	/** Updates clients email
+	/**Needs to validate email and then update it
 	 * 
 	 * @param email
 	 * @return response
@@ -210,7 +133,7 @@ public class Client {
 		return response;
 	}
 	
-	/** Updates clients number
+	/**Needs to validate phone number and then update it
 	 * 
 	 * @param number
 	 * @return response
@@ -228,15 +151,7 @@ public class Client {
 		}
 		return response;
 	}
-	
-	/** Puts a container belonging to client on a journey
-	 * 
-	 * @param container
-	 * @param journey
-	 * @param content
-	 * @return response
-	 */
-	
+
 	public ResponseObject containerToJourney(Container container, Journey journey) {
 		ResponseObject response = new ResponseObject("Container successfully added to journey");
 		
@@ -249,11 +164,6 @@ public class Client {
 		return response;
 	}
 
-	
-	/** This method removes the container from the client
-	 * 
-	 * @param container
-	 */
 	public void removeContainer(Container container) {
 		
 		if (container.belongsToClient(this)) {

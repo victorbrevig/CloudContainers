@@ -39,20 +39,15 @@ public class ContainerController extends HttpServlet {
 	
 	@GetMapping("/")
 	public String mainpage(Model model) {
-		
-		
-		return "index";
-		
+		return "index";	
 	}
+
 	@PostMapping("/")
 	public String add3(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws IOException {
 		response.setContentType("text/html"); 
 		String name=request.getParameter("companyName"); 
 	    String mail=request.getParameter("userName"); 
 	    String pass=request.getParameter("userPass");
-	    System.out.println(name);
-	    System.out.println(mail);
-	    System.out.println(pass);
 	    LogisticCompany company = JSONWriter.getCompany();
 	    if (name==null) {
 	    if (company.clientExists(mail)==false) {
@@ -61,12 +56,12 @@ public class ContainerController extends HttpServlet {
 	    	return "/index";
 	    }
 	    
-	    else if (JSONWriter.checkPass(mail, pass)){
+	    else if (JSONWriter.checkPassword(mail, pass)){
 			ClientDatabase ClientDB = company.getClients();
 			Client client = ClientDB.getClient(mail);
 		    JSONWriter.setIn(client);
 		    RequestDispatcher rd=request.getRequestDispatcher("/Welcome.html"); 
-			Set<Container> clientContainers = company.getContainerDatabase().filterClient(client);
+			Set<Container> clientContainers = company.getContainerDatabase().filterForClient(client);
 			model.addAttribute("client",client);
 			model.addAttribute("clientContainers",clientContainers);
 			model.addAttribute("clients",company.getClients());
@@ -108,13 +103,13 @@ public class ContainerController extends HttpServlet {
 		response.setContentType("text/html");   
 	    String mail=request.getParameter("userName"); 
 	    String pass=request.getParameter("userPass");
-	    if (JSONWriter.checkPass(mail, pass)){ 
+	    if (JSONWriter.checkPassword(mail, pass)){ 
 		    LogisticCompany company = JSONWriter.getCompany();
 			ClientDatabase ClientDB = company.getClients();
 			Client client = ClientDB.getClient(mail);
 		    JSONWriter.setIn(client);
 		    RequestDispatcher rd=request.getRequestDispatcher("/Welcome.html"); 
-			Set<Container> clientContainers = company.getContainerDatabase().filterClient(client);
+			Set<Container> clientContainers = company.getContainerDatabase().filterForClient(client);
 			model.addAttribute("client",client);
 			model.addAttribute("clientContainers",clientContainers);
 			model.addAttribute("clients",company.getClients());
@@ -162,14 +157,13 @@ public class ContainerController extends HttpServlet {
 	public String welcome(Model model) throws FileNotFoundException {
 		LogisticCompany company = JSONWriter.getCompany();
 		Client client = JSONWriter.getIn();
-		Set<Container> clientContainers = company.getContainerDatabase().filterClient(client);
+		Set<Container> clientContainers = company.getContainerDatabase().filterForClient(client);
 		model.addAttribute("client",client);
 		model.addAttribute("clientContainers",clientContainers);
 		model.addAttribute("clients",company.getClients());
 		model.addAttribute("journeys", company.getJourneyDatabase());
 		return "Welcome";
 			
-
 }
 
 		
@@ -189,9 +183,7 @@ public class ContainerController extends HttpServlet {
 		@PostMapping("/UpdateInfo")
 		public String updateinfo(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
 			
-			response.setContentType("text/html");  
-
-			          
+			response.setContentType("text/html");
 			String email = request.getParameter("userMail");  
 			long number = Long.parseLong(request.getParameter("userNumber"));  
 			Client client = JSONWriter.getIn();
@@ -553,7 +545,7 @@ public class ContainerController extends HttpServlet {
 			
 			Client client = JSONWriter.getIn();
 			
-			Set<Container> clientContainers = company.getContainerDatabase().filterClient(client);
+			Set<Container> clientContainers = company.getContainerDatabase().filterForClient(client);
 			
 			Set<Journey> journeys = company.getJourneyDatabase().getJourneysFromContainers(clientContainers);
 			
@@ -582,18 +574,18 @@ public class ContainerController extends HttpServlet {
 			LogisticCompany company = JSONWriter.getCompany();
 			
 			if (portOfOrigin.equals("") && !(destination.equals(""))) {
-				journeys = company.getJourneyDatabase().filterDestination(destination);
+				journeys = company.getJourneyDatabase().filterForDestination(destination);
 			}
 			else if (!(portOfOrigin.equals("")) && destination.equals("")) {
-				journeys = company.getJourneyDatabase().filterPortOfOrigin(portOfOrigin);
+				journeys = company.getJourneyDatabase().filterForPortOfOrigin(portOfOrigin);
 			}
 			else if (!(portOfOrigin.equals("")) && !(destination.equals(""))) {
 				JourneyDatabase db = new JourneyDatabase();
-				db.addAll(company.getJourneyDatabase().filterDestination(destination));
-				journeys = db.filterPortOfOrigin(portOfOrigin);
+				db.addAll(company.getJourneyDatabase().filterForDestination(destination));
+				journeys = db.filterForPortOfOrigin(portOfOrigin);
 			}
 			else {
-				Set<Container> clientContainers = company.getContainerDatabase().filterClient(client);
+				Set<Container> clientContainers = company.getContainerDatabase().filterForClient(client);
 				journeys = company.getJourneyDatabase().getJourneysFromContainers(clientContainers);
 			}
 			

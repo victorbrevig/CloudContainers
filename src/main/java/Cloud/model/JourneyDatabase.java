@@ -12,41 +12,23 @@ import java.util.stream.Collectors;
  *
  */
 public class JourneyDatabase extends HashSet<Journey> {
-	
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
-	/** This method fetches all journeys in the database with port of origin as requested.
-	 * 
-	 * @param portOfOrigin
-	 * @return filtered - A set of journeys with port of origin as requested.
-	 */
-	public Set<Journey> filterPortOfOrigin(String portOfOrigin) {
+	public Set<Journey> filterForPortOfOrigin(String portOfOrigin) {
 		Set<Journey> filtered = this.stream()
 				.filter(journey -> journey.getPortOfOrigin().equals(portOfOrigin))
 				.collect(Collectors.toSet());
 		return filtered;
 	}
-	
-	/** This method fetches all journeys in the database with destination as requested.
-	 * 
-	 * @param destination
-	 * @return filtered - A set of journeys with destination as requested.
-	 */
-	public Set<Journey> filterDestination(String destination) {
+
+	public Set<Journey> filterForDestination(String destination) {
 		Set<Journey> filtered = this.stream()
 				.filter(journey -> journey.getDestination().equals(destination))
 				.collect(Collectors.toSet());
 		return filtered;		
 	}
-	/**Gets a journey from its ID
-	 * 
-	 * @param journeyID
-	 * @return journey
-	 */
+
 	public Journey getJourney(int journeyID) {
 		for (Journey j :this) {
 			if (j.getJourneyID() == journeyID) {
@@ -54,12 +36,7 @@ public class JourneyDatabase extends HashSet<Journey> {
 			}
 		} return null;
 	}
-	
-	/** This method finds all the journeys that the containers given points to
-	 * 
-	 * @param containers - set of containers
-	 * @return set of journeys
-	 */
+
 	public Set<Journey> getJourneysFromContainers(Set<Container> containers) {
 		Set<Journey> journeys = new HashSet<Journey>();
 		

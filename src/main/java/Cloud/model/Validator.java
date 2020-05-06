@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
  */
 public class Validator {
 
-	/** Static method to check if birth date has correct format
+	/**Needs to validate the format of the entered birthdate
 	 * 
 	 * @param birthdate - type String
 	 * @return boolean
@@ -28,7 +28,7 @@ public class Validator {
 		return GenericValidator.isDate(birthdate, "dd-MM-yyyy", true);
 	}
 	
-	/** Static method the check if an email is valid
+	/**Used to validate format of the entered email
 	 * 
 	 * @param email - type String
 	 * @return boolean
@@ -44,15 +44,6 @@ public class Validator {
 		   return result;
 		}
 	
-	/** Method to check if any parameters used in client registration are empty 
-	 * 
-	 * @param name - type String
-	 * @param email - type String
-	 * @param birthdate - type String
-	 * @param gender - type String
-	 * @param number - type Integer
-	 * @return boolean
-	 */
 	public static boolean emptyParameters(String name, String email, String birthdate, String gender, long number) {
 		return !(   (name.equals("")) 
 				|| (birthdate.equals("")) 
@@ -61,25 +52,11 @@ public class Validator {
 				|| (number==0)   );
 	}
 	
-	/** Method to check if a phone number is valid
-	 * 
-	 * @param number
-	 * @return boolean
-	 */
 	public static boolean validPhoneNumber(long number) {
 		int length = String.valueOf(number).length();
 		return (length == 8);
 	}
-	
-	/** Checks if new client info is valid 
-	 * 
-	 * @param name
-	 * @param email
-	 * @param birthdate
-	 * @param gender
-	 * @param number
-	 * @return response - type ResponseObject
-	 */
+
 	public static ResponseObject validInput(String name, String email, String birthdate, String gender, long number) {
 	ResponseObject response = new ResponseObject();
 	
@@ -104,23 +81,11 @@ public class Validator {
 		return response;
 	
 	}
-	
-	/** Checks if a client has access to a given container
-	 * 
-	 * @param client
-	 * @param container
-	 * @return boolean
-	 */
+
 	public static boolean clientHasAccess(Client client, Container container) {
 		return container.getAccessClients().stream().anyMatch(c -> c.equals(client));
 	}
-	
-	/**Checks if the journey typed by the user is valid
-	 * 
-	 * @param journey
-	 * @return response
-	 */
-	
+
 	public static ResponseObject validJourney(Journey journey) {
 		ResponseObject response = new ResponseObject();
 		

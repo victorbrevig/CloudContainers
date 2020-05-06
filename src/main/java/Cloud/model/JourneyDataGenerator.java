@@ -2,13 +2,17 @@ package Cloud.model;
 
 import java.util.Random;
 
-
+/**Class handles generation of status data for containers and journeys
+ * @author Gustav Als
+ * @author Victor Brevig
+ *
+ */
 
 public class JourneyDataGenerator {
 	
 	private static Random rand = new Random();
 	
-	/** This method progresses a journey with a given amount of hours.
+	/**Used to give a company the possibility to generate data for a journey
 	 * 
 	 * @param timeIncrement - number of hours to progress
 	 * @return response
@@ -50,7 +54,7 @@ public class JourneyDataGenerator {
 			double randAirHumIncrement = rand.nextDouble() * (rand.nextBoolean() ? -1 : 1) * 0.1;
 			
 //			Changing status data for containers registered to this journey
-			for (Container container : company.getContainerDatabase().filterJourney(journey)) {
+			for (Container container : company.getContainerDatabase().filterForJourney(journey)) {
 			
 					oneContainerOnJourney = true;
 					newTemp = container.getTemperature() + randTempIncrement;
@@ -96,8 +100,6 @@ public class JourneyDataGenerator {
 			response.setErrorMessage("No containers are on this journey");
 		}
 		
-		
-			
 		return response;
 	}
 

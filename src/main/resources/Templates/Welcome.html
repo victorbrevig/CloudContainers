@@ -126,7 +126,7 @@ tr:nth-child(even) {
 	</td>
 		
     <td style="text-align:center">
-    	<div class="dropdown" th:if="${!container.isOnJourney()}">
+    	<div class="dropdown" th:if="${container.getCurrentJourney() == null}">
 		  <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		    Journeys
 		  </button>
@@ -137,7 +137,7 @@ tr:nth-child(even) {
 		  </div>
 		</div>
 		
-		<div th:if="${container.isOnJourney()}" th:text="${'On journey ' + container.getCurrentJourney().getJourneyID()}"></div>
+		<div th:if="${container.getCurrentJourney() != null}" th:text="${'On journey ' + container.getCurrentJourney().getJourneyID()}"></div>
 		
 		
 	</td>
@@ -148,8 +148,6 @@ tr:nth-child(even) {
 </table>
 
 
-
-</div>
 
 </body>
 </html>

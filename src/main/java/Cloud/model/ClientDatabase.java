@@ -11,17 +11,9 @@ import Cloud.model.Client;
  */
 
 public class ClientDatabase extends HashSet<Client> {
-		
-		/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
-		/** Gets a client given a unique clientID
-		 * 
-		 * @param clientID
-		 * @return client
-		 */
 		public Client getClient(int clientID) {
 			for (Client c :this) {
 				if (c.getClientID() == clientID) {
@@ -29,12 +21,6 @@ public class ClientDatabase extends HashSet<Client> {
 				}
 			} return null;
 		}
-		
-		/** Gets client given a unique email
-		 * 
-		 * @param email
-		 * @return client
-		 */
 		
 		public Client getClient(String email) {
 			

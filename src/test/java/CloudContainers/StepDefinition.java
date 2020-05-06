@@ -309,7 +309,7 @@ public class StepDefinition{
 	@Then("success message is displayed")
 	public void success_message_is_displayed() {
 	    assertTrue(response.getErrorMessage().equals("Container successfully added to journey"));
-	    assertTrue(container.isOnJourney());
+	    assertTrue(container.getCurrentJourney() != null);
 	    assertTrue(container.isOwned());
 	}
 
@@ -317,7 +317,7 @@ public class StepDefinition{
 	@Then("error message displayed saying that container does not belong to client")
 	public void error_message_displayed_saying_that_container_does_not_belong_to_client() {
 	    assertTrue(response.getErrorMessage().equals("Container does not belong to client"));
-	    assertFalse(container.isOnJourney());
+	    assertTrue(container.getCurrentJourney() == null);
 	}
 	
 
@@ -373,7 +373,7 @@ public class StepDefinition{
 
 	@When("journeys are filtered for {string}")
 	public void journeys_are_filtered_for(String string) {
-		filtered = lc.getJourneyDatabase().filterPortOfOrigin(string);
+		filtered = lc.getJourneyDatabase().filterForPortOfOrigin(string);
 	}
 
 	@Then("display filtered set of journeys with port of origin {string}")
@@ -396,7 +396,7 @@ public class StepDefinition{
 	
 	@When("journeys are filtered for destination {string}")
 	public void journeys_are_filtered_for_destination(String string) {
-		filtered = lc.getJourneyDatabase().filterDestination(string);
+		filtered = lc.getJourneyDatabase().filterForDestination(string);
 	}
 	
 	@Then("display filtered set of journeys with destination {string}")
@@ -434,19 +434,19 @@ public class StepDefinition{
 	@Then("message displayed saying journey successfully ended for {int} containers")
 	public void message_displayed_saying_journey_successfully_ended_for_containers(Integer int1) {
 		assertEquals(response.getErrorMessage(),"Journey successfully ended. " + int1 + " containers were set free.");
-	    assertFalse(container.isOnJourney());
+	    assertTrue(container.getCurrentJourney() == null);
 	}
 	
 	// ____________________________filterContainer______________________________________________________
 	
 	@When("company retrieves containers for client")
 	public void company_retrieves_containers_for_client() {
-	    lc.getContainerDatabase().filterClient(client1);
+	    lc.getContainerDatabase().filterForClient(client1);
 	}
 
 	@Then("the relevant containers are displayed")
 	public void the_relevant_containers_are_displayed() {
-	    assertEquals(lc.getContainerDatabase().filterClient(client1).size(),3);
+	    assertEquals(lc.getContainerDatabase().filterForClient(client1).size(),3);
 	}
 	
 	// ____________________________containersOnJourneyForClient______________________________________________________
@@ -562,35 +562,7 @@ public class StepDefinition{
 	    assertEquals(response.getErrorMessage(), "Travel time has to be a more than 0");
 	}
 	
-	// ____________________________accessData______________________________________________________
-	
-	@When("client request the data for his container")
-	public void client_request_the_data_for_his_container() {
-	    response = container1.accessStatus(client1);
-	}
-	@When("client request the data for a container he does not own")
-	public void client_request_the_data_for_a_container_he_does_not_own() {
-	    response = container.accessStatus(client1);
-	}
 
-	@Then("the status of the container is returned")
-	public void the_status_of_the_container_is_returned() {
-	    assertTrue(response.getStatus().getTime() != 0);
-	}
-
-	@Then("a succes for data access is displayed")
-	public void a_succes_for_data_access_is_displayed() {
-	    assertEquals(response.getErrorMessage(),"This is the current status of your container");
-	}
-
-	@Then("a error message is returned for data access")
-	public void a_error_message_is_returned_for_data_access() {
-	    assertEquals(response.getErrorMessage(),"You don't have access to this container");
-	}
-	@Then("a error message is returned for journey has not started")
-	public void a_error_message_is_returned_for_journey_has_not_started() {
-	    assertEquals(response.getErrorMessage(),"Ship's still at harbour");
-	}
 
 	// ________________________________________containerHistory_____________________________________________________________
 	
@@ -660,7 +632,7 @@ public class StepDefinition{
 
 	@When("client with container grants other client access to data of container")
 	public void client_with_container_grants_other_client_access_to_data_of_container() {
-	    response1 = container.grantAccess(client1);
+	    container.grantAccess(client1);
 	    
 	}
 
@@ -671,7 +643,7 @@ public class StepDefinition{
 	
 	@Then("access successfully granted")
 	public void access_successfully_granted() {
-		assertEquals(response1.getErrorMessage(),"Access succesfully granted");
+		assertTrue(container.getAccessClients().contains(client1));
 	}
 	
 	//__________________________________________getFromID______________________________________________________________

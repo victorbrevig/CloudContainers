@@ -4,15 +4,13 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-
-
-
+/**Class stores an arrayList of Datapoints
+ * @author Gustav Als
+ * @author Victor Brevig
+ *
+ */
 public class DataStorage extends ArrayList<DataPoint> {
-	
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	
