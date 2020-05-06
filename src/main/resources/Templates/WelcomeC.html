@@ -115,7 +115,14 @@ tr:nth-child(even) {
 		</div>
 			
 		</td>
-    	<td style="text-align:center"><a th:href="@{'/containerC/' + ${container.getContainerID() + '/-1'}}">View</a></td>
+    	<td style="text-align:center">
+    	<div>
+    	<a th:if="${(container.getJourneyHistory().size() > 0)}" th:href="@{'/containerC/' + ${container.getContainerID() + '/-1'}}">View</a>
+    	</div>
+    	<div th:if="${(container.getJourneyHistory().size() == 0)}">
+			No history yet
+		</div>
+    	</td>
    </tr>
   </th:block>
   </tbody>

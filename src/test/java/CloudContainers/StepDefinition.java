@@ -27,7 +27,7 @@ public class StepDefinition{
 	
 	@Given("A logistic company")
 	public void a_logistic_company() {
-	    lc  = new LogisticCompany("Maersk",1,100,"bigstonks");
+	    lc  = new LogisticCompany("Maersk",100,"bigstonks");
 	}
 	
 	@Given("A none existing client")

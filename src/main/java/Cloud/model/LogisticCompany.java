@@ -23,7 +23,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 public class LogisticCompany {
 
-	private int companyID;
 	private String name;
 	private String password;
 	private ClientDatabase clients;
@@ -32,10 +31,9 @@ public class LogisticCompany {
 	private int amountOfContainers;
 	private int totalAmountOfJourneys;
 
-	public LogisticCompany(String name, int companyID, int amountOfContainers, String password) {
+	public LogisticCompany(String name, int amountOfContainers, String password) {
 		super();
 		this.name = name;
-		this.companyID = companyID;
 		this.clients = new ClientDatabase();
 		this.journeys = new JourneyDatabase();
 		this.amountOfContainers = amountOfContainers;
@@ -66,16 +64,12 @@ public class LogisticCompany {
 		return containers;
 	}
 
-	public void setContainers(ContainerDatabase containers) {
+	public void setContainerDatabase(ContainerDatabase containers) {
 		this.containers = containers;
 	}
 
 	public void setClients(ClientDatabase clients) {
 		this.clients = clients;
-	}
-
-	public int getCompanyID() {
-		return companyID;
 	}
 
 	public ClientDatabase getClients() {

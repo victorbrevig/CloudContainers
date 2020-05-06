@@ -23,7 +23,7 @@ public class CreateJAson {
 	 Gson gson = new Gson();
 	 Writer lw = new FileWriter("lc.json");
 
-	 LogisticCompany company = new LogisticCompany("Maersk",1,2,"bigstonks");
+	 LogisticCompany company = new LogisticCompany("Maersk",50,"password");
 
 	 gson.toJson(company, lw);
 

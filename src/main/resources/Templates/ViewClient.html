@@ -111,8 +111,16 @@ tr:nth-child(even) {
 	<td style="text-align:center" th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getPortOfOrigin()} : 'N/A'" />
     <td style="text-align:center" th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getDestination()} : 'N/A'" />
     <td style="text-align:center" th:text="${!(container.getCurrentJourney() == null)} ? ${container.getCurrentJourney().getTimeToDestination()} : 'N/A'" />
-    <td style="text-align:center"><a th:href="@{'/containerC/' + ${container.getContainerID() + '/-1'}}">View</a></td>
-    <td style="text-align:center" th:text="${container.getOwner().equals(client)} ? 'Owned' : 'Has access'" />
+    <td style="text-align:center">
+    	<div>
+    	<a th:if="${(container.getJourneyHistory().size() > 0)}" th:href="@{'/containerC/' + ${container.getContainerID() + '/-1'}}">View</a>
+    	</div>
+    	<div th:if="${(container.getJourneyHistory().size() == 0)}">
+			No history yet
+		</div>
+    </td>
+    
+    <td style="text-align:center" th:text="${client.equals(container.getOwner())} ? 'Owned' : 'Has access'" />
    
 </table>
 

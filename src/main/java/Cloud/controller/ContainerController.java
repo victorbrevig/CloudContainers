@@ -3,37 +3,29 @@ package Cloud.controller;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import Cloud.model.*;
 import CloudJson.JSONWriter;
-import net.bytebuddy.matcher.ModifierMatcher.Mode;
 
 
 @Controller
 
 public class ContainerController extends HttpServlet {
+
+	private static final long serialVersionUID = 1L;
+	
 	ResponseObject responseObject1 = new ResponseObject();
 	ResponseObject responseObject2 = new ResponseObject();
 	
@@ -44,7 +36,7 @@ public class ContainerController extends HttpServlet {
 
 	@PostMapping("/")
 	public String add3(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws IOException {
-		response.setContentType("text/html"); 
+		
 		String name=request.getParameter("companyName"); 
 	    String mail=request.getParameter("userName"); 
 	    String pass=request.getParameter("userPass");
@@ -60,7 +52,6 @@ public class ContainerController extends HttpServlet {
 			ClientDatabase ClientDB = company.getClients();
 			Client client = ClientDB.getClient(mail);
 		    JSONWriter.setIn(client);
-		    RequestDispatcher rd=request.getRequestDispatcher("/Welcome.html"); 
 			Set<Container> clientContainers = company.getContainerDatabase().filterForClient(client);
 			model.addAttribute("client",client);
 			model.addAttribute("clientContainers",clientContainers);
@@ -78,7 +69,6 @@ public class ContainerController extends HttpServlet {
 		    	return "/index";
 			}
 	    	if (company.getPassword().equals(pass) && company.getName().equals(name)) {
-		    	RequestDispatcher rd=request.getRequestDispatcher("/WelcomeC.html"); 
 				model.addAttribute("company",company);
 				model.addAttribute("clientContainers",company.getContainerDatabase());
 				model.addAttribute("clients",company.getClients());
@@ -100,7 +90,7 @@ public class ContainerController extends HttpServlet {
 	}
 	@PostMapping("/ClientLogin")
 	public String add(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws IOException {
-		response.setContentType("text/html");   
+	
 	    String mail=request.getParameter("userName"); 
 	    String pass=request.getParameter("userPass");
 	    if (JSONWriter.checkPassword(mail, pass)){ 
@@ -108,7 +98,6 @@ public class ContainerController extends HttpServlet {
 			ClientDatabase ClientDB = company.getClients();
 			Client client = ClientDB.getClient(mail);
 		    JSONWriter.setIn(client);
-		    RequestDispatcher rd=request.getRequestDispatcher("/Welcome.html"); 
 			Set<Container> clientContainers = company.getContainerDatabase().filterForClient(client);
 			model.addAttribute("client",client);
 			model.addAttribute("clientContainers",clientContainers);
@@ -127,12 +116,11 @@ public class ContainerController extends HttpServlet {
 	}
 	@PostMapping("/CompanyLogin")
 	public String add2(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
-		response.setContentType("text/html");   
+
 	    String name=request.getParameter("userName"); 
 	    String pass=request.getParameter("userPass");
 	    LogisticCompany company = JSONWriter.getCompany();
 	    if (company.getPassword().equals(pass) && company.getName().equals(name)) {
-	    	RequestDispatcher rd=request.getRequestDispatcher("/WelcomeC.html"); 
 			model.addAttribute("company",company);
 			model.addAttribute("clientContainers",company.getContainerDatabase());
 			model.addAttribute("clients",company.getClients());
@@ -183,7 +171,6 @@ public class ContainerController extends HttpServlet {
 		@PostMapping("/UpdateInfo")
 		public String updateinfo(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
 			
-			response.setContentType("text/html");
 			String email = request.getParameter("userMail");  
 			long number = Long.parseLong(request.getParameter("userNumber"));  
 			Client client = JSONWriter.getIn();
@@ -223,7 +210,7 @@ public class ContainerController extends HttpServlet {
 		
 		@PostMapping("/Register")
 		public String Register(HttpServletRequest request, HttpServletResponse response,Model model) throws IOException { 
-			response.setContentType("text/html");
+		
 		    String name = request.getParameter("userName");  
 		    String email = request.getParameter("userMail"); 
 		    String birthdate = request.getParameter("userBirthdate");  
@@ -277,7 +264,6 @@ public class ContainerController extends HttpServlet {
 			if (journeyID == -1) {
 				// Get most current journey
 				journey = journeyHist.get(journeyHist.size() - 1).getJourney();
-				
 				model.addAttribute("journey",journey);
 				model.addAttribute("container",container);
 				model.addAttribute("journeysInfo",journeyHist);
@@ -375,7 +361,6 @@ public class ContainerController extends HttpServlet {
 			responseObject1 = company.newJourney(journey);
 			if (responseObject1.getErrorMessage().equals("Journey was successfully added")) {
 				
-				JourneyDatabase journeys2 = company.getJourneyDatabase();
 				model.addAttribute("journeys",journeys);
 				JSONWriter.saveCompany(company);
 				return "redirect:journeys";
@@ -523,15 +508,15 @@ public class ContainerController extends HttpServlet {
 	    		responseObject1.setErrorMessage("Client not found");
 	    		model.addAttribute("company",company);
 	    		model.addAttribute("responseObject1",responseObject1);
-				model.addAttribute("clientContainers",company.getContainerDatabase());
 				model.addAttribute("clients",company.getClients());
+				model.addAttribute("clientContainers",company.getContainerDatabase());
 				model.addAttribute("journeys",company.getJourneyDatabase());
 	    		return "WelcomeC";
 	    	}
 	    	
 	    	Client client = company.getClients().getClient(email);
 	    	model.addAttribute("client",client);
-	    	model.addAttribute("clientContainers",company.getContainerDatabase());
+	    	model.addAttribute("clientContainers",company.getContainerDatabase().filterForClient(client));
 			model.addAttribute("clients",company.getClients());
 			model.addAttribute("journeys",company.getJourneyDatabase());
 	    	return "ViewClient";
@@ -562,8 +547,6 @@ public class ContainerController extends HttpServlet {
 	    
 		@PostMapping("/findJourneys")
 		public String findJourneys(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
-			
-			response.setContentType("text/html");
 			
 			Set<Journey> journeys;
 			          
