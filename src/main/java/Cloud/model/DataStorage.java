@@ -1,8 +1,6 @@
 package Cloud.model;
 
 import java.util.ArrayList;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**Class stores an arrayList of Datapoints
  * @author Gustav Als
