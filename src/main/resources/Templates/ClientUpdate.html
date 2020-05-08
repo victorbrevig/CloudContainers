@@ -69,13 +69,13 @@ tr:nth-child(even) {
 	<form action="/UpdateInfo" method="post">
 	  <div class="form-group">
 	    <label for="uname">New Email</label>
-	    <input type="text" class="form-control" id="exampleNewEmail" aria-describedby="emailHelp" placeholder="Enter new email" name="userMail" required>
+	    <input type="text" class="form-control" id="exampleNewEmail" aria-describedby="emailHelp" th:placeholder="${client.getEmail()}" name="userMail" required>
 	    <small id="errorMsg1" class="form-text text-muted" th:text="${responseEmail.getErrorMessage()}" th:unless="${responseEmail == null}"></small>
 	  </div>
 	  
 	  <div class="form-group">
 	    <label for="newNum">New Phone Number</label>
-	    <input type="text" class="form-control" id="exampleNewNum" placeholder="Enter new phone number" name="userNumber" required>
+	    <input type="text" class="form-control" id="exampleNewNum" th:placeholder="${client.getNumber()}" name="userNumber" required>
 	    <small id="errorMsg2" class="form-text text-muted" th:text="${responseNumber.getErrorMessage()}" th:unless="${responseNumber == null}"></small>
 	  </div>
 	  
