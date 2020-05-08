@@ -3,24 +3,20 @@ package Cloud.model;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import Cloud.model.ContainerJourneyInfo;
 import Cloud.model.Client;
 import Cloud.model.Container;
 import Cloud.model.Journey;
-import Cloud.model.LogisticCompany;
 import Cloud.model.ResponseObject;
 
 
-
+/**Class for containers
+ * 
+ * @author Gustav Als
+ * @author Victor Brevig
+ *
+ */
 public class Container{
 
 	private int containerID;

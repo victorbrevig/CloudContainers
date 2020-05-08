@@ -1,11 +1,5 @@
 package Cloud.model;
 
-import java.util.ArrayList;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-
 
 /** Class to respresent a journey
  * 
