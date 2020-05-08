@@ -218,7 +218,7 @@ public class ContainerController extends HttpServlet {
 		    long phonenumber = Long.parseLong(request.getParameter("userNumber"));  
 		    String password = request.getParameter("userPass"); 
 		    Client client = new Client(name,email,birthdate,gender,phonenumber,password);
-		    model.addAttribute("response", responseObject1);
+		    model.addAttribute("response2", responseObject1);
 		    LogisticCompany company = JSONWriter.getCompany();
 			if(!Validator.validEmail(email)) {
 				responseObject1.setErrorMessage("Please write valid email");

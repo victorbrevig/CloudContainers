@@ -134,7 +134,7 @@
         <input name="userPass" class="form-control" placeholder="Create password" type="password" required="required">
     </div> <!-- form-group// -->                                     
     <div class="form-group">
-    	<small id="errorMsg6" class="form-text text-muted" th:text="${response.getErrorMessage()}" th:unless="${response == null}"></small>	
+    	<small id="errorMsg6" class="form-text text-muted" th:text="${response2.getErrorMessage()}" th:unless="${response2 == null}"></small>	
     
         <button type="submit" onclick="Register(HttpServletRequest request, HttpServletResponse response,Model model)" class="btn btn-primary btn-block"> Create Client  </button>
     </div> <!-- form-group// -->                                                                      
