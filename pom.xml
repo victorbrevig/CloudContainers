@@ -3,9 +3,11 @@
   <groupId>dk.dtu</groupId>
   <artifactId>CloudContainers</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
   <properties>
 	<maven.compiler.source>1.8</maven.compiler.source>
 	<maven.compiler.target>1.8</maven.compiler.target>
+  	<start-class>Cloud.Application</start-class>
   </properties>
     <parent>
     <groupId>org.springframework.boot</groupId>
@@ -101,19 +103,22 @@
 </dependencies>
 
 <build>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <version>3.0.1</version>
-            <executions>
-                <execution>
-                    <id>copy-dependencies</id>
-                    <phase>package</phase>
-                    <goals><goal>copy-dependencies</goal></goals>
-                </execution>
-            </executions>
-        </plugin>
-    </plugins>
+<plugins>
+   <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+            <fork>true</fork>
+            <mainClass>${Application}</mainClass>
+        </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>repackage</goal>
+              </goals>
+            </execution>
+        </executions>
+    </plugin>
+</plugins>
 </build>
 </project>
