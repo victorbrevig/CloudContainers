@@ -9,27 +9,25 @@ import Cloud.model.Client;
  * @author Victor
  *
  */
-
 public class ClientDatabase extends HashSet<Client> {
 
 	private static final long serialVersionUID = 1L;
 
-		public Client getClient(int clientID) {
-			for (Client c :this) {
-				if (c.getClientID() == clientID) {
-					return c;
-				}
-			} return null;
-		}
-		
-		public Client getClient(String email) {
-			
-			for (Client c :this) {
-				if ((c.getEmail()).equals(email)) {
-					return c;
-				}
-			} return null;
-		}	
+	public Client getClient(int clientID) {
+		for (Client c :this) {
+			if (c.getClientID() == clientID) {
+				return c;
+			}
+		} return null;
+	}
+	
+	public Client getClient(String email) {
+		for (Client c :this) {
+			if ((c.getEmail()).equals(email)) {
+				return c;
+			}
+		} return null;
+	}	
 		
 
 	
