@@ -2,11 +2,12 @@
 @tag
 Feature: elapse time for journey
 
+	Background: 
+		Given A logistic company
+		And existing client
 
   Scenario: Elapse time of journey by ten hours
-  	Given A logistic company
     Given a journey from "Copenhagen" to "Oslo" with 80 hours to destination
-    And existing client
     And three containers registered to the client
  		And the containers are put on the journey
     When journey is started and run for 10 hours
@@ -16,9 +17,7 @@ Feature: elapse time for journey
 
 
   Scenario: journey ends
-  	Given A logistic company
     Given a journey from "Copenhagen" to "Oslo" with 5 hours to destination
-    And existing client
     And three containers registered to the client
  		And the containers are put on the journey
     When journey is started and run for 10 hours
@@ -28,9 +27,7 @@ Feature: elapse time for journey
     
 
   Scenario: no container assigned to journey
-    Given A logistic company
     Given a journey from "Copenhagen" to "Oslo" with 80 hours to destination
-    And existing client
     When journey is started and run for 10 hours
     Then journey elapsed time is updated to 10 hours
     And no data has been collected
@@ -38,9 +35,7 @@ Feature: elapse time for journey
     
 
   Scenario: time increment is to small
-  	Given A logistic company
     Given a journey from "Copenhagen" to "Oslo" with 80 hours to destination
-    And existing client
     And three containers registered to the client
  		And the containers are put on the journey
     When journey is started and run for 0 hours

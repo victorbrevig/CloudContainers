@@ -3,8 +3,6 @@ Feature: getting number of containers on a journey for a client
   
 Background: A logistic company
 		Given A logistic company
-		
-
 	
 
   Scenario: getting journey from ID

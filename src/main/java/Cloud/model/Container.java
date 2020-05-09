@@ -2,13 +2,7 @@ package Cloud.model;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-
-
-import Cloud.model.ContainerJourneyInfo;
-import Cloud.model.Client;
 import Cloud.model.Container;
-import Cloud.model.Journey;
-import Cloud.model.ResponseObject;
 
 
 /**Class for containers
@@ -25,7 +19,7 @@ public class Container{
 	private double airHumidity;
 	private String content;
 	private HashSet<Client> accessClients;
-	private ArrayList<ContainerJourneyInfo> journeyHistory;
+	private JourneyHistory journeyHistory;
 	private Client owner;
 	private Journey currentJourney;
 	
@@ -39,7 +33,7 @@ public class Container{
 		this.temperature = 20.0;
 		this.pressure = 1.0;
 		this.content = "";
-		this.journeyHistory = new ArrayList<ContainerJourneyInfo>();
+		this.journeyHistory = new JourneyHistory();
 		this.containerID = containerID;
 		this.accessClients = new HashSet<Client>();
 		
@@ -139,8 +133,11 @@ public class Container{
 
 	public void grantAccess(Client client) {
 		getAccessClients().add(client);
+		if (journeyHistory.latestJourneyIsStarted()) {
+			journeyHistory.get(journeyHistory.size() - 1).getClients().add(client);
+		}
 	}
-	
+
 	/**Used to filter container history for a given client
 	 * 
 	 * @param client

@@ -92,6 +92,17 @@ public class StepDefinition{
 	public void invalid_birtdate_error_is_displayed_for(String string) {
 	    assertEquals(response.getErrorMessage(),string + " is not a valid birthdate");
 	}
+	
+	@When("invalid phone number {long} is entered")
+	public void invalid_phone_number_is_entered(Long long1) {
+		client1 = new Client("Karsten","smallmoney123@gmail.com","24-05-1998","male",long1,"1234");
+		response = lc.newClient(client1);
+	}
+
+	@Then("invalid phone number error is displayed for {long}")
+	public void invalid_phone_number_error_is_displayed_for(Long long1) {
+		assertEquals(response.getErrorMessage(),long1 + " is not a valid phone number");
+	}
 
 	
 	// _________________________________________Update Info________________________________________________
@@ -115,9 +126,9 @@ public class StepDefinition{
 		assertFalse(lc.getClients().getClient("bigmoney123@gmail.com").equals(null));
 	}
 
-	@Given("A client with phone number {int}")
-	public void a_client_with_phone_number(Integer int1) {
-		client1 = new Client("Karsten","bigmoney123@gmail.com","04-04-1998","male",int1,"1234");
+	@Given("A client with phone number {long}")
+	public void a_client_with_phone_number(Long long1) {
+		client1 = new Client("Karsten","bigmoney123@gmail.com","04-04-1998","male",long1,"1234");
 		lc.newClient(client1);
 	}
 
@@ -710,7 +721,22 @@ public class StepDefinition{
 	    assertEquals(journey.getStatusData().extractPressure().size(),10);
 	}
 
+//____________________________________removeContainer______________________________________________________________________________________
+	
+	@When("client removes container")
+	public void client_removes_container() {
+	    client1.removeContainer(container);
+	}
 
+	@Then("the client is not the owner of the container anymore and has no access")
+	public void the_client_is_not_the_owner_of_the_container_anymore_and_has_no_access() {
+	    assertTrue(!((container.getOwner() != null) && container.getAccessClients().contains(client1)));
+	}
+
+	@Then("client does not have access to the container anymore")
+	public void client_does_not_have_access_to_the_container_anymore() {
+	    assertFalse(container.getAccessClients().contains(client1));
+	}
 	
 	
 }

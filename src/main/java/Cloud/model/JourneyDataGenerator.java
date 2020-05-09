@@ -7,7 +7,6 @@ import java.util.Random;
  * @author Victor Brevig
  *
  */
-
 public class JourneyDataGenerator {
 	
 	private static Random rand = new Random();

@@ -5,7 +5,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 
-
+/** This class represents a container database, used to store containers.
+ * 
+ * @author Victor Brevig
+ * @author Gustav Als
+ *
+ */
 public class ContainerDatabase extends HashSet<Container>{
 
 	private static final long serialVersionUID = 1L;
@@ -14,7 +19,7 @@ public class ContainerDatabase extends HashSet<Container>{
 		Set<Container> filtered = this.stream()
 				.filter(container -> container.getAccessClients().contains(client))
 				.collect(Collectors.toSet());
-		return filtered;	
+		return filtered;
 	}
 
 	public Set<Container> filterForJourney(Journey journey) {

@@ -8,7 +8,6 @@ package Cloud.model;
  * @author Victor Brevig
  * 
  */
-
 public class LogisticCompany {
 
 	private String name;

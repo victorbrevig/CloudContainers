@@ -1,13 +1,6 @@
 package Cloud.model;
 
-
-
 import Cloud.model.Client;
-import Cloud.model.Container;
-import Cloud.model.Journey;
-import Cloud.model.ResponseObject;
-import Cloud.model.Validator;
-
 
 
 /**Represents a client entity

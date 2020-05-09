@@ -1,22 +1,14 @@
 package CloudJson;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.nio.file.Paths;
-import java.util.HashSet;
-import org.json.simple.JSONArray; 
-import org.json.simple.JSONObject;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.google.gson.JsonIOException;
-
-import Cloud.model.Client;
 import Cloud.model.LogisticCompany; 
 
-
+/** This class is an JSON-file creator. This should be run only to restart the state of the program with a new logistic company. 
+ * 
+ */
 public class CreateJAson {
  public static void main(String[] args) throws IOException {
      System.out.println("Test1");
