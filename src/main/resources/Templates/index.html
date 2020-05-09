@@ -195,11 +195,11 @@ body, html {
 			<div class="modal-body">
 				<form action = "/" method="post">
 					<div class="form-group">
-						<input type="text" class="form-control" name="userName" placeholder="Be kind to enter your Mail" required="required">		
+						<input type="text" class="form-control" name="userName" placeholder="Enter your e-mail" required="required">		
 						<small id="errorMsg2" class="form-text text-muted" th:text="${response1.getErrorMessage()}" th:unless="${response1 == null}"></small>
 					</div>
 					<div class="form-group">
-						<input type="password" class="form-control" name="userPass" placeholder="Be kind to enter your Password" required="required">	
+						<input type="password" class="form-control" name="userPass" placeholder="Enter your password" required="required">	
 						<small id="errorMsg1" class="form-text text-muted" th:text="${response.getErrorMessage()}" th:unless="${response == null}"></small>
 					</div>        
 					<div class="form-group">
