@@ -35,7 +35,7 @@ public class JSONWriter{
  
  public static void saveCompany(LogisticCompany company) throws IOException {
 	 Gson gson = new Gson();
-	 Writer fw = new FileWriter("lc.json");
+	 Writer fw = new FileWriter(filepath);
 	 gson.toJson(company, fw);
      fw.flush();
      fw.close();
@@ -60,7 +60,7 @@ public class JSONWriter{
   */
  public static void setIn(Client client) throws IOException {
 	 Gson gson = new Gson();
-	 Writer fwin = new FileWriter("in.json");
+	 Writer fwin = new FileWriter(filepathin);
 	 gson.toJson(client, fwin);
      fwin.flush();
      fwin.close();

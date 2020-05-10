@@ -1,5 +1,6 @@
 package CloudJson;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -11,9 +12,15 @@ import Cloud.model.LogisticCompany;
  */
 public class CreateJAson {
  public static void main(String[] args) throws IOException {
+	 
+	 File file = new File("in.json");
+		
+	 String filepath = file.getAbsolutePath().replace("\\target", "");
+	 
+	 
      System.out.println("Test1");
 	 Gson gson = new Gson();
-	 Writer lw = new FileWriter("lc.json");
+	 Writer lw = new FileWriter(filepath);
 
 	 LogisticCompany company = new LogisticCompany("Maersk",50,"password");
 
