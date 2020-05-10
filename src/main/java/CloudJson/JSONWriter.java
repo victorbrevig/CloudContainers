@@ -16,8 +16,10 @@ import Cloud.model.LogisticCompany;
  *
  */
 public class JSONWriter{ 
-	static String filepath = "lc.json";
-	static String filepathin = "in.json";
+	static String filepath = "d:\\..\\..\\resources\\lc.json";
+	static String filepathin = "d:\\..\\..\\resources\\in.json";
+	
+	//String path = this.getClass().getClassLoader().getResource("lc.json").toExternalForm();
  
  public static LogisticCompany getCompany() throws FileNotFoundException {
 	 Gson gson = new Gson();

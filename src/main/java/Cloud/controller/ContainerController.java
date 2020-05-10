@@ -34,6 +34,7 @@ public class ContainerController extends HttpServlet {
 		return "index";	
 	}
 
+
 	@PostMapping("/")
 	public String add3(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws IOException {
 		
@@ -45,7 +46,7 @@ public class ContainerController extends HttpServlet {
 	    if (company.clientExists(mail)==false) {
 	    	responseObject1.setErrorMessage("Sir your mail is not in our database, please register");
 		    model.addAttribute("response1",responseObject1);
-	    	return "/index";
+	    	return "index";
 	    }
 	    
 	    else if (JSONWriter.checkPassword(mail, pass)){
