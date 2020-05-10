@@ -1,5 +1,6 @@
 package CloudJson;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -16,10 +17,13 @@ import Cloud.model.LogisticCompany;
  *
  */
 public class JSONWriter{ 
-	static String filepath = "d:\\..\\..\\resources\\lc.json";
-	static String filepathin = "d:\\..\\..\\resources\\in.json";
 	
-	//String path = this.getClass().getClassLoader().getResource("lc.json").toExternalForm();
+	static File lcfile = new File("lc.json");
+	static File infile = new File("in.json");
+	
+	static String filepath = lcfile.getAbsolutePath().replace("\\target", "");
+	static String filepathin = infile.getAbsolutePath().replace("\\target", "");
+	
  
  public static LogisticCompany getCompany() throws FileNotFoundException {
 	 Gson gson = new Gson();
